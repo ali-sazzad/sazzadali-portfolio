@@ -19,19 +19,17 @@
 <body style="background-color: rgb(219 234 254);">
 
     <!-- Scroll-to-top button -->
-    <button onclick="scrollToTop()"
-            class="scroll-to-top z-50 fixed bottom-4 right-4 
+    <button onclick="scrollToTop()" class="scroll-to-top z-50 fixed bottom-4 right-4 
                        bg-gray-800 text-white rounded-full 
                        transition duration-300 hover:bg-gray-700 
                        hover:text-gray-200">
-        <img src="assets/images/up-arrow.png"
-             class="w-16 h-16 rounded-full bg-white" alt="">
+        <img src="assets/images/up-arrow.png" class="w-16 h-16 rounded-full bg-white" alt="">
     </button>
     <!-- JavaScript to handle scrolling -->
     <script>
-        const scrollToTopButton = 
-              document.getElementById('scroll-to-top');
-       
+        const scrollToTopButton =
+            document.getElementById('scroll-to-top');
+
         // Show button when user scrolls down
         window.addEventListener('scroll', () => {
             if (window.pageYOffset > 100) {
@@ -40,7 +38,7 @@
                 scrollToTopButton.style.display = 'none';
             }
         });
- 
+
         // Smooth scroll to top
         function scrollToTop() {
             window.scrollTo({
@@ -49,7 +47,7 @@
             });
         }              
     </script>
- 
+
 
 
     <!-- MAIN BODY SECTION HERE -->
@@ -306,23 +304,28 @@
                 <div class="w-full border-b-4 border-blue-950 inline-block ">
                     <h2 class="text-2xl title-section text-blue-900 font-bold uppercase ">
                         About me
-                        </p>
+                    </h2>
                 </div>
                 <div class="mt-15">
-                    <div class="mt-6 text-blue-950 text-[20px] leading-10 text-justify ">
+                    <div class="mt-6 lg:mr-52 lg:ml-24 text-blue-950 text-[20px] leading-10 md:text-justify text-left">
                         As a passionate IT enthusiast deeply involved in software engineering, design, and programming,
                         I am an innovative and outcome-oriented Web Developer dedicated to creating engaging digital
                         environments. Equipped with a Bachelor's degree in Information Technology and intensive training
                         from a reputable Coding Bootcamp, I bring extensive expertise in both front-end and back-end
-                        development. <span class="font-medium ">Proficient in a range of technologies including React,
-                            NextJs, HTML, CSS, JS, TailwindCSS, and more.</span> I excel in dynamic settings that blend
-                        creativity with technical precision. Known for my quick-learning mindset and meticulous
-                        attention to detail, I have a proven ability to translate intricate concepts into user-friendly
-                        solutions. <span class="font-medium ">My collaborative approach, adept problem-solving skills,
-                            and commitment to staying abreast of industry trends position me as a valuable asset to any
-                            development team.</span> I am prepared to leverage my skills and background to drive
-                        innovation and surpass expectations in roles such as Full-Stack Developer, Software Engineer, or
-                        Web Designer.
+                        development. 
+                        <span class="font-medium">
+                            Proficient in range of technologies including React NextJs, HTML, CSS, JS, TailwindCSS, and more.
+                        </span>
+                        <p class="mt-3	">
+                            I excel in dynamic settings that blend creativity with technical precision. Known for my quick-learning mindset and meticulous attention to detail, I have a proven ability to translate intricate concepts into user-friendly solutions.
+                            <span class="font-medium ">
+                                My collaborative approach, adept problem-solving skills and commitment to staying abreast of industry trends position me as a valuable asset to any development team.
+                            </span>
+                        </p>
+                        <p class="mt-3	">
+                            I am prepared to leverage my skills and background to drive innovation and surpass expectations in roles such as Full-Stack Developer, Software Engineer, or Web Designer.
+                        </p>
+                        
                     </div>
                 </div>
             </div>
@@ -358,7 +361,7 @@
                 <div class="w-full border-b-4 border-blue-950 inline-block ">
                     <h2 class="text-2xl title-section text-blue-900 font-bold uppercase ">
                         My Skills
-                        </p>
+                    </h2>
                 </div>
                 <h3 class="text-2xl font-bold mt-5">Programming and Design Skills</h3>
                 <div class="grid md:grid-cols-5 gap-5 sm:grid-cols-4 grid-cols-2 mt-10 ">
@@ -504,7 +507,7 @@
                     <div
                         class="icons-anim p-4 shadow-lg rounded-lg text-center flex flex-col items-center hover:animate-pulse hover:bg-blue-400">
                         <img width="80" height="80" src="/assets/images/business-communication-icon.svg"
-                            alt="javascript icon" alt="Collaborative icon" />
+                            alt="Collaborative icon" />
                         <span class="font-bold">Collaborative</span>
                     </div>
 
@@ -564,7 +567,7 @@
                 <div class="w-full border-b-4 border-blue-950 inline-block ">
                     <h2 class="text-2xl title-section text-blue-900 font-bold uppercase ">
                         My Projects
-                        </p>
+                    </h2>
                 </div>
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-10">
 
@@ -572,8 +575,10 @@
                     <div class="mb-4 p-4 rounded-lg shadow-md bg-blue-300 relative ">
                         <h3 class="text-blue-950 text-2xl font-bold">Modern UI/UX GPT-3 Frontend Website</h3>
                         <div class="h-fit w-full mt-5">
-                            <a href="https://github.com/ali-sazzad/modern_ui-ux_gpt3_frontend_website" alt="modern_ui-ux_gpt3_frontend_website" target="_blank">
-                                <img src="/assets/images/project-images/desktop-1.png" alt="modern_ui-ux_gpt3_frontend_website"
+                            <a href="https://github.com/ali-sazzad/modern_ui-ux_gpt3_frontend_website"
+                                alt="modern_ui-ux_gpt3_frontend_website" target="_blank">
+                                <img src="/assets/images/project-images/desktop-1.png"
+                                    alt="modern_ui-ux_gpt3_frontend_website"
                                     class="hover:cursor-pointer hover:shadow-xl mb-2 rounded" style="object-fit: fill;">
                             </a>
                         </div>
@@ -588,7 +593,7 @@
                                 Animation</span>
                         </div>
                     </div>
-                    
+
                     <!-- To-do List Web App -->
                     <div class="mb-4 p-4 rounded-lg shadow-md bg-blue-300 relative ">
                         <h3 class="text-blue-950 text-2xl font-bold">To-do List Web App</h3>
@@ -690,12 +695,15 @@
 
                         <!-- skills accquired ... -->
                         <div class="mt-10 flex flex-wrap gap-2">
-                            <span class="bg-blue-900 text-lime-200 px-2 py-1 rounded-lg text-md ">Team Collaboration</span>
+                            <span class="bg-blue-900 text-lime-200 px-2 py-1 rounded-lg text-md ">Team
+                                Collaboration</span>
                             <span class="bg-blue-900 text-lime-200 px-2 py-1 rounded-lg text-md ">Customer Relationship
                                 Management</span>
-                            <span class="bg-blue-900 text-lime-200 px-2 py-1 rounded-lg text-md ">Website Management</span>
+                            <span class="bg-blue-900 text-lime-200 px-2 py-1 rounded-lg text-md ">Website
+                                Management</span>
                             <span class="bg-blue-900 text-lime-200 px-2 py-1 rounded-lg text-md ">Website Design</span>
-                            <span class="bg-blue-900 text-lime-200 px-2 py-1 rounded-lg text-md ">Agile Development Processes</span>
+                            <span class="bg-blue-900 text-lime-200 px-2 py-1 rounded-lg text-md ">Agile Development
+                                Processes</span>
                             <span class="bg-blue-900 text-lime-200 px-2 py-1 rounded-lg text-md ">Code Debugging</span>
                         </div>
                     </div>
