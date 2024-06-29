@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <link rel="shortcut icon" href="/assets/logo/my-letter-favicon.svg" type="image/x-icon">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <script src="https://unpkg.com/typewriter-effect@latest/dist/core.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
+
+    <title>Sazzad ALI | Designer, Programmer, Developer | AI Enthusiast</title>
+
+</head>
+
+<body style="background-color: rgb(219 234 254);">
+
+    <!-- Scroll-to-top button -->
+    <button onclick="scrollToTop()"
+            class="scroll-to-top z-50 fixed bottom-4 right-4 
+                       bg-gray-800 text-white rounded-full 
+                       transition duration-300 hover:bg-gray-700 
+                       hover:text-gray-200">
+        <img src="assets/images/up-arrow.png"
+             class="w-16 h-16 rounded-full bg-white" alt="">
+    </button>
+    <!-- JavaScript to handle scrolling -->
+    <script>
+        const scrollToTopButton = 
+              document.getElementById('scroll-to-top');
+       
+        // Show button when user scrolls down
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 100) {
+                scrollToTopButton.style.display = 'block';
+            } else {
+                scrollToTopButton.style.display = 'none';
+            }
+        });
+ 
+        // Smooth scroll to top
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }              
+    </script>
+ 
+
+
+    <!-- MAIN BODY SECTION HERE -->
+    <!-- FIXED aside menu bar items here -->
+    <div id="aside-links" class="aside-links flex items-center flex-col z-10">
+        <!-- <a href="/#home" class="relative flex items-center justify-center rounded-lg p-3 font-bold">
+            <p>HOME</p>
+        </a> -->
+        <a href="/#about" class="relative flex items-center justify-center rounded-lg p-3 font-bold">
+            <p>ABOUT ME</p>
+        </a>
+        <a href="/#skills" class="relative flex items-center justify-center rounded-lg p-3 font-bold">
+            <p>SKILLS</p>
+        </a>
+        <a href="/#projects" class="relative flex items-center justify-center rounded-lg p-3 font-bold">
+            <p>PROJECTS</p>
+        </a>
+        <a href="/#experience" class="relative flex items-center justify-center rounded-lg p-3 font-bold">
+            <p>EXPERIENCE</p>
+        </a>
+        <a href="/#contact" class="relative flex items-center justify-center rounded-lg p-3 font-bold">
+            <p>CONTACT</p>
+        </a>
+    </div>
+
+    <!-- TOP first section and mobile top menu here -->
+    <div class=" px-[40px] bg-blue-100 py-4 z-50 max-xs:px[20px] ">
+        <!-- name / title -->
+        <div class="flex flex-row items-center gap-10 ">
+            <a href="#" class="processed-link">
+                <img width="50" height="50" src="/assets/logo/my-letter-favicon.svg" alt="">
+            </a>
+            <h1 class="text-3xl font-bold text-blue-950">Sazzad Ali</h1>
+        </div>
+
+        <!-- mobile top menu nav -->
+        <div class="mobile-top-menu ">
+
+            <!-- close and open menu buttons -->
+            <div class="flex justify-between items-center w-full md:hidden">
+                <!-- put above md:hidden -->
+                <div class="text-2xl z-50">
+
+                    <!-- this is cross button -->
+                    <button id="cross-btn" class="cross-btn hidden">
+                        <div
+                            class="fixed top-[0.7rem] right-[0.8rem] z-50 px-1 py-2 bg-blue-950 rounded-full text-white">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="rgb(191 219 254)"
+                                height="1em" width="1em">
+                                <path
+                                    d="M10.5859 12L2.79297 4.20706L4.20718 2.79285L12.0001 10.5857L19.793 2.79285L21.2072 4.20706L13.4143 12L21.2072 19.7928L19.793 21.2071L12.0001 13.4142L4.20718 21.2071L2.79297 19.7928L10.5859 12Z">
+                                </path>
+                            </svg>
+                        </div>
+                    </button>
+
+                    <!-- this is a humburger button -->
+                    <button id="hamburger-btn" class="hamburger-btn">
+                        <div
+                            class="fixed top-[0.7rem] right-[0.8rem] z-50 px-1 py-2 bg-blue-950 rounded-full text-white">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="rgba(191,219,254,9)"
+                                height="1em" width="1em">
+                                <path d="M18 18V20H6V18H18ZM21 11V13H3V11H21ZM18 4V6H6V4H18Z"></path>
+                            </svg>
+                        </div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- menu for a mobile view -->
+            <div id="small-hidden" class="small-hide hidden fixed text-blue-100">
+                <!-- <a href="/#home" class="relative flex items-center justify-center rounded-lg p-3 font-bold">
+                    <p>HOME</p>
+                </a> -->
+                <a href="/#about" class="relative flex items-center justify-center rounded-lg p-3 font-bold">
+                    <p>ABOUT ME</p>
+                </a>
+                <a href="/#skills" class="relative flex items-center justify-center rounded-lg p-3 font-bold">
+                    <p>SKILLS</p>
+                </a>
+                <a href="/#projects" class="relative flex items-center justify-center rounded-lg p-3 font-bold">
+                    <p>PROJECTS</p>
+                </a>
+                <a href="/#experience" class="relative flex items-center justify-center rounded-lg p-3 font-bold">
+                    <p>EXPERIENCE</p>
+                </a>
+                <a href="/#contact" class="relative flex items-center justify-center rounded-lg p-3 font-bold">
+                    <p>CONTACT</p>
+                </a>
+            </div>
+        </div>
+
+        <!-- email and download cv section/divsion here -->
+        <div class="top-menu-info flex max-md:flex-col max-md:gap-7">
+            <!-- Email here -->
+            <div class="flex md:gap-10 flex-col ">
+                <div class="flex gap-1 items-center text-md font-bold">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="rgba(23,37,84,1)" height="2em"
+                        width="2em">
+                        <path
+                            d="M2 5.5V3.9934C2 3.44476 2.45531 3 2.9918 3H21.0082C21.556 3 22 3.44495 22 3.9934V20.0066C22 20.5552 21.5447 21 21.0082 21H2.9918C2.44405 21 2 20.5551 2 20.0066V19H20V7.3L12 14.5L2 5.5ZM0 10H5V12H0V10ZM0 15H8V17H0V15Z">
+                        </path>
+                    </svg>
+                    <a href="mailto:find.sazzadali@gmail.com" class="text-blue-950 ">
+                        <span>
+                            find.sazzadali@gmail.com
+                        </span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- download cv section here -->
+            <span class="flex gap-5 ">
+                <a href="/assets/my-cv/Sazzad ALI_CV.pdf" target="_blank"
+                    class="bg-blue-950 text-white px-4 py-1 rounded-md hover:bg-blue-800 text-center flex gap-2 processed-link "
+                    download>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="rgba(147,197,253,1)" height="20px"
+                        width="20px">
+                        <path
+                            d="M4 19H20V12H22V20C22 20.5523 21.5523 21 21 21H3C2.44772 21 2 20.5523 2 20V12H4V19ZM14 9H19L12 16L5 9H10V3H14V9Z">
+                        </path>
+                    </svg>Download CV
+                </a>
+            </span>
+        </div>
+    </div>
+
+    <!-- HERO, ABOUT, SKILLS, and rest section here -->
+    <section class=" pl-[200px] max-md:pl-[46px] w-full min-h-screen" id="home">
+
+        <!-- HERO SECTION HERE -->
+        <div class="flex flex-col bg-blue-100">
+            <!-- intro animated section -->
+            <section
+                class="w-full h-full bg-blue-100 relative pr-[50px] max-md:pt-12 pt-36 max-xs:px-[20px] overflow-hidden">
+                <div class="flex items-center justify-between h-full pl-4 xl:pl-24 max-md:flex-col max-md:gap-4">
+                    <div class="flex flex-col gap-5 z-40 max-md:order-2 ">
+                        <div class="text-5xl flex flex-col gap-4 lg:text-6xl max-md:text-4xl">
+                            <h1>
+                                Hi, I'm Sazzad
+                            </h1>
+                            <span class="font-bold text-blue-950 mt-2 ">
+                                <div class="">
+                                    <div class="Typewriter" id="Typewriter">
+                                        a Web Developer, a UI Designer, a Programmer
+                                    </div>
+                                </div>
+                            </span>
+                            <h2>from Sydney, Australia</h2>
+                            <p class="mt-5 text-xl ">"One Line of Code at a Time"</p>
+                        </div>
+                        <!-- 'Projects' and 'Let's Talk' button here -->
+                        <div class="flex gap-4 max-md:justify-center ">
+                            <a href="#contact">
+                                <button
+                                    class="bg-blue-900 text-white px-2 lg:px-4 py-1 rounded-md hover:bg-blue-950 cursor-pointer ">Let's
+                                    Talk</button>
+                            </a>
+                            <a href="#projects" class="processed-link" target="_blank">
+                                <button
+                                    class="bg-blue-900 text-white px-2 lg:px-4 py-1 rounded-md hover:bg-blue-950 cursor-pointer ">My
+                                    Projects</button>
+                            </a>
+                        </div>
+                    </div>
+                    <!-- hero profile here -->
+                    <div>
+                        <img width="300" height="300" src="/assets/images/LinkedIn Profile.png" alt="Sazzad ALI"
+                            class="z-50 bg-black border-solid border-4 border-blue-50 shadow-lg cursor-zoom-in profile-picture">
+                    </div>
+                </div>
+                <!-- moving programming logos here ... -->
+                <ul class="square-bg">
+                    <li>
+                        <!-- html svg -->
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="120" height="120"
+                            fill="rgba(121,127,194,0.29)">
+                            <path
+                                d="M12 18.1778L16.6192 16.9222L17.2434 10.1444H9.02648L8.82219 7.88889H17.4477L17.6747 5.67778H6.32535L6.96091 12.3556H14.7806L14.5195 15.2222L12 15.8889L9.48045 15.2222L9.32156 13.3778H7.0517L7.38083 16.9222L12 18.1778ZM3 2H21L19.377 20L12 22L4.62295 20L3 2Z">
+                            </path>
+                        </svg>
+                    </li>
+                    <li>
+                        <!-- css svg -->
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="120" height="120"
+                            fill="rgba(121,127,194,0.29)">
+                            <path
+                                d="M5.00006 3L4.35006 6.34H17.9401L17.5001 8.5H3.92006L3.26006 11.83H16.8501L16.0901 15.64L10.6101 17.45L5.86006 15.64L6.19006 14H2.85006L2.06006 18L9.91006 21L18.9601 18L20.1601 11.97L20.4001 10.76L21.9401 3H5.00006Z">
+                            </path>
+                        </svg>
+                    </li>
+                    <li>
+                        <!-- js svg -->
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="120" height="120"
+                            fill="rgba(121,127,194,0.29)">
+                            <path
+                                d="M6 3C4.34315 3 3 4.34315 3 6V18C3 19.6569 4.34315 21 6 21H18C19.6569 21 21 19.6569 21 18V6C21 4.34315 19.6569 3 18 3H6ZM13.3344 16.055C14.0531 16.6343 14.7717 16.9203 15.4904 16.913C15.9304 16.913 16.2677 16.8323 16.5024 16.671C16.7297 16.517 16.8434 16.297 16.8434 16.011C16.8434 15.7177 16.7297 15.4683 16.5024 15.263C16.2677 15.0577 15.8241 14.8523 15.1714 14.647C14.3867 14.4197 13.7817 14.1263 13.3564 13.767C12.9384 13.4077 12.7257 12.9053 12.7184 12.26C12.7184 11.6513 12.9824 11.1417 13.5104 10.731C14.0237 10.3203 14.6801 10.115 15.4794 10.115C16.5941 10.115 17.4887 10.3863 18.1634 10.929L17.3934 12.128C17.1221 11.9153 16.8104 11.7613 16.4584 11.666C16.1064 11.556 15.7911 11.501 15.5124 11.501C15.1311 11.501 14.8267 11.5707 14.5994 11.71C14.3721 11.8493 14.2584 12.0327 14.2584 12.26C14.2584 12.5093 14.3977 12.722 14.6764 12.898C14.9551 13.0667 15.4317 13.2537 16.1064 13.459C16.9204 13.701 17.4997 14.0237 17.8444 14.427C18.1891 14.8303 18.3614 15.3437 18.3614 15.967C18.3614 16.605 18.1157 17.155 17.6244 17.617C17.1404 18.0717 16.4364 18.31 15.5124 18.332C14.3024 18.332 13.2904 17.969 12.4764 17.243L13.3344 16.055ZM7.80405 16.693C8.03872 16.8397 8.32105 16.913 8.65105 16.913C8.99572 16.913 9.28172 16.814 9.50905 16.616C9.73639 16.4107 9.85005 16.055 9.85005 15.549V10.247H11.3351V15.835C11.3131 16.7003 11.0637 17.3237 10.5871 17.705C10.3157 17.9323 10.0187 18.0937 9.69605 18.189C9.37339 18.2843 9.06172 18.332 8.76105 18.332C8.21105 18.332 7.72339 18.2367 7.29805 18.046C6.84339 17.8407 6.46205 17.4777 6.15405 16.957L7.18805 16.11C7.37872 16.3667 7.58405 16.561 7.80405 16.693Z">
+                            </path>
+                        </svg>
+                    </li>
+                    <li>
+                        <!-- react svg -->
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="220" height="220"
+                            fill="rgba(121,127,194,0.29)">
+                            <path
+                                d="M12.001 13.5001C11.1725 13.5001 10.501 12.8285 10.501 12.0001C10.501 11.1716 11.1725 10.5001 12.001 10.5001C12.8294 10.5001 13.501 11.1716 13.501 12.0001C13.501 12.8285 12.8294 13.5001 12.001 13.5001ZM11.4733 16.4945C11.6479 16.705 11.8239 16.908 12.001 17.103C12.178 16.908 12.3541 16.705 12.5286 16.4945C12.3538 16.4982 12.1779 16.5001 12.001 16.5001C11.824 16.5001 11.6481 16.4982 11.4733 16.4945ZM9.47837 16.3694C8.6762 16.2846 7.91035 16.1603 7.19268 16.0016C7.11832 16.3512 7.06134 16.6904 7.02243 17.0166C6.83358 18.6 7.09805 19.5617 7.50098 19.7943C7.9039 20.0269 8.86893 19.7751 10.1458 18.8199C10.4088 18.6231 10.6741 18.4042 10.9397 18.1649C10.4434 17.6228 9.95287 17.0217 9.47837 16.3694ZM16.8093 16.0016C16.0916 16.1603 15.3257 16.2846 14.5236 16.3694C14.0491 17.0217 13.5585 17.6228 13.0622 18.1649C13.3279 18.4042 13.5931 18.6231 13.8562 18.8199C15.133 19.7751 16.0981 20.0269 16.501 19.7943C16.9039 19.5617 17.1684 18.6 16.9795 17.0166C16.9406 16.6904 16.8836 16.3512 16.8093 16.0016ZM18.2598 15.6136C18.8364 18.2526 18.5328 20.3533 17.251 21.0933C15.9691 21.8334 13.9981 21.046 12.001 19.2271C10.0038 21.046 8.03282 21.8334 6.75098 21.0933C5.46913 20.3533 5.16555 18.2526 5.74217 15.6136C3.16842 14.7935 1.50098 13.4802 1.50098 12.0001C1.50098 10.5199 3.16842 9.20668 5.74217 8.38654C5.16555 5.74754 5.46913 3.64687 6.75098 2.9068C8.03282 2.16673 10.0038 2.95415 12.001 4.77302C13.9981 2.95415 15.9691 2.16673 17.251 2.9068C18.5328 3.64687 18.8364 5.74754 18.2598 8.38654C20.8335 9.20668 22.501 10.5199 22.501 12.0001C22.501 13.4802 20.8335 14.7935 18.2598 15.6136ZM10.9397 5.83521C10.6741 5.59597 10.4088 5.37703 10.1458 5.18024C8.86893 4.22499 7.9039 3.97321 7.50098 4.20584C7.09805 4.43847 6.83358 5.4001 7.02243 6.9835C7.06134 7.30969 7.11832 7.6489 7.19268 7.99857C7.91035 7.83985 8.6762 7.71556 9.47837 7.63078C9.95287 6.97848 10.4434 6.37737 10.9397 5.83521ZM14.5236 7.63078C15.3257 7.71556 16.0916 7.83985 16.8093 7.99857C16.8836 7.6489 16.9406 7.30969 16.9795 6.9835C17.1684 5.4001 16.9039 4.43847 16.501 4.20584C16.0981 3.97321 15.133 4.22499 13.8562 5.18024C13.5931 5.37703 13.3279 5.59597 13.0622 5.83521C13.5585 6.37737 14.0491 6.97848 14.5236 7.63078ZM12.5286 7.50565C12.3541 7.29515 12.178 7.09211 12.001 6.89711C11.8239 7.09211 11.6479 7.29515 11.4733 7.50565C11.6481 7.50194 11.824 7.50007 12.001 7.50007C12.1779 7.50007 12.3538 7.50194 12.5286 7.50565ZM8.37252 14.7042C8.28191 14.5547 8.19233 14.4033 8.10386 14.2501C8.01539 14.0968 7.92906 13.9435 7.84488 13.7903C7.74985 14.0467 7.66205 14.3007 7.58169 14.5515C7.83908 14.6074 8.10295 14.6583 8.37252 14.7042ZM10.3049 14.9377C10.8579 14.9788 11.4251 15.0001 12.001 15.0001C12.5769 15.0001 13.144 14.9788 13.697 14.9377C14.0091 14.4793 14.3111 13.9988 14.5991 13.5001C14.887 13.0013 15.1522 12.4995 15.393 12.0001C15.1522 11.5006 14.887 10.9988 14.5991 10.5001C14.3111 10.0013 14.0091 9.52081 13.697 9.06246C13.144 9.02133 12.5769 9.00007 12.001 9.00007C11.4251 9.00007 10.8579 9.02133 10.3049 9.06246C9.99283 9.52081 9.69086 10.0013 9.4029 10.5001C9.11494 10.9988 8.8498 11.5006 8.60892 12.0001C8.8498 12.4995 9.11494 13.0013 9.4029 13.5001C9.69086 13.9988 9.99283 14.4793 10.3049 14.9377ZM16.1571 10.2098C16.2521 9.9534 16.3399 9.6994 16.4203 9.44859C16.1629 9.39278 15.899 9.34182 15.6294 9.29591C15.72 9.44543 15.8096 9.59683 15.8981 9.75007C15.9866 9.9033 16.0729 10.0566 16.1571 10.2098ZM6.13143 9.83671C5.79142 9.94714 5.46917 10.0674 5.16723 10.1968C3.70154 10.825 3.00098 11.5348 3.00098 12.0001C3.00098 12.4653 3.70154 13.1752 5.16723 13.8033C5.46917 13.9327 5.79142 14.053 6.13143 14.1634C6.35281 13.4625 6.6281 12.7371 6.95576 12.0001C6.6281 11.263 6.35281 10.5376 6.13143 9.83671ZM7.58169 9.44859C7.66205 9.6994 7.74985 9.9534 7.84488 10.2098C7.92906 10.0566 8.01539 9.9033 8.10386 9.75007C8.19233 9.59683 8.28191 9.44543 8.37252 9.29591C8.10295 9.34182 7.83908 9.39278 7.58169 9.44859ZM17.8705 14.1634C18.2105 14.053 18.5328 13.9327 18.8347 13.8033C20.3004 13.1752 21.001 12.4653 21.001 12.0001C21.001 11.5348 20.3004 10.825 18.8347 10.1968C18.5328 10.0674 18.2105 9.94714 17.8705 9.83671C17.6491 10.5376 17.3739 11.263 17.0462 12.0001C17.3739 12.7371 17.6491 13.4625 17.8705 14.1634ZM16.4203 14.5515C16.3399 14.3007 16.2521 14.0467 16.1571 13.7903C16.0729 13.9435 15.9866 14.0968 15.8981 14.2501C15.8096 14.4033 15.72 14.5547 15.6294 14.7042C15.899 14.6583 16.1629 14.6074 16.4203 14.5515Z">
+                            </path>
+                        </svg>
+                    </li>
+                    <li>
+                        <!-- NextJs svg -->
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="140" height="140"
+                            fill="rgba(121,127,194,0.29)">
+                            <path
+                                d="M12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22ZM15.9999 8H14.6499V12H15.9999V8ZM9.34609 9.70937L15.405 17.5379L16.4591 16.7293L9.68281 8H8V15.9969H9.34609V9.70937Z">
+                            </path>
+                        </svg>
+                    </li>
+                    <li>
+                        <!-- TailwindCSS svg -->
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="120" height="120"
+                            fill="rgba(121,127,194,0.29)">
+                            <path
+                                d="M11.9996 4.85999C8.82628 4.85999 6.84294 6.44665 6.04961 9.61999C7.23961 8.03332 8.62794 7.43832 10.2146 7.83499C11.12 8.06109 11.7666 8.71757 12.4835 9.44545C13.6507 10.6295 15.0004 12 17.9496 12C21.1229 12 23.1063 10.4133 23.8996 7.23998C22.7096 8.82665 21.3213 9.42165 19.7346 9.02499C18.8292 8.79889 18.1827 8.1424 17.4657 7.41452C16.2995 6.23047 14.9498 4.85999 11.9996 4.85999ZM6.04961 12C2.87628 12 0.892943 13.5867 0.0996094 16.76C1.28961 15.1733 2.67794 14.5783 4.26461 14.975C5.17 15.2011 5.81657 15.8576 6.53354 16.5855C7.70073 17.7695 9.05039 19.14 11.9996 19.14C15.1729 19.14 17.1563 17.5533 17.9496 14.38C16.7596 15.9667 15.3713 16.5617 13.7846 16.165C12.8792 15.9389 12.2326 15.2824 11.5157 14.5545C10.3495 13.3705 8.99982 12 6.04961 12Z">
+                            </path>
+                        </svg>
+                    </li>
+                    <li>
+                        <!-- database svg -->
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="120" height="120"
+                            fill="rgba(121,127,194,0.29)">
+                            <path
+                                d="M21 9.5V12.5C21 14.9853 16.9706 17 12 17C7.02944 17 3 14.9853 3 12.5V9.5C3 11.9853 7.02944 14 12 14C16.9706 14 21 11.9853 21 9.5ZM3 14.5C3 16.9853 7.02944 19 12 19C16.9706 19 21 16.9853 21 14.5V17.5C21 19.9853 16.9706 22 12 22C7.02944 22 3 19.9853 3 17.5V14.5ZM12 12C7.02944 12 3 9.98528 3 7.5C3 5.01472 7.02944 3 12 3C16.9706 3 21 5.01472 21 7.5C21 9.98528 16.9706 12 12 12Z">
+                            </path>
+                        </svg>
+                    </li>
+                    <li>
+                        <!-- git svg -->
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="120" height="120"
+                            fill="rgba(121,127,194,0.29)">
+                            <path
+                                d="M12.001 2C6.47598 2 2.00098 6.475 2.00098 12C2.00098 16.425 4.86348 20.1625 8.83848 21.4875C9.33848 21.575 9.52598 21.275 9.52598 21.0125C9.52598 20.775 9.51348 19.9875 9.51348 19.15C7.00098 19.6125 6.35098 18.5375 6.15098 17.975C6.03848 17.6875 5.55098 16.8 5.12598 16.5625C4.77598 16.375 4.27598 15.9125 5.11348 15.9C5.90098 15.8875 6.46348 16.625 6.65098 16.925C7.55098 18.4375 8.98848 18.0125 9.56348 17.75C9.65098 17.1 9.91348 16.6625 10.201 16.4125C7.97598 16.1625 5.65098 15.3 5.65098 11.475C5.65098 10.3875 6.03848 9.4875 6.67598 8.7875C6.57598 8.5375 6.22598 7.5125 6.77598 6.1375C6.77598 6.1375 7.61348 5.875 9.52598 7.1625C10.326 6.9375 11.176 6.825 12.026 6.825C12.876 6.825 13.726 6.9375 14.526 7.1625C16.4385 5.8625 17.276 6.1375 17.276 6.1375C17.826 7.5125 17.476 8.5375 17.376 8.7875C18.0135 9.4875 18.401 10.375 18.401 11.475C18.401 15.3125 16.0635 16.1625 13.8385 16.4125C14.201 16.725 14.5135 17.325 14.5135 18.2625C14.5135 19.6 14.501 20.675 14.501 21.0125C14.501 21.275 14.6885 21.5875 15.1885 21.4875C19.259 20.1133 21.9999 16.2963 22.001 12C22.001 6.475 17.526 2 12.001 2Z">
+                            </path>
+                        </svg>
+                    </li>
+                </ul>
+            </section>
+        </div>
+
+        <!-- ABOUT ME SECTION  HERE -->
+        <section class="w-full h-full bg-blue-100 relative pr-[50px] max-md:pt-12 pt-36 max-xs:px-[20px] mt-4"
+            id="about">
+            <div class=" pl-4">
+                <div class="w-full border-b-4 border-blue-950 inline-block ">
+                    <h2 class="text-2xl title-section text-blue-900 font-bold uppercase ">
+                        About me
+                        </p>
+                </div>
+                <div class="mt-15">
+                    <div class="mt-6 text-blue-950 text-[20px] leading-10 text-justify ">
+                        As a passionate IT enthusiast deeply involved in software engineering, design, and programming,
+                        I am an innovative and outcome-oriented Web Developer dedicated to creating engaging digital
+                        environments. Equipped with a Bachelor's degree in Information Technology and intensive training
+                        from a reputable Coding Bootcamp, I bring extensive expertise in both front-end and back-end
+                        development. <span class="font-medium ">Proficient in a range of technologies including React,
+                            NextJs, HTML, CSS, JS, TailwindCSS, and more.</span> I excel in dynamic settings that blend
+                        creativity with technical precision. Known for my quick-learning mindset and meticulous
+                        attention to detail, I have a proven ability to translate intricate concepts into user-friendly
+                        solutions. <span class="font-medium ">My collaborative approach, adept problem-solving skills,
+                            and commitment to staying abreast of industry trends position me as a valuable asset to any
+                            development team.</span> I am prepared to leverage my skills and background to drive
+                        innovation and surpass expectations in roles such as Full-Stack Developer, Software Engineer, or
+                        Web Designer.
+                    </div>
+                </div>
+            </div>
+            <div class="mt-10">
+                <div class="w-full">
+                    <ul class="flex justify-between flex-col gap-5 md:flex-row">
+                        <li class="w-full shadow-sm ">
+                            <div class="w-full text-center py-[28px] md:py-[60px] rounded-lg bg-blue-300">
+                                <h3 class="text-[40px] mb-[3px] text-blue-950 font-bold">3+</h3>
+                                <span class="uppercase font-medium">Projects</span>
+                            </div>
+                        </li>
+                        <li class="w-full shadow-sm ">
+                            <div class="w-full text-center py-[28px] md:py-[60px] rounded-lg bg-blue-300">
+                                <h3 class="text-[40px] mb-[3px] text-blue-950 font-bold">Graduate</h3>
+                                <span class="uppercase font-medium">Information Technology</span>
+                            </div>
+                        </li>
+                        <li class="w-full shadow-sm ">
+                            <div class="w-full text-center py-[28px] md:py-[60px] rounded-lg  bg-blue-300">
+                                <h3 class="text-[40px] mb-[3px] text-blue-950 font-bold">Coding</h3>
+                                <span class="uppercase font-medium">Bootcamp - Skillup Labs</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- ABOUT MY SKILLS SECTION  HERE -->
+        <section class=" relative pr-[50px] py-8 max-xs:px-[20px] bg-blue-100 z-40 mt-20" id="skills">
+            <div class=" ">
+                <div class="w-full border-b-4 border-blue-950 inline-block ">
+                    <h2 class="text-2xl title-section text-blue-900 font-bold uppercase ">
+                        My Skills
+                        </p>
+                </div>
+                <h3 class="text-2xl font-bold mt-5">Programming and Design Skills</h3>
+                <div class="grid md:grid-cols-5 gap-5 sm:grid-cols-4 grid-cols-2 mt-10 ">
+                    <div
+                        class="icons-anim p-4 shadow-lg rounded-lg text-center flex flex-col items-center hover:animate-pulse hover:bg-blue-400">
+                        <img width="80" height="80"
+                            src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg"
+                            alt="html5 icon" />
+                        <span class="font-bold">HTML5</span>
+                    </div>
+
+                    <div
+                        class="icons-anim p-4 shadow-lg rounded-lg text-center flex flex-col items-center hover:animate-pulse hover:bg-blue-400">
+                        <img width="80" height="80"
+                            src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/css3/css3-original.svg"
+                            alt="css3 icon" />
+                        <span class="font-bold">CSS3</span>
+                    </div>
+
+                    <div
+                        class="icons-anim p-4 shadow-lg rounded-lg text-center flex flex-col items-center hover:animate-pulse hover:bg-blue-400">
+                        <img width="80" height="80"
+                            src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg"
+                            alt="javascript icon" />
+                        <span class="font-bold">JavaScript</span>
+                    </div>
+
+                    <div
+                        class="icons-anim p-4 shadow-lg rounded-lg text-center flex flex-col items-center hover:animate-pulse hover:bg-blue-400">
+                        <img width="80" height="80"
+                            src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg"
+                            alt="tailwindcss" />
+                        <span class="font-bold">Tailwind CSS</span>
+                    </div>
+
+                    <div
+                        class="icons-anim p-4 shadow-lg rounded-lg text-center flex flex-col items-center hover:animate-pulse hover:bg-blue-400">
+                        <img width="80" height="80"
+                            src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg"
+                            alt="typescript icon" />
+                        <span class="font-bold">TypeScript</span>
+                    </div>
+
+                    <div
+                        class="icons-anim p-4 shadow-lg rounded-lg text-center flex flex-col items-center hover:animate-pulse hover:bg-blue-400">
+                        <img width="80" height="80"
+                            src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg"
+                            alt="react icon" />
+                        <span class="font-bold">React</span>
+                    </div>
+
+                    <div
+                        class="icons-anim p-4 shadow-lg rounded-lg text-center flex flex-col items-center hover:animate-pulse hover:bg-blue-400">
+                        <img width="80" height="80"
+                            src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nextjs/nextjs-original.svg"
+                            alt="nextjs icon" />
+                        <span class="font-bold">Next .JS</span>
+                    </div>
+
+                    <div
+                        class="icons-anim p-4 shadow-lg rounded-lg text-center flex flex-col items-center hover:animate-pulse hover:bg-blue-400">
+                        <img width="80" height="80"
+                            src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg"
+                            alt="python icon" />
+                        <span class="font-bold">Python</span>
+                    </div>
+
+                    <div
+                        class="icons-anim p-4 shadow-lg rounded-lg text-center flex flex-col items-center hover:animate-pulse hover:bg-blue-400">
+                        <img width="80" height="80"
+                            src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/php/php-original.svg"
+                            alt="php icon" />
+                        <span class="font-bold">PHP</span>
+                    </div>
+
+                    <div
+                        class="icons-anim p-4 shadow-lg rounded-lg text-center flex flex-col items-center hover:animate-pulse hover:bg-blue-400">
+                        <img width="80" height="80"
+                            src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mysql/mysql-original.svg"
+                            alt="mysql icon" />
+                        <span class="font-bold">My SQL</span>
+                    </div>
+
+                    <div
+                        class="icons-anim p-4 shadow-lg rounded-lg text-center flex flex-col items-center hover:animate-pulse hover:bg-blue-400">
+                        <img width="80" height="80"
+                            src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postgresql/postgresql-original.svg"
+                            alt="postgresql icon" />
+                        <span class="font-bold">PostgreSQL</span>
+                    </div>
+
+                    <div
+                        class="icons-anim p-4 shadow-lg rounded-lg text-center flex flex-col items-center hover:animate-pulse hover:bg-blue-400">
+                        <img width="80" height="80"
+                            src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/java/java-original.svg"
+                            alt="java icon" />
+                        <span class="font-bold">Java</span>
+                    </div>
+
+                    <div
+                        class="icons-anim p-4 shadow-lg rounded-lg text-center flex flex-col items-center hover:animate-pulse hover:bg-blue-400">
+                        <img width="80" height="80"
+                            src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/kotlin/kotlin-original.svg"
+                            alt="kotlin icon" />
+                        <span class="font-bold">Kotlin</span>
+                    </div>
+
+                    <div
+                        class="icons-anim p-4 shadow-lg rounded-lg text-center flex flex-col items-center hover:animate-pulse hover:bg-blue-400">
+                        <img width="80" height="80"
+                            src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/figma/figma-original.svg"
+                            alt="figma icon" />
+                        <span class="font-bold">Figma</span>
+                    </div>
+
+                    <div
+                        class="icons-anim p-4 shadow-lg rounded-lg text-center flex flex-col items-center hover:animate-pulse hover:bg-blue-400">
+                        <img width="80" height="80"
+                            src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mongodb/mongodb-original.svg"
+                            alt="mongodb icon" />
+                        <span class="font-bold">MongoDB</span>
+                    </div>
+
+
+                </div>
+
+                <h3 class="text-2xl font-bold mt-10">Soft Skills</h3>
+                <div class="grid md:grid-cols-5 gap-5 sm:grid-cols-4 grid-cols-2 mt-10 ">
+                    <div
+                        class="icons-anim p-4 shadow-lg rounded-lg text-center flex flex-col items-center hover:animate-pulse hover:bg-blue-400">
+                        <img width="80" height="80" src="/assets/images/solution-thinking-icon.svg"
+                            alt="solution-thinking icon" />
+                        <span class="font-bold">Cognitive Thinking</span>
+                    </div>
+
+                    <div
+                        class="icons-anim p-4 shadow-lg rounded-lg text-center flex flex-col items-center hover:animate-pulse hover:bg-blue-400">
+                        <img width="80" height="80" src="/assets/images/head-idea-icon.svg"
+                            alt="creative-thinking icon" />
+                        <span class="font-bold">Creative Thinker</span>
+                    </div>
+
+                    <div
+                        class="icons-anim p-4 shadow-lg rounded-lg text-center flex flex-col items-center hover:animate-pulse hover:bg-blue-400">
+                        <img width="80" height="80" src="/assets/images/business-communication-icon.svg"
+                            alt="javascript icon" alt="Collaborative icon" />
+                        <span class="font-bold">Collaborative</span>
+                    </div>
+
+                    <div
+                        class="icons-anim p-4 shadow-lg rounded-lg text-center flex flex-col items-center hover:animate-pulse hover:bg-blue-400">
+                        <img width="80" height="80" src="/assets/images/communication-icon.svg" alt="Communicative" />
+                        <span class="font-bold">Communicative</span>
+                    </div>
+
+                    <div
+                        class="icons-anim p-4 shadow-lg rounded-lg text-center flex flex-col items-center hover:animate-pulse hover:bg-blue-400">
+                        <img width="80" height="80" src="/assets/images/leadership-icon.svg" alt="Leadership icon" />
+                        <span class="font-bold">Leadership</span>
+                    </div>
+
+                    <div
+                        class="icons-anim p-4 shadow-lg rounded-lg text-center flex flex-col items-center hover:animate-pulse hover:bg-blue-400">
+                        <img width="80" height="80" src="/assets/images/problem-solving-icon.svg"
+                            alt="problem-solving icon" />
+                        <span class="font-bold">Problem Solver</span>
+                    </div>
+
+                    <div
+                        class="icons-anim p-4 shadow-lg rounded-lg text-center flex flex-col items-center hover:animate-pulse hover:bg-blue-400">
+                        <img width="80" height="80" src="/assets/images/time-management-icon.svg"
+                            alt="time-management icon" />
+                        <span class="font-bold">Time Management</span>
+                    </div>
+
+                    <div
+                        class="icons-anim p-4 shadow-lg rounded-lg text-center flex flex-col items-center hover:animate-pulse hover:bg-blue-400">
+                        <img width="80" height="80" src="/assets/images/adaptability-icon.svg"
+                            alt="adaptability icon" />
+                        <span class="font-bold">Adaptability</span>
+                    </div>
+
+                    <div
+                        class="icons-anim p-4 shadow-lg rounded-lg text-center flex flex-col items-center hover:animate-pulse hover:bg-blue-400">
+                        <img width="80" height="80" src="/assets/images/professionalism-icon.svg"
+                            alt="professionalism icon" />
+                        <span class="font-bold">Professionalism</span>
+                    </div>
+
+                    <div
+                        class="icons-anim p-4 shadow-lg rounded-lg text-center flex flex-col items-center hover:animate-pulse hover:bg-blue-400">
+                        <img width="80" height="80" src="/assets/images/decision-icon.svg" alt="Decision icon" />
+                        <span class="font-bold">Decision Maker</span>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- ABOUT My Projects SECTION  HERE -->
+        <section class="w-full h-full bg-blue-100 relative pr-[50px] max-xs:px-[20px] mt-4 mb-24" id="projects">
+            <div class="mt-1">
+                <div class="w-full border-b-4 border-blue-950 inline-block ">
+                    <h2 class="text-2xl title-section text-blue-900 font-bold uppercase ">
+                        My Projects
+                        </p>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-10">
+
+                    <!-- Modern UI/UX GPT-3 Frontend Website -->
+                    <div class="mb-4 p-4 rounded-lg shadow-md bg-blue-300 relative ">
+                        <h3 class="text-blue-950 text-2xl font-bold">Modern UI/UX GPT-3 Frontend Website</h3>
+                        <div class="h-fit w-full mt-5">
+                            <a href="https://github.com/ali-sazzad/modern_ui-ux_gpt3_frontend_website" alt="modern_ui-ux_gpt3_frontend_website" target="_blank">
+                                <img src="/assets/images/project-images/desktop-1.png" alt="modern_ui-ux_gpt3_frontend_website"
+                                    class="hover:cursor-pointer hover:shadow-xl mb-2 rounded" style="object-fit: fill;">
+                            </a>
+                        </div>
+                        <div class="mt-10 flex flex-wrap gap-2">
+                            <span class="bg-blue-500 text-blue-100 px-2 py-1 rounded-lg text-sm font-bold ">HTML5</span>
+                            <span class="bg-blue-500 text-blue-100 px-2 py-1 rounded-lg text-sm font-bold ">CSS3</span>
+                            <span
+                                class="bg-blue-500 text-blue-100 px-2 py-1 rounded-lg text-sm font-bold ">NextJs</span>
+                            <span class="bg-blue-500 text-blue-100 px-2 py-1 rounded-lg text-sm font-bold ">Tailwind
+                                CSS</span>
+                            <span class="bg-blue-500 text-blue-100 px-2 py-1 rounded-lg text-sm font-bold ">GSAP
+                                Animation</span>
+                        </div>
+                    </div>
+                    
+                    <!-- To-do List Web App -->
+                    <div class="mb-4 p-4 rounded-lg shadow-md bg-blue-300 relative ">
+                        <h3 class="text-blue-950 text-2xl font-bold">To-do List Web App</h3>
+                        <div class="h-fit w-full mt-5">
+                            <a href="https://sazzgithub.github.io/simple-to-do-list-web-app-html-css-and-js/" alt="
+                                        https://github.com/SazzGitHub/simple-to-do-list-web-app" target="_blank">
+                                <img src="/assets/images/project-images/to-do-list.png" alt="to-do-list image"
+                                    class="hover:cursor-pointer hover:shadow-xl mb-2 rounded" style="object-fit: fill;">
+                            </a>
+                        </div>
+                        <div class="text-blue-100 mt-10 flex flex-wrap gap-2">
+                            <span class="bg-blue-500 text-blue-100 px-2 py-1 rounded-lg text-sm font-bold ">HTML5</span>
+                            <span class="bg-blue-500 text-blue-100 px-2 py-1 rounded-lg text-sm font-bold ">CSS3</span>
+                            <span
+                                class="bg-blue-500 text-blue-100 px-2 py-1 rounded-lg text-sm font-bold ">JavaScript</span>
+                        </div>
+                    </div>
+
+                    <!-- Personal Portfolio -->
+                    <div class="mb-4 p-4 rounded-lg shadow-md bg-blue-300 relative ">
+                        <h3 class="text-blue-950 text-2xl font-bold">Personal Portfolio</h3>
+                        <div class="h-fit w-full mt-5">
+                            <a href="https://github.com/SazzGitHub/sazzadali-portfolio" alt="
+                                        https://github.com/SazzGitHub/sazzadali-portfolio" target="_blank">
+                                <img src="/assets/images/project-images/personal-portfolio.png"
+                                    alt="himalayan-herbs image"
+                                    class="hover:cursor-pointer hover:shadow-xl mb-2 rounded" style="object-fit: fill;">
+                            </a>
+                        </div>
+                        <div class="mt-10 flex flex-wrap gap-2">
+                            <span class="bg-blue-500 text-blue-100 px-2 py-1 rounded-lg text-sm font-bold ">HTML5</span>
+                            <span class="bg-blue-500 text-blue-100 px-2 py-1 rounded-lg text-sm font-bold ">CSS3</span>
+                            <span
+                                class="bg-blue-500 text-blue-100 px-2 py-1 rounded-lg text-sm font-bold ">JavaScript</span>
+                            <span class="bg-blue-500 text-blue-100 px-2 py-1 rounded-lg text-sm font-bold ">Tailwind
+                                CSS</span>
+                            <span class="bg-blue-500 text-blue-100 px-2 py-1 rounded-lg text-sm font-bold ">GSAP
+                                Animation</span>
+                        </div>
+                    </div>
+
+                    <!-- Project Coming Soon -->
+                    <div class="mb-4 p-4 rounded-lg shadow-md bg-blue-300 relative ">
+                        <h3 class="text-blue-950 text-2xl font-bold">Project XYZ</h3>
+                        <div class="h-fit w-full mt-5">
+                            <a href="/" target="">
+                                <img src="/assets/images/project-images/coming-soon.png" alt="coming soon image"
+                                    class="hover:cursor-pointer hover:shadow-xl mb-2 rounded" style="object-fit: fill;">
+                            </a>
+                        </div>
+                        <div class="mt-10 flex flex-wrap gap-2">
+                            <span
+                                class="bg-blue-500 text-blue-100 px-2 py-1 rounded-lg text-sm font-bold ">&nbsp;&nbsp;&nbsp;
+                                &nbsp; &nbsp;</span>
+                            <span class="bg-blue-500 text-blue-100 px-2 py-1 rounded-lg text-sm font-bold ">&nbsp;&nbsp;
+                                &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;</span>
+                            <span class="bg-blue-500 text-blue-100 px-2 py-1 rounded-lg text-sm font-bold ">&nbsp;&nbsp;
+                                &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span>
+                            <span class="bg-blue-500 text-blue-100 px-2 py-1 rounded-lg text-sm font-bold ">&nbsp;
+                                &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;
+                                &nbsp;</span>
+                            <span class="bg-blue-500 text-blue-100 px-2 py-1 rounded-lg text-sm font-bold ">&nbsp;
+                                &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp;
+                                &nbsp; &nbsp; &nbsp; &nbsp;</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ABOUT My Experience SECTION  HERE -->
+        <section class="w-full h-full bg-blue-100 relative pr-[50px] max-xs:px-[20px] mt-4 mb-24" id="experience">
+            <div class="mt-1">
+                <div class="w-full border-b-4 border-blue-950 inline-block ">
+                    <h2 class="text-2xl title-section text-blue-900 font-bold uppercase ">
+                        My Experience
+                    </h2>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-10">
+                    <!-- Skillup Labs Section here -->
+                    <div class="mb-4 p-4 rounded-lg shadow-md bg-blue-300 relative ">
+                        <!-- job title -->
+                        <h3 class="text-blue-950 text-2xl font-bold mb-2 ">
+                            Website Developer
+                        </h3>
+                        <h2 class="text-blue-600 text-2xl font-bold mb-2 ">
+                            Skillup Labs
+                        </h2>
+
+                        <!-- type and date of employment -->
+                        <h2 class="text-md font-semibold ">
+                            Contract | Hybrid
+                        </h2>
+                        <h2 class="text-md font-semibold ">
+                            Sept 2023
+                            <span> - </span>
+                            Mar 2024
+                        </h2>
+
+                        <!-- skills accquired ... -->
+                        <div class="mt-10 flex flex-wrap gap-2">
+                            <span class="bg-blue-900 text-lime-200 px-2 py-1 rounded-lg text-md ">Team Collaboration</span>
+                            <span class="bg-blue-900 text-lime-200 px-2 py-1 rounded-lg text-md ">Customer Relationship
+                                Management</span>
+                            <span class="bg-blue-900 text-lime-200 px-2 py-1 rounded-lg text-md ">Website Management</span>
+                            <span class="bg-blue-900 text-lime-200 px-2 py-1 rounded-lg text-md ">Website Design</span>
+                            <span class="bg-blue-900 text-lime-200 px-2 py-1 rounded-lg text-md ">Agile Development Processes</span>
+                            <span class="bg-blue-900 text-lime-200 px-2 py-1 rounded-lg text-md ">Code Debugging</span>
+                        </div>
+                    </div>
+
+                    <!-- HERTZ Section here -->
+                    <div class="mb-4 p-4 rounded-lg shadow-md bg-blue-300 relative ">
+                        <!-- job title -->
+                        <h3 class="text-blue-950 text-2xl font-bold mb-2 ">
+                            Customer Service Representative
+                        </h3>
+                        <h2 class="text-blue-600 text-2xl font-bold mb-2 ">
+                            HERTZ
+                        </h2>
+
+                        <!-- type and date of employment -->
+                        <h2 class="text-md font-semibold ">
+                            Part Time | On-Site
+                        </h2>
+                        <h2 class="text-md font-semibold ">
+                            Sep 2023
+                            <span> - </span>
+                            Present
+                        </h2>
+
+                        <!-- skills accquired ... -->
+                        <div class="mt-10 flex flex-wrap gap-2">
+                            <span class="bg-blue-900 text-lime-200 px-2 py-1 rounded-lg text-md ">Customer
+                                Service</span>
+                            <span class="bg-blue-900 text-lime-200 px-2 py-1 rounded-lg text-md ">Customer Relationship
+                                Management</span>
+                            <span class="bg-blue-900 text-lime-200 px-2 py-1 rounded-lg text-md ">Vehicle Return
+                                Inspection</span>
+                            <span class="bg-blue-900 text-lime-200 px-2 py-1 rounded-lg text-md ">Customer
+                                Communication</span>
+                            <span class="bg-blue-900 text-lime-200 px-2 py-1 rounded-lg text-md ">Vehicle Data
+                                Analysis</span>
+                            <span class="bg-blue-900 text-lime-200 px-2 py-1 rounded-lg text-md ">Time Management</span>
+                        </div>
+                    </div>
+
+                    <!-- eSafety Supplies Section here -->
+                    <div class="mb-4 p-4 rounded-lg shadow-md bg-blue-300 relative ">
+                        <!-- job title -->
+                        <h3 class="text-blue-950 text-3xl font-bold mb-2 ">
+                            Web Developer / IT Support
+                        </h3>
+                        <h2 class="text-blue-600 text-2xl font-bold mb-2 ">
+                            eSafety Supplies
+                        </h2>
+
+                        <!-- type & date of employment -->
+                        <h2 class="text-md font-semibold ">
+                            Internship | Hybrid
+                        </h2>
+                        <h2 class="text-md font-semibold ">
+                            Jan 2023
+                            <span> - </span>
+                            Apr 2023
+                        </h2>
+
+                        <!-- skills accquired ... -->
+                        <div class="mt-10 flex flex-wrap gap-2">
+                            <span class="bg-blue-900 text-lime-200 px-2 py-1 rounded-lg text-md ">Wordpress Plugin
+                                Management</span>
+                            <span class="bg-blue-900 text-lime-200 px-2 py-1 rounded-lg text-md ">Create Variations and
+                                Swatches</span>
+                            <span class="bg-blue-900 text-lime-200 px-2 py-1 rounded-lg text-md ">Website's SEO and
+                                SEM</span>
+                            <span class="bg-blue-900 text-lime-200 px-2 py-1 rounded-lg text-md ">Website Performance
+                                Optimization</span>
+                            <span class="bg-blue-900 text-lime-200 px-2 py-1 rounded-lg text-md ">Products Upload</span>
+                            <span class="bg-blue-900 text-lime-200 px-2 py-1 rounded-lg text-md ">Products
+                                Availability</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+    </section>
+
+
+    <!-- FOOTER SECTION  HERE -->
+    <section class="footer-menu-container bg-blue-200 pb-5 px-[120px] max-lg:px-[120px]"
+        style="opacity: 1; transform: translateY(0vh) translateZ(0px);   ">
+        <div class="footer-menu w-full items-center max-md:gap-10 max-md:flex-col-reverse">
+
+            <!-- footer image, Name and copyright here -->
+            <div class="flex items-center flex-col justify-center gap-5 rounded-full">
+                <a href="#home">
+                    <img width="200" height="200" src="/assets/logo/my-image-favicon.svg" alt="sazzad-image"
+                        class="sazzad-image border-solid border-2     border-blue-300 rounded-full">
+                </a>
+                <p class="flex text-center text-sky-800 text-xl mb-4 font-medium" id="contact">
+                    Sazzad ALI<br>
+                    &copy;2024 <br>
+                    All rights reserved
+                </p>
+            </div>
+
+            <!-- social links and Contact info here -->
+            <div class="flex items-center flex-col gap-5 justify-center text-center social-links">
+                <!-- Contact Information here -->
+                <div class="flex flex-col lg:flex-col content-start">
+                    <h2 class="text-blue-900 font-bold text-xl lg:text-2xl">
+                        <br>Any Job offer or Projects to discuss?<br>
+                    </h2>
+                    <h2 class="text-blue-900 font-semibold text-xl mt-4 mb-4">
+                        Contact me on
+                    </h2>
+                    <p class="text-blue-950 font-semibold text-md">
+                        <a href="mailto:find.sazzadali@gmail.com">
+                            <span class="font-bold">
+                                find.sazzadali@gmail.com
+                            </span>
+                        </a>
+                    </p>
+                </div>
+                <h3 class="text-blue-900 font-semibold text-xl">
+                    OR
+                </h3>
+                <!-- social links here -->
+                <div class="flex flex-row lg:flex-row items-center gap-5 mb-3 social-links-img">
+                    <a href="https://www.linkedin.com/in/sazzadali/" target="_blank">
+                        <img height="35" width="35" src="/assets/images/linkedin-box-fill.svg" alt="LinkedIn-Sazzad">
+                    </a>
+                    <a href="https://github.com/SazzGitHub" target="_blank">
+                        <img height="35" width="35" src="/assets/images/github-fill.svg" alt="SazzGitHub">
+                    </a>
+                    <a href="https://www.tiktok.com/@developer.sazzad" target="_blank">
+                        <img height="35" width="35" src="/assets/images/tiktok-fill.svg" alt="@developer.sazzad">
+                    </a>
+                    <a href="https://www.linkedin.com/company/craftcodestudio" target="_blank">
+                        <img height="35" width="35" src="/assets/images/briefcase-fill.svg" alt="CraftCode STUDIO">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"
+        integrity="sha512-7eHRwcbYkK4d9g/6tD/mhkf++eoTHwpNM9woBxtPUBWm67zeAfFC+HrdoE2GanKeocly/VxeLvIqwvCdk7qScg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="/assets/js/script.js"></script>
+</body>
+
+</html>
