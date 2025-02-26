@@ -13,7 +13,7 @@ html, body {
 .aside-links {
     position: fixed;
     left: 0;
-    top: 50%;
+    top: 25%;
     padding-left: 10px;
 }
 
