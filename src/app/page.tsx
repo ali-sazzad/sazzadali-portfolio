@@ -432,7 +432,7 @@ useEffect(() => {
               Let&apos;s Talk
             </Button>
             <a
-              href="/my-cv/Sazzad%20ALI_CV.pdf"
+              href="/Sazzad-ALI_CV.pdf"
               target="_blank"
               rel="noopener noreferrer"
             >
