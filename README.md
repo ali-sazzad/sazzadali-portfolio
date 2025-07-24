@@ -9,7 +9,7 @@
 
 Welcome to the source code of my personal portfolio website — built with modern tools, creative animations, and real-world design to showcase my experience in **Web Development**, **UI/UX**, and **App Engineering**.
 
-🌐 **Live Website**: [www.alisazzad.com](https://www.alisazzad.com)
+🌐 **Live Website**: [https://sazzadali-portfolio.vercel.app/](https://sazzadali-portfolio.vercel.app/)
 
 ---
 
