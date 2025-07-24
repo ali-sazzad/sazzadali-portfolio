@@ -10,14 +10,14 @@ import { TextHoverEffect } from "@/components/ui/text-hover-effect";
 import Image from 'next/image';
 import Link from "next/link";
 
-const FloatingLogos = () => {
-  const iconNames = [
-    'html5', 'css3', 'javascript', 'typescript', 'react',
-    'nextjs', 'nodejs', 'python', 'java', 'php', 'kotlin',
-    'go', 'rust', 'swift', 'csharp', 'ruby', 'scala', 'dart',
-    'mongodb', 'postgresql', 'mysql', 'graphql',
-  ];
+const iconNames = [
+  'html5', 'css3', 'javascript', 'typescript', 'react',
+  'nextjs', 'nodejs', 'python', 'java', 'php', 'kotlin',
+  'go', 'rust', 'swift', 'csharp', 'ruby', 'scala', 'dart',
+  'mongodb', 'postgresql', 'mysql', 'graphql',
+];
 
+const FloatingLogos = () => {
   const [positions, setPositions] = useState<
     { left: number; top: number; delay: number; duration: number; scale: number }[]
   >([]);
