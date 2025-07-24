@@ -128,6 +128,11 @@ Still thinking whom to acknowledge.
 
 # Feel free to reach out if you have any questions or suggestions. 
 - Connect with me on [LinkedIn](https://www.linkedin.com/in/sazzadali/)!
+<<<<<<< HEAD
+=======
+
+--- 
+>>>>>>> ea43a4487a8e74b3bf156ee86aaf210b94fbbb49
 
 --- 
 
