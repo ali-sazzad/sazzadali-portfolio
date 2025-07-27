@@ -181,13 +181,13 @@ useEffect(() => {
         "A modern and dynamic portfolio showcasing my skills, projects, and expertise in software development and web design. Built for performance, creativity, and seamless user experience.",
       image: "/personal-portfolio.png?height=300&width=500",
       tags: ["HTML5", "CSS3", "JavaScript", "Tailwind CSS", "GSAP Animation"],
-      link: "https://www.alisazzad.com",
+      link: "https://sazzadali-portfolio.vercel.app/",
       github: "https://github.com/SazzGitHub/sazzadali-portfolio",
     },
     {
       title: "Brainwave with React on Vite",
       description:
-        "A sleek, high-performance single web app built with React on Vite, engineered for speed and seamless user experience.",
+        "A sleek, front-end high-performance single web app built with React on Vite, engineered for speed and seamless user experience.",
       image: "/brainwave-reactvite.png?height=300&width=500",
       tags: ["HTML5", "CSS3", "Vite", "Tailwind CSS", "TypeScript"],
       link: "#",
