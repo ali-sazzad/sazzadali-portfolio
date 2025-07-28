@@ -11,6 +11,34 @@ import Image from 'next/image';
 import Link from "next/link";
 import Tilt from 'react-parallax-tilt';
 
+const skillClusters = [
+  {
+    title: "Frontend",
+    color: "from-green-0 to-blue-800",
+    items: ["React", "Next.js", "Tailwind", "Framer Motion", "TypeScript"],
+  },
+  {
+    title: "Backend",
+    color: "from-red-800 to-teal-0",
+    items: ["Node.js", "Express", "Firebase", "Supabase"],
+  },
+  {
+    title: "Dev Tools",
+    color: "from-orange-0 to-yellow-800",
+    items: ["Git", "VS Code", "Vercel", "Figma", "Android Studio"],
+  },
+  {
+    title: "App Development",
+    color: "from-green-800 to-red-0",
+    items: ["Kotlin with Compose", "Java",]
+  },
+  {
+    title: "Soft Skills",
+    color: "from-purple-0 to-pink-900",
+    items: ["Problem Solving", "Collaboration", "Adaptability", "Creativity", "Fast Learner"],
+  },
+];
+
 const iconNames = [
   'html5', 'css3', 'javascript', 'typescript', 'react',
   'nextjs', 'nodejs', 'python', 'java', 'php', 'kotlin',
@@ -221,74 +249,74 @@ useEffect(() => {
     },
   ]
 
-  const techSkills = [
-    { name: "HTML5", 
-      icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg" 
-    },
-    { name: "CSS3", 
-      icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/css3/css3-original.svg" 
-    },
-    {
-      name: "JavaScript",
-      icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg",
-    },
-    {
-      name: "TypeScript",
-      icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg",
-    },
-    { name: "React", 
-      icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg" 
+  // const techSkills = [
+  //   { name: "HTML5", 
+  //     icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg" 
+  //   },
+  //   { name: "CSS3", 
+  //     icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/css3/css3-original.svg" 
+  //   },
+  //   {
+  //     name: "JavaScript",
+  //     icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg",
+  //   },
+  //   {
+  //     name: "TypeScript",
+  //     icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg",
+  //   },
+  //   { name: "React", 
+  //     icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg" 
 
-    },
-    { name: "Next.js", 
-      icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nextjs/nextjs-original.svg" 
+  //   },
+  //   { name: "Next.js", 
+  //     icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nextjs/nextjs-original.svg" 
 
-    },
-    {
-      name: "Tailwind CSS",
-      icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg",
-    },
-    { name: "Python", 
-      icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg" 
-    },
-    { name: "PHP", 
-      icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/php/php-original.svg" 
-    },
-    { name: "Java", 
-      icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/java/java-original.svg" 
-    },
-    { name: "Kotlin", 
-      icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/kotlin/kotlin-original.svg" 
-    },
-    { name: "MySQL", 
-      icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mysql/mysql-original.svg" 
-    },
-    {
-      name: "PostgreSQL",
-      icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postgresql/postgresql-original.svg",
-    },
-    { name: "MongoDB", 
-      icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mongodb/mongodb-original.svg" 
+  //   },
+  //   {
+  //     name: "Tailwind CSS",
+  //     icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg",
+  //   },
+  //   { name: "Python", 
+  //     icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg" 
+  //   },
+  //   { name: "PHP", 
+  //     icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/php/php-original.svg" 
+  //   },
+  //   { name: "Java", 
+  //     icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/java/java-original.svg" 
+  //   },
+  //   { name: "Kotlin", 
+  //     icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/kotlin/kotlin-original.svg" 
+  //   },
+  //   { name: "MySQL", 
+  //     icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mysql/mysql-original.svg" 
+  //   },
+  //   {
+  //     name: "PostgreSQL",
+  //     icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postgresql/postgresql-original.svg",
+  //   },
+  //   { name: "MongoDB", 
+  //     icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mongodb/mongodb-original.svg" 
 
-    },
-    { name: "Figma", 
-      icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/figma/figma-original.svg" 
+  //   },
+  //   { name: "Figma", 
+  //     icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/figma/figma-original.svg" 
 
-    },
-  ]
+  //   },
+  // ]
 
-  const softSkills = [
-    "Cognitive Thinking",
-    "Creative Thinker",
-    "Collaborative",
-    "Communicative",
-    "Leadership",
-    "Problem Solver",
-    "Time Management",
-    "Adaptability",
-    "Professionalism",
-    "Decision Maker",
-  ]
+  // const softSkills = [
+  //   "Cognitive Thinking",
+  //   "Creative Thinker",
+  //   "Collaborative",
+  //   "Communicative",
+  //   "Leadership",
+  //   "Problem Solver",
+  //   "Time Management",
+  //   "Adaptability",
+  //   "Professionalism",
+  //   "Decision Maker",
+  // ]
 
   const experience = [
     {
@@ -342,7 +370,7 @@ useEffect(() => {
               whileHover={{ scale: 1.05 }}
             
             >
-              <TextHoverEffect text="Sazzad ALI" />
+              <TextHoverEffect text="Sazzad Ali" />
             </motion.div>
           </Link>
 
@@ -440,7 +468,7 @@ useEffect(() => {
                 <Button
                   size="lg"
                   variant="outline"
-                  className="cursor-pointer border-gray-600 text-white hover:bg-gray-800 bg-transparent"
+                  className="cursor-pointer border-blue-500 text-white hover:bg-blue-800 hover:text-blue-100 hover:text-xl bg-transparent"
                 >
                   <Download className="w-4 h-4 mr-2" />
                     Preview CV
@@ -523,18 +551,18 @@ useEffect(() => {
               transition={{ duration: 0.8 }}
               className="text-center mb-16"
             >
-            <h2 className="text-4xl md:text-6xl font-bold mb-6">
-              My{" "}
-              <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-                Projects
-              </span>
-            </h2>
-            <p className="text-xl text-gray-300 max-w-2xl mx-auto">
-              A collection of projects that showcase my skills and passion for creating exceptional digital experiences
-            </p>
+              <h2 className="text-4xl md:text-6xl font-bold mb-6">
+                My{" "}
+                <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                  Projects
+                </span>
+              </h2>
+              <p className="text-xl text-gray-300 max-w-2xl mx-auto">
+                A collection of projects that showcase my skills and passion for creating exceptional digital experiences
+              </p>
             </motion.div>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="cursor-pointer grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {projects.map((project, index) => (
               <motion.div
                 key={index}
@@ -617,87 +645,51 @@ useEffect(() => {
         </section>
         
         {/* Skills Section */}
-        <section id="skills" className="scroll-mt-24 relative z-10 py-24 px-6 overflow-hidden">
-          <div className="max-w-7xl mx-auto z-10 text-white">
-            {/* Section Heading */}
+        <section id="skills" className="scroll-mt-24 relative z-10 py-20 px-6">
+          <div className="max-w-7xl mx-auto">
             <motion.div
-              initial={{ opacity: 0, y: 80 }}
+              initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1 }}
-              className="text-center mb-20"
+              transition={{ duration: 0.8 }}
+              className="text-center mb-16"
             >
-              <h2 className="text-5xl md:text-6xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500">
-                My Skills
+              <h2 className="text-4xl md:text-6xl font-bold mb-6">
+                My{" "}
+                <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                  Skills Galaxy
+                </span>
               </h2>
-              <p className="mt-4 text-gray-400 text-lg md:text-xl">
-                A perfect blend of technical expertise and soft skills
+              <p className="text-xl text-gray-300 max-w-2xl mx-auto">
+                A dynamic blend of technical and interpersonal abilities — orbiting around innovation, precision, and creativity.
               </p>
             </motion.div>
 
-            {/* Tech Skills */}
-            <motion.div
-              initial={{ opacity: 0, y: 60 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="mb-20"
-            >
-              <h3 className="text-2xl font-bold mb-10 text-center text-white">Tech Skills</h3>
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
-                {techSkills.map((skill, index) => (
+            <div className="cursor-pointer grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {skillClusters.map((cluster, i) => (
+                <Tilt key={i} tiltMaxAngleX={10} tiltMaxAngleY={10} scale={1.05} transitionSpeed={1500}>
                   <motion.div
-                    key={index}
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.4, delay: index * 0.1 }}
-                  >
-                    <Tilt tiltMaxAngleX={10} tiltMaxAngleY={10} glareEnable={true} glareColor="#ffffff" className="w-full">
-                      <Card className="bg-gray-900/60 backdrop-blur-md border border-gray-700 hover:shadow-[0_0_20px_#4f46e5] transition duration-300 p-5 text-center rounded-2xl">
-                        <div className="flex flex-col items-center gap-4">
-                          <Image
-                            src={skill.icon || '/placeholder.svg'}
-                            alt={skill.name}
-                            width={50}
-                            height={50}
-                            className="transition-transform duration-300 group-hover:scale-110"
-                            unoptimized={!skill.icon}
-                          />
-                          <span className="text-sm font-semibold text-gray-200">{skill.name}</span>
-                        </div>
-                      </Card>
-                    </Tilt>
-                  </motion.div>
-                ))}
-              </div>
-            </motion.div>
-
-            {/* Soft Skills */}
-            <motion.div
-              initial={{ opacity: 0, y: 60 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-            >
-              <h3 className="text-2xl font-bold mb-10 text-center text-white">Soft Skills</h3>
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-                {softSkills.map((skill, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, scale: 0.8 }}
+                    className={`rounded-xl border border-blue-500 p-6 shadow-lg bg-gradient-to-br ${cluster.color} text-white backdrop-blur-sm`}
+                    initial={{ opacity: 0, scale: 0.9 }}
                     whileInView={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                    transition={{ duration: 0.9, delay: i * 0.5 }}
                     whileHover={{ scale: 1.05 }}
                   >
-                    <Badge
-                      variant="secondary"
-                      className="bg-gradient-to-br from-blue-500/30 to-purple-500/30 text-white font-medium p-4 rounded-xl border border-blue-400/30 shadow-lg shadow-blue-500/10 hover:scale-105 transition-all duration-300 ease-in-out w-full text-center"
-                    >
-                      {skill}
-                    </Badge>
+                    <h3 className="text-4xl font-semibold mb-4">{cluster.title}</h3>
+                    <ul className="space-y-2">
+                      {cluster.items.map((item, idx) => (
+                        <li key={idx} className="flex items-center space-x-2 text-lg">
+                          <span className="w-2 h-2 rounded-full bg-white/80 inline-block animate-ping"></span>
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
                   </motion.div>
-                ))}
-              </div>
-            </motion.div>
+                </Tilt>
+              ))}
+            </div>
           </div>
         </section>
+
 
         {/* Experience Section */}
         <section id="experience" className="scroll-mt-24 relative z-10 py-20 px-6">
