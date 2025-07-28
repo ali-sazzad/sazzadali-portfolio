@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "Sazzad Ali | UI Engineer",
+  title: "Sazzad Ali | Frontend & UI/UX Engineer",
   description: "Created with 💓 by Sazzad with create next app – crafting delightful UIs with code and design.",
   keywords: ["Next.js", "React", "UI/UX", "Frontend Developer", "Web Developer"],
   authors: [{ name: "Sazzad Ali", url: "https://sazzadali-portfolio.vercel.app" }],
