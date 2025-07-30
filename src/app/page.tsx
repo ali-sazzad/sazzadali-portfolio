@@ -72,7 +72,7 @@ const FloatingLogos = () => {
         return (
           <motion.div
             key={name}
-            className="absolute opacity-20"
+            className="absolute opacity-30"
             initial={{ y: '110vh', scale }}
             animate={{ y: '-20vh', scale: scale + 0.5 }}
             transition={{
@@ -318,36 +318,36 @@ useEffect(() => {
   //   "Decision Maker",
   // ]
 
-  const experience = [
-    {
-      title: "Web Developer / IT Support",
-      company: "eSafety Supplies",
-      type: "Internship | Hybrid",
-      period: "Jan 2023 - Apr 2023",
-      skills: [
-        "WordPress Plugin Management",
-        "Create Variations and Swatches",
-        "Website's SEO and SEM",
-        "Website Performance Optimization",
-        "Products Upload",
-        "Products Availability",
-      ],
-    },
-    // {
-    //   title: "Customer Service Representative",
-    //   company: "HERTZ",
-    //   type: "Part Time | On-Site",
-    //   period: "Sep 2023 - August 2024",
-    //   skills: [
-    //     "Customer Service",
-    //     "Customer Relationship Management",
-    //     "Vehicle Return Inspection",
-    //     "Data Analysis",
-    //     "Data Management",
-    //     "Time Management",
-    //   ],
-    // },
-  ]
+  // const experience = [
+  //   {
+  //     title: "Web Developer / IT Support",
+  //     company: "eSafety Supplies",
+  //     type: "Internship | Hybrid",
+  //     period: "Jan 2023 - Apr 2023",
+  //     skills: [
+  //       "WordPress Plugin Management",
+  //       "Create Variations and Swatches",
+  //       "Website's SEO and SEM",
+  //       "Website Performance Optimization",
+  //       "Products Upload",
+  //       "Products Availability",
+  //     ],
+  //   },
+  //   // {
+  //   //   title: "Customer Service Representative",
+  //   //   company: "HERTZ",
+  //   //   type: "Part Time | On-Site",
+  //   //   period: "Sep 2023 - August 2024",
+  //   //   skills: [
+  //   //     "Customer Service",
+  //   //     "Customer Relationship Management",
+  //   //     "Vehicle Return Inspection",
+  //   //     "Data Analysis",
+  //   //     "Data Management",
+  //   //     "Time Management",
+  //   //   ],
+  //   // },
+  // ]
 
   return (
     <>
@@ -524,19 +524,17 @@ useEffect(() => {
         </section>
 
         {/* About Section */}
-        <section id="about" className="scroll-mt-24 relative z-10 py-20 px-6">
+        <section id="about" className="tracking-widest scroll-mt-24 relative z-10 py-20 px-6">
           <div className="max-w-4xl mx-auto text-center">
             <motion.div initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
               <h2 className="text-4xl md:text-6xl font-bold mb-8">
                 About{" "}
                 <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">Me</span>
               </h2>
-              <p className="text-lg md:text-xl text-gray-300 leading-relaxed">
-                Passionate Software Engineer and Web Developer skilled in software engineering, AI, project management,
-                and UI design. I thrive in dynamic environments that blend creativity with technical precision, crafting
-                user-friendly solutions while staying ahead of industry trends. A quick learner with strong
-                problem-solving skills, I am ready to contribute to innovative projects as a Full-Stack Developer,
-                Software Engineer, or Web Designer.
+              <p className=" text-lg md:text-xl text-gray-100  text-shadow-gray-50 leading-loose">
+                <span className="py-2"> Software Engineer and Web Developer with a passion for building elegant, high-performance digital experiences. With a strong foundation in software engineering, AI integration, UI/UX design, and project management, I bring both creativity and precision to every project.</span><br /><br />
+                
+                <span className="mt-8">Whether it’s crafting full-stack web applications, designing intuitive user interfaces, or delivering scalable software solutions — I thrive in environments where design meets functionality. I stay at the forefront of modern tech stacks and development trends to ensure every product I touch is fast, accessible, and future-ready.</span>
               </p>
             </motion.div>
           </div>
@@ -692,7 +690,7 @@ useEffect(() => {
 
 
         {/* Experience Section */}
-        <section id="experience" className="scroll-mt-24 relative z-10 py-20 px-6">
+        {/* <section id="experience" className="scroll-mt-24 relative z-10 py-20 px-6">
           <div className="max-w-7xl mx-auto">
             <motion.div
               initial={{ opacity: 0, y: 50 }}
@@ -739,26 +737,43 @@ useEffect(() => {
               ))}
             </div>
           </div>
-        </section>
+        </section> */}
 
         {/* Contact Section */}
         <section id="contact" className="scroll-mt-24 relative z-10 py-20 px-6">
           <div className="max-w-4xl mx-auto text-center">
             <motion.div initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
-              <h2 className="text-4xl md:text-6xl font-bold mb-6">
+              <h2 className="text-4xl md:text-6xl font-bold mb-10">
                 Let&apos;s{" "}
                 <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
                   Connect
                 </span>
               </h2>
-              <p className="text-xl text-gray-300 mb-4">Any Job offer or Projects to discuss?</p>
-              <p className="text-lg text-gray-400 mb-8">
-                Ready to bring your ideas to life? Let&apos;s discuss your next project and create something amazing together.
+              <p className="tracking-widest text-lg md:text-xl text-gray-100  text-shadow-gray-50 leading-loose">
+                If you&apos;re looking for someone who can <span className="text-white font-medium">design</span>, <span className="text-white font-medium">develop</span>, and <span className="text-white font-medium">deliver.</span>
+              
+                {/* <ul className=" list-disc list-inside space-y-2 pl-2">
+                      <li><span className="text-white">Full-Stack Development</span> (React, Next.js, Node.js)
+                      </li>
+                      <li><span className="text-white">AI-powered Website / App Integration</span>
+                      </li>
+                      <li><span className="text-white">UI/UX Design Systems</span>
+                      </li>
+                      <li><span className="text-white">App Development</span>
+                      </li>
+                    </ul> */}
+
+                <span> I&apos;m always open to collaborating on 
+                  <span className="text-white font-bold ml-1.5">innovative projects</span> that push boundaries and make an impact.
+                </span><br /><br />
+                <span className="text-lg ml-1.5 mt-12">
+                    I am ready to bring your ideas to life? Let&apos;s discuss your next project and create something amazing together by mailing me below with project details.
+                </span>
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
                 <Button
                   size="lg"
-                  className="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white border-0"
+                  className="mt-15 bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white border-0"
                   asChild
                 >
                   <a href="mailto:find.sazzadali@gmail.com">
