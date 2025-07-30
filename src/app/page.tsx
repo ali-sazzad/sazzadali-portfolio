@@ -376,7 +376,7 @@ useEffect(() => {
 
           {/* Desktop Navigation */}
           <div className="cursor-pointer hidden md:flex space-x-6">
-            {["About", "Skills", "Projects", "Experience", "Contact"].map((item, index) => (
+            {["About", "Skills", "Projects", "Contact"].map((item, index) => (
               <motion.a
                 key={item}
                 href={`#${item.toLowerCase()}`}
@@ -408,7 +408,7 @@ useEffect(() => {
             className="absolute top-full left-0 right-0 bg-black/95 backdrop-blur-md border-b border-gray-800/50 p-6 md:hidden"
           >
           <div className="flex flex-col space-y-4">
-            {["About", "Skills", "Projects", "Experience", "Contact"].map((item) => (
+            {["About", "Skills", "Projects", "Contact"].map((item) => (
             <a
               key={item}
               href={`#${item.toLowerCase()}`}
