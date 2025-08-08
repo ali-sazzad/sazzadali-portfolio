@@ -211,7 +211,7 @@ useEffect(() => {
       image: "/personal-portfolio.png?height=300&width=500",
       tags: ["HTML5", "CSS3", "JavaScript", "Tailwind CSS", "GSAP Animation"],
       link: "https://sazzadali-portfolio.vercel.app/",
-      github: "https://github.com/SazzGitHub/sazzadali-portfolio",
+      github: "https://github.com/ali-sazzad/sazzadali-portfolio",
     },
     {
       title: "Brainwave with React on Vite",
@@ -219,16 +219,16 @@ useEffect(() => {
         "A sleek, front-end high-performance single web app built with React on Vite, engineered for speed and seamless user experience.",
       image: "/brainwave-reactvite.png?height=300&width=500",
       tags: ["HTML5", "CSS3", "Vite", "Tailwind CSS", "TypeScript"],
-      link: "#",
+      link: "https://brainwave-reactvite.vercel.app/",
       github: "https://github.com/ali-sazzad/brainwave-reactvite",
     },
     {
-      title: "Modern UI GPT-3 Frontend",
+      title: "Modern UI GPT-3 Frontend Website",
       description:
         "A responsive frontend inspired by GPT-3, designed with modern UI/UX principles. Built for performance, aesthetics, and seamless interaction.",
       image: "/desktop-1.png?height=300&width=500",
       tags: ["HTML5", "CSS3", "Next.js", "Tailwind CSS", "GSAP Animation"],
-      link: "#",
+      link: "https://modern-ui-ux-gpt3-frontend-website.vercel.app/",
       github: "https://github.com/ali-sazzad/modern_ui-ux_gpt3_frontend_website",
     },
     {
@@ -237,8 +237,26 @@ useEffect(() => {
         "A simple yet efficient To-Do List web app built with HTML, CSS, and JavaScript. Stay organized with an intuitive and responsive design.",
       image: "/to-do-list.png?height=300&width=500",
       tags: ["HTML5", "CSS3", "JavaScript"],
-      link: "https://sazzgithub.github.io/simple-to-do-list-web-app-html-css-and-js/",
-      github: "https://github.com/SazzGitHub/simple-to-do-list-web-app",
+      link: "https://simple-to-do-list-web-app-gamma.vercel.app/",
+      github: "https://github.com/ali-sazzad/simple-to-do-list-web-app",
+    },
+    {
+      title: "Bupa Email Template Design",
+      description:
+        "The basic HTML and CSS code for the Bupa email template used in emails for desktop. The template is designed to provide users with information about tapping with iPhone or Apple Watch for Bupa services.",
+      image: "/bupa-email-template1.png?height=300&width=500",
+      tags: ["HTML5", "CSS3", "Email Template"],
+      link: "https://bupa-email-template1.vercel.app/",
+      github: "https://github.com/ali-sazzad/bupa-email-template1",
+    },
+    {
+      title: "Basic Snake Game",
+      description:
+        "Welcome to the Basic Snake Game! 🎮🐍 \n\nThis project is a simple implementation of the classic Snake game using HTML, CSS, and JavaScript. The game allows players to control a snake that moves around the screen, eating food to grow longer. However, if the snake collides with itself or the boundaries of the game area, it's a game over displaying the highest score!",
+      image: "/basic-snake-game.png?height=300&width=500",
+      tags: ["HTML5", "CSS3", "JavaScript", "Game", "Fun"],
+      link: "https://basic-snake-game-two.vercel.app/",
+      github: "https://github.com/ali-sazzad/basic-snake-game",
     },
     {
     title: "Coming Soon",
@@ -587,7 +605,7 @@ useEffect(() => {
                   {project.github && (
                   <a
                     href={project.github}
-                    target="_parent"
+                    target="_blank"
                     rel="noopener noreferrer"
                     className="p-2 rounded-full bg-black/70 hover:bg-black/90 transition"
                     aria-label="View on GitHub"
@@ -598,7 +616,7 @@ useEffect(() => {
                   {project.link && (
                   <a
                     href={project.link}
-                    target="_parent"
+                    target="_blank"
                     rel="noopener noreferrer"
                     className="p-2 rounded-full bg-black/70 hover:bg-black/90 transition"
                     aria-label="Visit Website"

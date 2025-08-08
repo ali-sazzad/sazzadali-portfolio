@@ -15,7 +15,7 @@ Welcome to the source code of my personal portfolio website — built with moder
 
 ## 📸 Preview
 
-![Portfolio Screenshot](./public/preview.png)
+![Portfolio Screenshot](./public/personal-portfolio.png)
 
 ---
 
