@@ -4,7 +4,7 @@ import { useRef, useState } from "react"
 import { Menu, X } from "lucide-react"
 import { gsap, useGSAP, ScrollTrigger, scrollToTarget } from "@/lib/gsap"
 import { navItems } from "@/data/portfolio"
-import { TextHoverEffect } from "@/components/ui/text-hover-effect"
+import { Logo } from "./Logo"
 
 export function Nav({ ready }: { ready: boolean }) {
   const root = useRef<HTMLDivElement>(null)
@@ -85,9 +85,7 @@ export function Nav({ ready }: { ready: boolean }) {
       aria-label="Main"
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 md:px-8">
-        <a href="#top" onClick={(e) => go(e, "#top")} className="nav-item block w-40 md:w-56" aria-label="Back to top">
-          <TextHoverEffect text="Sazzad Ali" />
-        </a>
+        <Logo ready={ready} onClick={(e) => go(e, "#top")} />
 
         <ul className="hidden items-center gap-8 md:flex">
           {navItems.map((item) => (

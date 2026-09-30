@@ -48,6 +48,7 @@ Every animation is written with [GSAP 3.15](https://gsap.com/) and the official 
 | Hand-drawn underline under "Let's Connect" | `DrawSVGPlugin` |
 | Custom follower cursor, magnetic buttons and 3D card tilt | `gsap.quickTo()`, elastic eases |
 | Smooth anchor navigation, hide-on-scroll nav, scroll progress bar | `ScrollToPlugin`, `ScrollTrigger` |
+| Wordmark letters rise in on load and roll to a gradient copy on hover | `Timeline`, staggered `yPercent` tweens |
 | Circular clip-path mobile menu | `Timeline` + `reverse()` |
 | Accessibility: all motion is disabled for users who prefer reduced motion | `gsap.matchMedia()` |
 
@@ -79,15 +80,14 @@ sazzadali-portfolio/
 │   │   ├── layout.tsx        # Fonts, SEO metadata, analytics
 │   │   └── page.tsx          # Renders <Portfolio />
 │   ├── components/
-│   │   ├── portfolio/        # One file per section (Hero, About, Projects, Skills, Contact…)
-│   │   │   ├── Portfolio.tsx # Page shell + ScrollSmoother setup
-│   │   │   ├── Preloader.tsx
-│   │   │   ├── Nav.tsx
-│   │   │   ├── Cursor.tsx
-│   │   │   ├── Magnetic.tsx
-│   │   │   └── …
-│   │   └── ui/
-│   │       └── text-hover-effect.tsx
+│   │   └── portfolio/        # One file per section (Hero, About, Projects, Skills, Contact…)
+│   │       ├── Portfolio.tsx # Page shell + ScrollSmoother setup
+│   │       ├── Preloader.tsx
+│   │       ├── Nav.tsx
+│   │       ├── Logo.tsx      # Animated wordmark
+│   │       ├── Cursor.tsx
+│   │       ├── Magnetic.tsx
+│   │       └── …
 │   ├── data/
 │   │   └── portfolio.ts      # Projects, skills, links — edit content here
 │   └── lib/
