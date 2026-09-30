@@ -86,7 +86,7 @@ export function Skills() {
                       width={28}
                       height={28}
                       loading="lazy"
-                      className={INVERT.has(slug) ? "invert" : ""}
+                      className={INVERT.has(slug) ? "dark:invert" : ""}
                     />
                     {name}
                   </li>

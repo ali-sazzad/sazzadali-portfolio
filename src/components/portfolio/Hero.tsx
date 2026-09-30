@@ -102,7 +102,7 @@ export function Hero({ ready }: { ready: boolean }) {
       className="relative flex min-h-[100svh] items-center justify-center overflow-hidden px-6 pt-24"
     >
       <p
-        className="hero-marquee pointer-events-none absolute left-0 top-1/2 -translate-y-1/2 select-none whitespace-nowrap text-[18vw] font-black uppercase leading-none text-transparent opacity-[0.06] [-webkit-text-stroke:1px_white]"
+        className="hero-marquee pointer-events-none absolute left-0 top-1/2 -translate-y-1/2 select-none whitespace-nowrap text-[18vw] font-black uppercase leading-none text-transparent opacity-[0.06] [-webkit-text-stroke:1px_var(--color-white)]"
         aria-hidden="true"
       >
         Creative Developer · Creative Developer
@@ -128,7 +128,7 @@ export function Hero({ ready }: { ready: boolean }) {
           <Magnetic>
             <button
               onClick={() => scrollToTarget("#contact")}
-              className="rounded-full bg-gradient-to-r from-blue-500 to-purple-500 px-8 py-4 font-semibold text-white shadow-lg shadow-purple-500/20 transition-shadow hover:shadow-purple-500/40"
+              className="rounded-full bg-gradient-to-r from-blue-500 to-purple-500 px-8 py-4 font-semibold text-[#fff] shadow-lg shadow-purple-500/20 transition-shadow hover:shadow-purple-500/40"
             >
               Let&apos;s Talk
             </button>

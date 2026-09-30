@@ -7,6 +7,7 @@ import { EMAIL, navItems, socials } from "@/data/portfolio"
 import { Logo } from "./Logo"
 import { Magnetic } from "./Magnetic"
 import { RollText } from "./RollText"
+import { ThemeToggle } from "./ThemeToggle"
 
 const pad = (n: number) => String(n + 1).padStart(2, "0")
 
@@ -143,7 +144,7 @@ export function Nav({ ready }: { ready: boolean }) {
           {/* Desktop: floating pill with a sliding, colour-inverting indicator. */}
           <nav aria-label="Main" className="hidden md:block">
             <ul
-              className="nav-shell relative isolate flex items-center rounded-full border border-white/10 bg-white/[0.04] p-1 backdrop-blur-xl"
+              className="nav-shell relative isolate flex items-center rounded-full border border-white/10 bg-black/70 p-1 backdrop-blur-xl"
               onPointerLeave={() => moveTo(activeTab())}
             >
               <span
@@ -161,7 +162,7 @@ export function Nav({ ready }: { ready: boolean }) {
                     onPointerEnter={(e) => moveTo(e.currentTarget)}
                     onFocus={(e) => moveTo(e.currentTarget)}
                     onBlur={() => moveTo(activeTab())}
-                    className="nav-tab relative flex items-start gap-1 rounded-full px-4 py-2 text-sm font-medium text-white mix-blend-difference lg:px-5"
+                    className="nav-tab relative flex items-start gap-1 rounded-full px-4 py-2 text-sm font-medium text-[#fff] mix-blend-difference lg:px-5"
                   >
                     <RollText text={item} />
                     <span className="font-mono text-[9px] leading-none opacity-50">{pad(i)}</span>
@@ -171,10 +172,11 @@ export function Nav({ ready }: { ready: boolean }) {
             </ul>
           </nav>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3 md:gap-4">
             <span className="nav-side hidden items-center gap-2 font-mono text-xs uppercase tracking-widest text-gray-400 lg:flex">
               Sydney <SydneyTime />
             </span>
+            <ThemeToggle className="nav-side relative z-10" />
             <div className="nav-side hidden md:block">
               <Magnetic strength={0.3}>
                 <a

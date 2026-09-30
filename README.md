@@ -52,6 +52,7 @@ Every animation is written with [GSAP 3.15](https://gsap.com/) and the official 
 | Nav condenses to a glass bar on scroll, hides on scroll down, shows on scroll up; scroll progress line | `ScrollTrigger` (`toggleClass`, `direction`), `ScrollToPlugin` |
 | Wordmark letters rise in on load and roll to a gradient copy on hover | `Timeline`, staggered `yPercent` tweens |
 | Full-screen mobile menu: burger morphs to ✕, panel wipes in, numbered links stagger up, page scroll locks | `Timeline` + `reverse()`, `ScrollSmoother.paused()` |
+| Dark / light theme toggle: sun–moon icon spin, and the new theme spreads from the button as a growing circle | GSAP + View Transitions API |
 | Accessibility: all motion is disabled for users who prefer reduced motion | `gsap.matchMedia()` |
 
 > Since GSAP became 100% free (including all former Club plugins) every plugin above ships straight from the public `gsap` npm package — no private registry or token needed.
@@ -98,6 +99,8 @@ sazzadali-portfolio/
 ├── next.config.ts            # Switches between Vercel and GitHub Pages builds
 └── package.json
 ```
+
+**Theming:** the site is written dark-first. The light theme in [`src/app/globals.css`](src/app/globals.css) redefines Tailwind's palette variables under `html[data-theme="light"]` (white ↔ ink, grays reversed, accents a step darker), so components need no per-theme classes. The choice is saved in `localStorage` and applied by a tiny inline script before first paint, so there's no flash.
 
 **Updating content:** projects, skills, roles and social links all live in [`src/data/portfolio.ts`](src/data/portfolio.ts). Add a project there and it appears in the horizontal gallery automatically.
 

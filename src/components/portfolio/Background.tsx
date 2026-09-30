@@ -98,7 +98,7 @@ export function Background() {
           width={36}
           height={36}
           loading="lazy"
-          className={`floater absolute top-0 opacity-20 ${INVERT.has(slug) ? "invert" : ""}`}
+          className={`floater absolute top-0 opacity-20 ${INVERT.has(slug) ? "dark:invert" : ""}`}
           style={{ transform: "translateY(110vh)" }}
         />
       ))}

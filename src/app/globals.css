@@ -1,7 +1,9 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-@custom-variant dark (&:is(.dark *));
+/* Dark is the default theme; light is opt-in via <html data-theme="light">. */
+@custom-variant dark (&:where(:root:not([data-theme="light"]), :root:not([data-theme="light"]) *));
+@custom-variant light (&:where([data-theme="light"], [data-theme="light"] *));
 
 @theme inline {
   --color-background: var(--background);
@@ -125,18 +127,63 @@
   }
 }
 
+/*
+ * Light theme. The site is written dark-first (bg-black, text-white, text-gray-400…),
+ * and Tailwind v4 utilities resolve through these variables, so swapping the neutral
+ * palette re-themes every component at once: "white" becomes the ink colour, "black"
+ * the paper, grays run in reverse, and accents step darker to keep contrast on white.
+ */
+:root {
+  --fg-rgb: 255 255 255; /* foreground as raw RGB, for values tweened by GSAP */
+  color-scheme: dark;
+}
+:root[data-theme="light"] {
+  color-scheme: light;
+  --fg-rgb: 23 23 28;
+  --color-white: oklch(21% 0.012 265);
+  --color-black: oklch(98.5% 0.002 250);
+
+  --color-gray-100: oklch(21% 0.034 264.665);
+  --color-gray-200: oklch(27.8% 0.033 256.848);
+  --color-gray-300: oklch(37.3% 0.034 259.733);
+  --color-gray-400: oklch(44.6% 0.03 256.802);
+  --color-gray-500: oklch(52% 0.027 264.364);
+  --color-gray-600: oklch(70.7% 0.022 261.325);
+  --color-gray-700: oklch(87.2% 0.01 258.338);
+  --color-gray-800: oklch(92.8% 0.006 264.531);
+  --color-gray-900: oklch(96.7% 0.003 264.542);
+
+  --color-neutral-700: oklch(87% 0 0);
+  --color-neutral-800: oklch(93% 0 0);
+  --color-neutral-900: oklch(100% 0 0); /* cards: pure white on the off-white page */
+  --color-neutral-950: oklch(97.5% 0 0); /* preloader / mobile menu */
+
+  --color-blue-300: oklch(48.8% 0.243 264.376);
+  --color-blue-400: oklch(54.6% 0.245 262.881);
+  --color-purple-300: oklch(49.6% 0.265 301.924);
+  --color-purple-400: oklch(55.8% 0.288 302.321);
+  --color-pink-400: oklch(59.2% 0.249 0.584);
+}
+
+/* Theme switch: circular reveal from the toggle (coordinates set in ThemeToggle). */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
 /* Faint grid behind everything, faded towards the edges. */
 .bg-grid {
   background-image:
-    linear-gradient(to right, white 1px, transparent 1px),
-    linear-gradient(to bottom, white 1px, transparent 1px);
+    linear-gradient(to right, var(--color-white) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--color-white) 1px, transparent 1px);
   background-size: 72px 72px;
   mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
 }
 
 /* Header turns into a glass bar once the page has scrolled (toggled by ScrollTrigger). */
 .site-nav.is-scrolled {
-  background-color: rgb(0 0 0 / 0.55);
-  border-color: rgb(255 255 255 / 0.06);
+  background-color: color-mix(in oklab, var(--color-black) 55%, transparent);
+  border-color: rgb(var(--fg-rgb) / 0.06);
   backdrop-filter: blur(16px) saturate(1.4);
 }

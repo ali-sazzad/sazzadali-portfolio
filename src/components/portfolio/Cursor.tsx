@@ -34,11 +34,13 @@ export function Cursor() {
         const target = (e.target as HTMLElement).closest<HTMLElement>("a, button, [data-cursor]")
         const text = target?.dataset.cursor ?? ""
         label.current!.textContent = text
+        // Theme foreground ("255,255,255" in dark, near-black in light) read live.
+        const fg = getComputedStyle(document.documentElement).getPropertyValue("--fg-rgb").trim().split(/\s+/).join(",")
         gsap.to(ring.current, {
           width: target ? (text ? 96 : 64) : 40,
           height: target ? (text ? 96 : 64) : 40,
-          backgroundColor: text ? "rgba(139, 92, 246, 0.9)" : "rgba(255,255,255,0)",
-          borderColor: target ? "rgba(96, 165, 250, 0.9)" : "rgba(255,255,255,0.5)",
+          backgroundColor: text ? "rgba(139, 92, 246, 0.9)" : `rgba(${fg},0)`,
+          borderColor: target ? "rgba(96, 165, 250, 0.9)" : `rgba(${fg},0.5)`,
           duration: 0.35,
         })
         gsap.to(label.current, { autoAlpha: text ? 1 : 0, duration: 0.2 })
@@ -61,11 +63,11 @@ export function Cursor() {
         className="invisible fixed left-0 top-0 z-[90] flex h-10 w-10 items-center justify-center rounded-full border border-white/50 pointer-events-none"
         aria-hidden="true"
       >
-        <span ref={label} className="invisible text-xs font-semibold uppercase tracking-widest text-white" />
+        <span ref={label} className="invisible text-xs font-semibold uppercase tracking-widest text-[#fff]" />
       </div>
       <div
         ref={dot}
-        className="invisible fixed left-0 top-0 z-[91] h-1.5 w-1.5 rounded-full bg-white pointer-events-none mix-blend-difference"
+        className="invisible fixed left-0 top-0 z-[91] h-1.5 w-1.5 rounded-full bg-[#fff] pointer-events-none mix-blend-difference"
         aria-hidden="true"
       />
     </>

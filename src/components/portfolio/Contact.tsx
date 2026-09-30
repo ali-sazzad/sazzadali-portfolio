@@ -80,7 +80,7 @@ export function Contact() {
           <Magnetic strength={0.4}>
             <a
               href={socials.email}
-              className="flex items-center gap-3 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 px-8 py-5 text-lg font-semibold shadow-xl shadow-purple-500/25 transition-shadow hover:shadow-purple-500/50 md:px-10"
+              className="flex items-center gap-3 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 px-8 py-5 text-lg font-semibold text-[#fff] shadow-xl shadow-purple-500/25 transition-shadow hover:shadow-purple-500/50 md:px-10"
             >
               <Mail className="h-5 w-5" />
               {EMAIL}
@@ -133,7 +133,7 @@ export function BackToTop() {
     <button
       ref={ref}
       onClick={() => scrollToTarget(0)}
-      className="invisible fixed bottom-8 right-8 z-40 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 p-3 shadow-lg"
+      className="invisible fixed bottom-8 right-8 z-40 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 p-3 text-[#fff] shadow-lg"
       aria-label="Back to top"
     >
       <ArrowUp className="h-6 w-6" />
