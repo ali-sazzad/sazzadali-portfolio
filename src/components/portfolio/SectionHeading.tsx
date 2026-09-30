@@ -53,8 +53,8 @@ export function SectionHeading({
     <div ref={root} className="mb-16 text-center">
       <p className="heading-eyebrow mb-4 font-mono text-xs uppercase tracking-[0.4em] text-purple-400">{eyebrow}</p>
       <h2 className="mb-6 text-4xl font-bold tracking-tight md:text-6xl">
-        <span className="heading-lead inline-block">{lead}</span>{" "}
-        <span className="heading-accent inline-block bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text pb-1 text-transparent">
+        <span className="heading-lead inline-block align-top [&>div]:align-top">{lead}</span>{" "}
+        <span className="heading-accent inline-block align-top bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text pb-1 text-transparent">
           {accent}
         </span>
       </h2>

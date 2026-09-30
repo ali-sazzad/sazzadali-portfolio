@@ -110,8 +110,8 @@ export function Hero({ ready }: { ready: boolean }) {
 
       <div className="hero-content invisible relative z-10 mx-auto max-w-5xl text-center">
         <h1 className="mb-6 text-5xl font-bold leading-[1.05] tracking-tight md:text-7xl lg:text-8xl">
-          <span className="hero-greeting inline-block">Hi, I&apos;m</span>{" "}
-          <span className="hero-name inline-block bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-[length:200%_auto] bg-clip-text pb-2 text-transparent">
+          <span className="hero-greeting inline-block align-top [&>div]:align-top">Hi, I&apos;m</span>{" "}
+          <span className="hero-name inline-block align-top bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-[length:200%_auto] bg-clip-text pb-2 text-transparent">
             Sazzad
           </span>
         </h1>
