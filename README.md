@@ -47,9 +47,11 @@ Every animation is written with [GSAP 3.15](https://gsap.com/) and the official 
 | Batched card reveals | `ScrollTrigger.batch()` |
 | Hand-drawn underline under "Let's Connect" | `DrawSVGPlugin` |
 | Custom follower cursor, magnetic buttons and 3D card tilt | `gsap.quickTo()`, elastic eases |
-| Smooth anchor navigation, hide-on-scroll nav, scroll progress bar | `ScrollToPlugin`, `ScrollTrigger` |
+| Floating pill navigation: a sliding indicator follows hover and rests on the active section, with colour-inverting labels | `gsap.to()` on measured `x`/`width`, `mix-blend-difference` |
+| Per-letter roll on every nav link and CTA, plus a magnetic "Let's talk" button and live Sydney clock | Staggered `yPercent` tweens, `quickTo()` |
+| Nav condenses to a glass bar on scroll, hides on scroll down, shows on scroll up; scroll progress line | `ScrollTrigger` (`toggleClass`, `direction`), `ScrollToPlugin` |
 | Wordmark letters rise in on load and roll to a gradient copy on hover | `Timeline`, staggered `yPercent` tweens |
-| Circular clip-path mobile menu | `Timeline` + `reverse()` |
+| Full-screen mobile menu: burger morphs to ✕, panel wipes in, numbered links stagger up, page scroll locks | `Timeline` + `reverse()`, `ScrollSmoother.paused()` |
 | Accessibility: all motion is disabled for users who prefer reduced motion | `gsap.matchMedia()` |
 
 > Since GSAP became 100% free (including all former Club plugins) every plugin above ships straight from the public `gsap` npm package — no private registry or token needed.
