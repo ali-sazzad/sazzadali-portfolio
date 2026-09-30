@@ -1,7 +1,7 @@
-import { Analytics } from '@vercel/analytics/next';
-
-import type { Metadata } from "next";
+import { Analytics } from "@vercel/analytics/next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { asset } from "@/lib/utils";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -14,45 +14,41 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata = {
+const SITE_URL = "https://sazzadali-portfolio.vercel.app";
+const isVercel = process.env.NEXT_PUBLIC_DEPLOY_TARGET === "vercel";
+
+export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: "Sazzad Ali | Frontend & UI/UX Engineer",
-  description: "Created with 💓 by Sazzad with create next app – crafting delightful UIs with code and design.",
-  keywords: ["Next.js", "React", "UI/UX", "Frontend Developer", "Web Developer"],
-  authors: [{ name: "Sazzad Ali", url: "https://sazzadali-portfolio.vercel.app" }],
+  description:
+    "Portfolio of Sazzad Ali — Sydney-based web developer and UI designer crafting fast, animated, accessible experiences with Next.js, React and GSAP.",
+  keywords: ["Next.js", "React", "GSAP", "UI/UX", "Frontend Developer", "Web Developer", "Sydney"],
+  authors: [{ name: "Sazzad Ali", url: SITE_URL }],
   creator: "Sazzad Ali",
-  themeColor: "#0f172a",
-  viewport: {
-    width: "device-width",
-    initialScale: 1,
-  },
+  icons: { icon: { url: asset("/my-letter-favicon.svg"), type: "image/svg+xml" } },
   openGraph: {
     title: "Sazzad Ali | Frontend & UI/UX Engineer",
-    description: "Creating immersive web experiences with React, Next.js, and 3D animation.",
-    url: "https://sazzadali-portfolio.vercel.app",
+    description: "Creating immersive web experiences with React, Next.js and GSAP animation.",
+    url: SITE_URL,
     siteName: "Sazzad Ali Portfolio",
-    images: [
-      {
-        url: "https://sazzadali-portfolio.vercel.app/og-image.jpg",
-        width: 1200,
-        height: 630,
-        alt: "Sazzad Ali Portfolio Screenshot",
-      },
-    ],
+    images: [{ url: "/personal-portfolio.png", alt: "Sazzad Ali Portfolio Screenshot" }],
     locale: "en_AU",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Sazzad Ali | Full-Stack UI Developer",
-    description: "Hire me to build modern, responsive websites with React, Tailwind, and animation.",
-    creator: "@sazzad_codes",
-    images: ["https://sazzadali-portfolio.vercel.app/og-image.jpg"],
+    title: "Sazzad Ali | Frontend & UI/UX Engineer",
+    description: "Modern, responsive, animated websites with React, Next.js, Tailwind and GSAP.",
+    images: ["/personal-portfolio.png"],
   },
-  alternates: {
-    canonical: "https://sazzadali-portfolio.vercel.app",
-  },
+  alternates: { canonical: SITE_URL },
 };
 
+export const viewport: Viewport = {
+  themeColor: "#000000",
+  width: "device-width",
+  initialScale: 1,
+};
 
 export default function RootLayout({
   children,
@@ -61,15 +57,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <head>
-        <link rel="icon" href="/my-letter-favicon.svg" type="image/svg+xml" />
-      </head>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         {children}
-        <Analytics />
-        
+        {isVercel && <Analytics />}
       </body>
     </html>
   );

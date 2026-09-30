@@ -1,31 +1,46 @@
 "use client";
-import React, { useRef, useEffect, useState } from "react";
-import { motion } from "motion/react";
+import React, { useId, useRef, useState } from "react";
+import { gsap, useGSAP } from "@/lib/gsap";
 
+/**
+ * Outlined SVG wordmark: the stroke draws itself in and a gradient spotlight
+ * follows the pointer on hover.
+ */
 export const TextHoverEffect = ({
   text,
-  duration,
+  duration = 0.3,
 }: {
   text: string;
   duration?: number;
-  automatic?: boolean;
 }) => {
   const svgRef = useRef<SVGSVGElement>(null);
-  const [cursor, setCursor] = useState({ x: 0, y: 0 });
   const [hovered, setHovered] = useState(false);
-  const [maskPosition, setMaskPosition] = useState({ cx: "50%", cy: "50%" });
+  const uid = useId().replace(/:/g, "");
+  const ids = { gradient: `tg-${uid}`, reveal: `rm-${uid}`, mask: `tm-${uid}` };
 
-  useEffect(() => {
-    if (svgRef.current && cursor.x !== null && cursor.y !== null) {
-      const svgRect = svgRef.current.getBoundingClientRect();
-      const cxPercentage = ((cursor.x - svgRect.left) / svgRect.width) * 100;
-      const cyPercentage = ((cursor.y - svgRect.top) / svgRect.height) * 100;
-      setMaskPosition({
-        cx: `${cxPercentage}%`,
-        cy: `${cyPercentage}%`,
-      });
-    }
-  }, [cursor]);
+  const { contextSafe } = useGSAP(
+    () => {
+      gsap.fromTo(
+        ".draw-text",
+        { strokeDasharray: 1000, strokeDashoffset: 1000 },
+        { strokeDashoffset: 0, duration: 6, ease: "power2.inOut", delay: 2.2 },
+      );
+    },
+    { scope: svgRef },
+  );
+
+  const onMove = contextSafe((e: React.PointerEvent<SVGSVGElement>) => {
+    const rect = svgRef.current!.getBoundingClientRect();
+    gsap.to(`#${ids.reveal}`, {
+      attr: {
+        cx: ((e.clientX - rect.left) / rect.width) * 700,
+        cy: ((e.clientY - rect.top) / rect.height) * 100,
+      },
+      duration,
+      ease: "power2.out",
+      overwrite: "auto",
+    });
+  });
 
   return (
     <svg
@@ -34,19 +49,15 @@ export const TextHoverEffect = ({
       height="100%"
       viewBox="0 0 700 100"
       xmlns="http://www.w3.org/2000/svg"
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      onMouseMove={(e) => setCursor({ x: e.clientX, y: e.clientY })}
-      className="tracking-[.8em] "
+      onPointerEnter={() => setHovered(true)}
+      onPointerLeave={() => setHovered(false)}
+      onPointerMove={onMove}
+      className="tracking-[.8em]"
+      role="img"
+      aria-label={text}
     >
       <defs>
-        <linearGradient
-          id="textGradient"
-          gradientUnits="userSpaceOnUse"
-          cx="50%"
-          cy="50%"
-          r="25%"
-        >
+        <linearGradient id={ids.gradient} gradientUnits="userSpaceOnUse">
           {hovered && (
             <>
               <stop offset="0%" stopColor="#eab398" />
@@ -57,34 +68,12 @@ export const TextHoverEffect = ({
             </>
           )}
         </linearGradient>
-
-        <motion.radialGradient
-          id="revealMask"
-          gradientUnits="userSpaceOnUse"
-          r="20%"
-          initial={{ cx: "50%", cy: "50%" }}
-          animate={maskPosition}
-          transition={{ duration: duration ?? 0, ease: "easeOut" }}
-
-          // example for a smoother animation below
-
-          //   transition={{
-          //     type: "spring",
-          //     stiffness: 300,
-          //     damping: 50,
-          //   }}
-        >
+        <radialGradient id={ids.reveal} gradientUnits="userSpaceOnUse" r="140" cx="350" cy="50">
           <stop offset="0%" stopColor="white" />
           <stop offset="100%" stopColor="black" />
-        </motion.radialGradient>
-        <mask id="textMask">
-          <rect
-            x="0"
-            y="0"
-            width="100%"
-            height="100%"
-            fill="url(#revealMask)"
-          />
+        </radialGradient>
+        <mask id={ids.mask}>
+          <rect x="0" y="0" width="100%" height="100%" fill={`url(#${ids.reveal})`} />
         </mask>
       </defs>
       <text
@@ -93,38 +82,29 @@ export const TextHoverEffect = ({
         textAnchor="middle"
         dominantBaseline="middle"
         strokeWidth="0.3"
-        className="fill-transparent stroke-neutral-200 font-[helvetica] text-7xl font-bold dark:stroke-neutral-800"
+        className="fill-transparent stroke-neutral-200 font-[helvetica] text-7xl font-bold transition-opacity"
         style={{ opacity: hovered ? 0.7 : 0 }}
       >
         {text}
       </text>
-      <motion.text
-        x="50%"
-        y="50%"
-        textAnchor="middle"
-        dominantBaseline="middle"
-        strokeWidth="0.3"
-        className="fill-transparent stroke-neutral-200 font-[helvetica] text-7xl font-bold dark:stroke-neutral-800"
-        initial={{ strokeDashoffset: 1000, strokeDasharray: 1000 }}
-        animate={{
-          strokeDashoffset: 0,
-          strokeDasharray: 1000,
-        }}
-        transition={{
-          duration: 10,
-          ease: "easeInOut",
-        }}
-      >
-        {text}
-      </motion.text>
       <text
         x="50%"
         y="50%"
         textAnchor="middle"
         dominantBaseline="middle"
-        stroke="url(#textGradient)"
         strokeWidth="0.3"
-        mask="url(#textMask)"
+        className="draw-text fill-transparent stroke-neutral-200 font-[helvetica] text-7xl font-bold"
+      >
+        {text}
+      </text>
+      <text
+        x="50%"
+        y="50%"
+        textAnchor="middle"
+        dominantBaseline="middle"
+        stroke={`url(#${ids.gradient})`}
+        strokeWidth="0.3"
+        mask={`url(#${ids.mask})`}
         className="fill-transparent font-[helvetica] text-7xl font-bold"
       >
         {text}
