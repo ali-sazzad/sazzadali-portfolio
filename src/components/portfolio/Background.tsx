@@ -19,22 +19,27 @@ export function Background() {
       const mm = gsap.matchMedia()
 
       mm.add(MOTION_OK, () => {
-        // Rising logos — each gets its own randomised loop.
+        // Rising logos — endless loops. fromTo pins the start below the viewport on every
+        // repeat, each lap picks a new column/spin, and each loop starts at a random point
+        // so the screen is populated from the first frame instead of waiting for delays.
         gsap.utils.toArray<HTMLElement>(".floater").forEach((el) => {
-          gsap.set(el, {
-            left: `${gsap.utils.random(0, 95)}%`,
-            y: window.innerHeight + 80,
-            scale: gsap.utils.random(0.6, 1.3),
-          })
-          gsap.to(el, {
-            y: -120,
-            rotation: gsap.utils.random(-90, 90),
-            duration: gsap.utils.random(18, 32),
-            ease: "none",
-            repeat: -1,
-            delay: gsap.utils.random(0, 20),
-            repeatRefresh: true,
-          })
+          const newLane = () =>
+            gsap.set(el, { left: `${gsap.utils.random(0, 95)}%`, scale: gsap.utils.random(0.6, 1.3) })
+          newLane()
+          const rise = gsap.fromTo(
+            el,
+            { y: () => window.innerHeight + 80 },
+            {
+              y: -120,
+              rotation: "random(-180, 180)",
+              duration: gsap.utils.random(18, 32),
+              ease: "none",
+              repeat: -1,
+              repeatRefresh: true,
+              onRepeat: newLane,
+            },
+          )
+          rise.time(gsap.utils.random(0, rise.duration()))
           gsap.to(el, {
             x: "random(-60, 60)",
             duration: "random(3, 6)",
@@ -50,7 +55,6 @@ export function Background() {
           gsap.to(orb, {
             xPercent: "random(-40, 40)",
             yPercent: "random(-40, 40)",
-            scale: "random(0.8, 1.3)",
             duration: "random(8, 14)",
             ease: "sine.inOut",
             repeat: -1,
@@ -77,9 +81,11 @@ export function Background() {
   return (
     <div ref={root} className="fixed inset-0 z-0 overflow-hidden pointer-events-none" aria-hidden="true">
       <div className="orb-layer absolute inset-0">
-        <div className="orb absolute left-[10%] top-[15%] h-[40vmax] w-[40vmax] rounded-full bg-blue-600/20 blur-[120px]" />
-        <div className="orb absolute right-[5%] top-[40%] h-[35vmax] w-[35vmax] rounded-full bg-purple-600/20 blur-[120px]" />
-        <div className="orb absolute bottom-[-10%] left-[30%] h-[30vmax] w-[30vmax] rounded-full bg-pink-600/10 blur-[120px]" />
+        {/* Soft glows drawn with radial gradients: same look as a heavy blur filter, but
+            they composite as plain textures instead of re-running the blur every frame. */}
+        <div className="orb absolute left-[0%] top-[0%] h-[60vmax] w-[60vmax] rounded-full bg-[radial-gradient(circle,rgb(37_99_235/0.22),transparent_65%)] will-change-transform" />
+        <div className="orb absolute right-[-10%] top-[25%] h-[55vmax] w-[55vmax] rounded-full bg-[radial-gradient(circle,rgb(147_51_234/0.22),transparent_65%)] will-change-transform" />
+        <div className="orb absolute bottom-[-25%] left-[20%] h-[50vmax] w-[50vmax] rounded-full bg-[radial-gradient(circle,rgb(219_39_119/0.12),transparent_65%)] will-change-transform" />
       </div>
       <div className="bg-grid absolute inset-0 opacity-[0.07]" />
       {FLOATERS.map(({ slug, name, variant }) => (

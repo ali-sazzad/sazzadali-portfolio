@@ -28,8 +28,11 @@ export function Preloader({ onReveal }: { onReveal: () => void }) {
           const counter = { value: 0 }
           const counterEl = root.current!.querySelector<HTMLElement>(".preloader-count")!
 
-          gsap
-            .timeline({ onComplete: () => setDone(true) })
+          // Built paused (so the hidden start state applies at once) and only played after
+          // the page's own start-up work — hydration, ScrollTrigger setup and the refresh
+          // ScrollTrigger runs on `load` — so none of it lands mid-animation.
+          const tl = gsap
+            .timeline({ paused: true, onComplete: () => setDone(true) })
             .from(split.chars, { yPercent: 110, stagger: 0.04, duration: 0.8, ease: "expo.out" })
             .to(
               counter,
@@ -48,6 +51,22 @@ export function Preloader({ onReveal }: { onReveal: () => void }) {
             .to([".preloader-count", ".preloader-bar-wrap"], { autoAlpha: 0, duration: 0.3 }, "<")
             .add(onReveal, ">-0.1")
             .to(".preloader-panel", { yPercent: -100, duration: 1, ease: "expo.inOut", stagger: 0.12 }, "<")
+
+          let started = false
+          const start = () => {
+            if (started) return
+            started = true
+            // Two frames: let the browser paint whatever the load handlers produced first.
+            requestAnimationFrame(() => requestAnimationFrame(() => tl.play()))
+          }
+          const fallback = setTimeout(start, 1500) // never hold the intro on a slow network
+          if (document.readyState === "complete") start()
+          else window.addEventListener("load", start, { once: true })
+
+          return () => {
+            clearTimeout(fallback)
+            window.removeEventListener("load", start)
+          }
         },
       )
     },

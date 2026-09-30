@@ -68,7 +68,7 @@ export function About() {
           {pillars.map(({ Icon, title, text }) => (
             <div
               key={title}
-              className="pillar group rounded-2xl border border-white/10 bg-white/[0.03] p-8 backdrop-blur-sm transition-colors hover:border-purple-400/40"
+              className="pillar group rounded-2xl border border-white/10 bg-neutral-900/60 p-8 transition-colors hover:border-purple-400/40"
             >
               <Icon className="mb-6 h-8 w-8 text-purple-400 transition-transform duration-500 group-hover:-rotate-12 group-hover:scale-110" />
               <h3 className="mb-3 text-2xl font-semibold">{title}</h3>

@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { gsap, useGSAP, ScrollSmoother, ScrollTrigger, MOTION_OK } from "@/lib/gsap"
+import { gsap, useGSAP, ScrollSmoother, MOTION_OK } from "@/lib/gsap"
 import { Preloader } from "./Preloader"
 import { Cursor } from "./Cursor"
 import { Background } from "./Background"
@@ -37,9 +37,10 @@ function SmoothScroller({ ready }: { ready: boolean }) {
 
   useGSAP(
     () => {
+      // Positions were already measured on `load` (before the preloader started), so a
+      // refresh here would only cause a hitch right as the curtain lifts.
       if (!ready) return
       ScrollSmoother.get()?.paused(false)
-      ScrollTrigger.refresh()
     },
     { dependencies: [ready] },
   )

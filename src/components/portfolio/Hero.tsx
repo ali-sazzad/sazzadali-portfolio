@@ -15,10 +15,12 @@ const socialLinks = [
 
 export function Hero({ ready }: { ready: boolean }) {
   const root = useRef<HTMLElement>(null)
+  const intro = useRef<gsap.core.Timeline | null>(null)
 
+  // Everything — including the text splitting — is prepared on mount while the preloader
+  // still covers the page. When the curtain lifts, the intro only has to play.
   useGSAP(
     () => {
-      if (!ready) return
       gsap.set(".hero-content", { autoAlpha: 1 })
       const mm = gsap.matchMedia()
 
@@ -26,8 +28,8 @@ export function Hero({ ready }: { ready: boolean }) {
         const greeting = SplitText.create(".hero-greeting", { type: "chars", mask: "chars" })
         const sub = SplitText.create(".hero-sub", { type: "words", mask: "words" })
 
-        const intro = gsap
-          .timeline({ defaults: { ease: "expo.out" } })
+        const tl = (intro.current = gsap
+          .timeline({ paused: true, defaults: { ease: "expo.out" } })
           .from(greeting.chars, { yPercent: 120, rotate: 8, stagger: 0.035, duration: 1.2 })
           .from(
             ".hero-name",
@@ -39,10 +41,11 @@ export function Hero({ ready }: { ready: boolean }) {
           .from(sub.words, { yPercent: 100, stagger: 0.03, duration: 0.9 }, "-=0.6")
           .from(".hero-cta > *", { y: 40, autoAlpha: 0, stagger: 0.1, duration: 0.9 }, "-=0.6")
           .from(".hero-social", { scale: 0, autoAlpha: 0, stagger: 0.08, duration: 0.8, ease: "back.out(2)" }, "-=0.7")
-          .from(".hero-scroll", { autoAlpha: 0, y: -20, duration: 0.8 }, "-=0.4")
+          .from(".hero-scroll", { autoAlpha: 0, y: -20, duration: 0.8 }, "-=0.4"))
 
-        // Rotating roles, decoded with ScrambleText.
-        const roleTl = gsap.timeline({ repeat: -1, delay: intro.duration() - 1 })
+        // Rotating roles, decoded with ScrambleText; starts near the end of the intro.
+        const roleTl = gsap.timeline({ paused: true, repeat: -1 })
+        tl.call(() => roleTl.play(), undefined, tl.duration() - 1)
         roles.forEach((role) => {
           roleTl
             .to(".hero-role-text", {
@@ -82,7 +85,14 @@ export function Hero({ ready }: { ready: boolean }) {
         gsap.set(".hero-role-text", { textContent: roles[0] })
       })
     },
-    { scope: root, dependencies: [ready] },
+    { scope: root },
+  )
+
+  useGSAP(
+    () => {
+      if (ready) intro.current?.play()
+    },
+    { dependencies: [ready] },
   )
 
   return (

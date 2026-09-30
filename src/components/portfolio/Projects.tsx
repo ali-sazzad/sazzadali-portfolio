@@ -151,7 +151,7 @@ export function Projects() {
 function ProjectCard({ project, index }: { project: Project; index: number }) {
   return (
     <article className="project-card group lg:w-[400px] lg:shrink-0 xl:w-[440px]" data-cursor={project.link ? "View" : undefined}>
-      <div className="project-inner flex h-full flex-col overflow-hidden rounded-2xl border border-white/10 bg-neutral-900/70 backdrop-blur-sm transition-colors duration-300 [transform-style:preserve-3d] group-hover:border-blue-500/50">
+      <div className="project-inner flex h-full flex-col overflow-hidden rounded-2xl border border-white/10 bg-neutral-900/90 transition-colors duration-300 [transform-style:preserve-3d] group-hover:border-blue-500/50">
         <div className="relative h-52 overflow-hidden">
           {project.image ? (
             <>
