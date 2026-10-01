@@ -87,7 +87,25 @@ export function Projects() {
       mm.add(`(max-width: 1023px) and ${MOTION_OK}`, () => {
         const cards = gsap.utils.toArray<HTMLElement>(".project-card")
         const last = cards.length - 1
-        const top = (i: number) => 88 + i * 12
+        const head = root.current!.querySelector<HTMLElement>(".projects-head")!
+        // The heading pins just under the nav; the cards pin just under its title, so they
+        // slide up over the subtitle while the eyebrow and title stay in view.
+        const headTop = () => (document.querySelector<HTMLElement>(".site-nav")?.offsetHeight ?? 64) + 8
+        const titleBottom = () => {
+          const h2 = head.querySelector("h2")!
+          return h2.getBoundingClientRect().bottom - head.getBoundingClientRect().top
+        }
+        const top = (i: number) => headTop() + titleBottom() + 12 + i * 12
+
+        ScrollTrigger.create({
+          trigger: head,
+          start: () => `top top+=${headTop()}`,
+          endTrigger: cards[last],
+          end: () => `top top+=${top(last)}`,
+          pin: true,
+          pinSpacing: false,
+          invalidateOnRefresh: true,
+        })
 
         cards.forEach((card, i) => {
           ScrollTrigger.create({
@@ -154,7 +172,7 @@ export function Projects() {
 
   return (
     <section ref={root} id="projects" className="relative px-6 py-10 md:py-14 lg:overflow-x-clip">
-      <div className="mx-auto w-full max-w-7xl">
+      <div className="projects-head mx-auto w-full max-w-7xl">
         <SectionHeading eyebrow="02 — Selected work" lead="My" accent="Projects">
           A collection of projects that showcase my skills and passion for creating exceptional digital experiences.
         </SectionHeading>
