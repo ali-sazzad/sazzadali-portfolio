@@ -8,8 +8,8 @@ const INVERT = new Set(["nextjs", "express", "vercel"])
 const FLOATERS = techIcons.slice(0, 18)
 
 /**
- * Fixed background: the canvas dot grid, with tech logos rising endlessly across it
- * (randomised GSAP loops). Artboards sit above, so logos show in the canvas gaps.
+ * Fixed background: the canvas grid, with tech logos rising endlessly across it
+ * (randomised GSAP loops). Artboards are transparent, so the logos drift behind every section.
  */
 export function Background() {
   const root = useRef<HTMLDivElement>(null)
@@ -56,8 +56,8 @@ export function Background() {
 
   return (
     <div ref={root} className="fixed inset-0 z-0 overflow-hidden pointer-events-none" aria-hidden="true">
-      {/* The canvas: a 24px dot grid (the spacing unit everything snaps to). */}
-      <div className="bg-dots absolute inset-0" />
+      {/* The canvas: faint grid lines that fade towards the screen edges. */}
+      <div className="bg-grid absolute inset-0" />
       {FLOATERS.map(({ slug, name, variant }) => (
         // eslint-disable-next-line @next/next/no-img-element
         <img

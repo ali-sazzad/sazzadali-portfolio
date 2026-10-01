@@ -104,7 +104,7 @@ export function Contact() {
 /** Footer as the design tool's bottom status bar. */
 export function Footer() {
   return (
-    <footer className="relative border-t border-rule bg-artboard px-4 py-3 text-xs text-muted md:px-10">
+    <footer className="relative border-t border-rule px-4 py-3 text-xs text-muted md:px-10">
       <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-2 sm:flex-row">
         <p>© {new Date().getFullYear()} Sazzad Ali</p>
         <p>Built with Next.js, Tailwind CSS and GSAP</p>

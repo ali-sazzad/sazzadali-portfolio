@@ -33,7 +33,7 @@ Both deploy automatically on every push to `main`.
 
 ## Design concept: the workbench
 
-I work as both a UI designer and a developer, so the site is drawn as a design file. The page is a dot-grid **canvas**, each section is an **artboard** with its frame name above it, and the details are the ones you see in a design tool. Every measurement shown is real:
+I work as both a UI designer and a developer, so the site is drawn as a design file. The page is a **canvas** with faint grid lines, each section is an **artboard** with its frame name above it, and the details are the ones you see in a design tool. Every measurement shown is real:
 
 - **Hero:** my name sits inside a live **selection box**. The W × H readout is its actual rendered size, and the red **redline** is its true distance from the artboard edge. **Drag the corner handle to resize it** (or focus the handle and use the arrow keys; Home or double-click resets). The readout updates as you go, and the size is capped so the name always fits on one line.
 - **About:** the bio as a text layer, an **inspector panel** of profile properties, and the three ways I work laid out as an auto-layout row with the measured gap between them.

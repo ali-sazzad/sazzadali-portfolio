@@ -214,7 +214,7 @@ export function Nav({ ready }: { ready: boolean }) {
       {/* Mobile full-screen menu. */}
       <div
         id="mobile-menu"
-        className="mobile-menu fixed inset-0 z-40 hidden h-[100dvh] flex-col justify-between bg-canvas bg-dots px-6 pb-10 pt-28 md:hidden"
+        className="mobile-menu fixed inset-0 z-40 hidden h-[100dvh] flex-col justify-between bg-canvas bg-grid px-6 pb-10 pt-28 md:hidden"
       >
         <p className="mobile-meta font-mono text-xs uppercase tracking-[0.3em] text-gray-500">Menu</p>
 

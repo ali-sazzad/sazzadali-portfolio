@@ -157,7 +157,7 @@
   --select: #3d7bff; /* selection boxes, primary actions — the one accent */
   --redline: #ff4f6d; /* measurements — only ever next to a real measured value */
   --note: #f5b83d; /* comment pins */
-  --dot: rgb(255 255 255 / 0.09);
+  --grid-line: rgb(255 255 255 / 0.07);
 }
 :root[data-theme="light"] {
   color-scheme: light;
@@ -170,7 +170,7 @@
   --select: #2962ff;
   --redline: #e8364f;
   --note: #e7a21a;
-  --dot: rgb(0 0 0 / 0.13);
+  --grid-line: rgb(0 0 0 / 0.08);
   --color-white: oklch(21% 0.012 265);
   --color-black: oklch(98.5% 0.002 250);
 
@@ -203,10 +203,14 @@
   mix-blend-mode: normal;
 }
 
-/* Design-tool canvas: a dot grid on 24px, the base unit every spacing value snaps to. */
-.bg-dots {
-  background-image: radial-gradient(circle at 1px 1px, var(--dot) 1px, transparent 0);
-  background-size: 24px 24px;
+/* Canvas grid: faint lines every 72px (3 × the 24px spacing unit), fading out towards the
+   edges of the screen. */
+.bg-grid {
+  background-image:
+    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+  background-size: 72px 72px;
+  mask-image: radial-gradient(ellipse at center, black 35%, transparent 80%);
 }
 
 /* Selection handle: the white square with an accent border that design tools draw. */
