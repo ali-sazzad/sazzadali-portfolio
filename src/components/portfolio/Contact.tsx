@@ -79,10 +79,13 @@ export function Contact() {
 
         <div className="contact-cta mt-14">
           <EnquiryForm />
-          <p className="mt-6 text-sm text-gray-500">
-            Prefer email?{" "}
-            <a href={socials.email} className="inline-flex items-center gap-1.5 text-gray-300 underline-offset-4 hover:text-purple-400 hover:underline">
-              <Mail className="h-4 w-4" />
+          <p className="mt-10 flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-sm leading-none text-gray-500">
+            <span>Prefer email?</span>
+            <a
+              href={socials.email}
+              className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-neutral-900 px-4 py-2.5 leading-none text-gray-200 transition-colors hover:border-purple-400/60 hover:text-purple-400"
+            >
+              <Mail className="h-4 w-4 shrink-0" aria-hidden="true" />
               {EMAIL}
             </a>
           </p>
