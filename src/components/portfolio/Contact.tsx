@@ -34,7 +34,7 @@ export function Contact() {
   )
 
   return (
-    <section ref={root} id="contact" className="relative px-6 py-16 md:py-24">
+    <section ref={root} id="contact" className="relative px-6">
       <div className="mx-auto max-w-4xl text-center">
         <p className="mb-6 font-mono text-xs uppercase tracking-[0.4em] text-purple-400">04 — Get in touch</p>
         <div className="relative mb-12 inline-block">

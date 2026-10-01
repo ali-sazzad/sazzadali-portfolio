@@ -153,7 +153,7 @@ export function Skills() {
   const pickOrbit = (title: string) => pick(GROUPS.findIndex((g) => g.title === title))
 
   return (
-    <section ref={root} id="skills" className="relative overflow-hidden py-16 md:py-20">
+    <section ref={root} id="skills" className="relative overflow-hidden">
       <div className="mx-auto max-w-7xl px-6">
         <SectionHeading eyebrow="03 — Toolkit" lead="My" accent="Skills Galaxy">
           A dynamic blend of technical and interpersonal abilities — orbiting around innovation, precision and
