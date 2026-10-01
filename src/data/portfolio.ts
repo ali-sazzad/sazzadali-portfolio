@@ -1,5 +1,7 @@
 export const EMAIL = "find.sazzadali@gmail.com"
 
+export const CV_PATH = "/Sazzad-ALI_CV.pdf"
+
 export const socials = {
   linkedin: "https://www.linkedin.com/in/sazzadali/",
   github: "https://github.com/ali-sazzad",

@@ -16,6 +16,7 @@
     "gsap": "^3.15.0",
     "lucide-react": "^0.525.0",
     "next": "^15.5.26",
+    "pdfjs-dist": "^5.7.284",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
     "tailwind-merge": "^3.3.1"

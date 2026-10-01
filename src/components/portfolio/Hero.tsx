@@ -4,7 +4,7 @@ import { useRef } from "react"
 import { ChevronDown, Download, Github, Linkedin, Mail } from "lucide-react"
 import { gsap, useGSAP, SplitText, MOTION_OK, scrollToTarget } from "@/lib/gsap"
 import { roles, socials } from "@/data/portfolio"
-import { asset } from "@/lib/utils"
+import { CvLink } from "./CvLink"
 import { Magnetic } from "./Magnetic"
 
 const socialLinks = [
@@ -134,15 +134,10 @@ export function Hero({ ready }: { ready: boolean }) {
             </button>
           </Magnetic>
           <Magnetic>
-            <a
-              href={asset("/Sazzad-ALI_CV.pdf")}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 rounded-full border border-blue-500/60 px-8 py-4 font-semibold transition-colors hover:bg-blue-500/10"
-            >
+            <CvLink className="flex items-center gap-2 rounded-full border border-blue-500/60 px-8 py-4 font-semibold transition-colors hover:bg-blue-500/10">
               <Download className="h-4 w-4" />
               Preview CV
-            </a>
+            </CvLink>
           </Magnetic>
         </div>
 

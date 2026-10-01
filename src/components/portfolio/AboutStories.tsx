@@ -4,7 +4,7 @@ import { useRef, useState } from "react"
 import { ChevronLeft, ChevronRight, Download, MapPin, Pause, Play } from "lucide-react"
 import { gsap, useGSAP, SplitText, ScrollTrigger, Observer, scrollToTarget } from "@/lib/gsap"
 import { deviconUrl } from "@/data/portfolio"
-import { asset } from "@/lib/utils"
+import { CvLink } from "./CvLink"
 import { SydneyTime } from "./Nav"
 import { LINES, pillars, stack, strengths } from "./aboutData"
 
@@ -430,15 +430,10 @@ export function AboutStories() {
             >
               Let&apos;s talk
             </button>
-            <a
-              href={asset("/Sazzad-ALI_CV.pdf")}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="st-cta flex items-center gap-2 rounded-full px-6 py-3 font-semibold text-[#fff] ring-2 ring-[#ffffffa6]"
-            >
+            <CvLink className="st-cta flex items-center gap-2 rounded-full px-6 py-3 font-semibold text-[#fff] ring-2 ring-[#ffffffa6]">
               <Download className="h-4 w-4" aria-hidden="true" />
               Preview CV
-            </a>
+            </CvLink>
           </div>
         </section>
 
