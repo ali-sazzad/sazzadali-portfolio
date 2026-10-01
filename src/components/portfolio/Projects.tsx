@@ -189,7 +189,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
       <div className="project-inner relative flex h-full origin-top flex-col overflow-hidden rounded-2xl border border-white/10 bg-neutral-900 shadow-2xl shadow-black/40 transition-colors duration-300 [transform-style:preserve-3d] group-hover:border-blue-500/50 lg:bg-neutral-900/90 lg:shadow-none">
         {/* Darkens a card as the next one stacks over it (mobile). */}
         <span className="stack-shade pointer-events-none absolute inset-0 z-20 bg-[#000] opacity-0 lg:hidden" aria-hidden="true" />
-        <div className="relative h-40 overflow-hidden lg:h-52">
+        <div className="relative h-52 overflow-hidden">
           {project.image ? (
             <>
               <div className="project-img absolute -inset-x-[10%] inset-y-0">
@@ -233,7 +233,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
           <span className="absolute bottom-3 left-4 font-mono text-5xl font-black text-white/15">{pad(index + 1)}</span>
         </div>
 
-        <div className="flex flex-1 flex-col p-5 lg:p-6">
+        <div className="flex flex-1 flex-col p-6">
           <h3 className="mb-2 text-xl font-bold">
             {project.link ? (
               <a href={project.link} target="_blank" rel="noopener noreferrer" className="hover:text-blue-300">
@@ -243,7 +243,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
               project.title
             )}
           </h3>
-          <p className="mb-4 line-clamp-2 flex-1 text-gray-400 lg:mb-5 lg:line-clamp-3">{project.description}</p>
+          <p className="mb-5 line-clamp-3 flex-1 text-gray-400">{project.description}</p>
           <ul className="flex flex-wrap gap-2">
             {project.tags.map((tag) => (
               <li

@@ -50,15 +50,15 @@ export function SectionHeading({
   )
 
   return (
-    <div ref={root} className="mb-6 text-center md:mb-12" data-lag="0.15">
-      <p className="heading-eyebrow mb-3 font-mono md:mb-4 text-xs uppercase tracking-[0.4em] text-purple-400">{eyebrow}</p>
-      <h2 className="mb-3 text-4xl font-bold tracking-tight md:mb-6 md:text-6xl">
+    <div ref={root} className="mb-10 text-center md:mb-12" data-lag="0.15">
+      <p className="heading-eyebrow mb-4 font-mono text-xs uppercase tracking-[0.4em] text-purple-400">{eyebrow}</p>
+      <h2 className="mb-6 text-4xl font-bold tracking-tight md:text-6xl">
         <span className="heading-lead inline-block align-top [&>div]:align-top">{lead}</span>{" "}
         <span className="heading-accent inline-block align-top bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text pb-1 text-transparent">
           {accent}
         </span>
       </h2>
-      {children && <div className="heading-body mx-auto max-w-2xl text-base text-gray-300 md:text-xl">{children}</div>}
+      {children && <div className="heading-body mx-auto max-w-2xl text-lg text-gray-300 md:text-xl">{children}</div>}
     </div>
   )
 }
