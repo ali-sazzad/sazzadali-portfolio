@@ -44,6 +44,7 @@ Every animation is written with [GSAP 3.15](https://gsap.com/) and the official 
 | Pinned **horizontal project gallery** with per-card image parallax and a live counter | `ScrollTrigger` (`pin`, `scrub`, `containerAnimation`) |
 | About: "one line of code at a time" made literal. An `about.ts` editor types a profile object line by line as you scroll (pinned on desktop), each line renders its part of a live profile card, and the closing brace flips the status to **Compiled** | Pinned, scrubbed `ScrollTrigger` timeline; stepped `clip-path` typing (`steps(n)` = one character per step) |
 | Design → Develop → Deliver: a gradient path draws through the three steps, each lighting up as the line reaches it | `DrawSVGPlugin` on a scrubbed timeline |
+| About on phones: a stories deck (about.ts, Profile, Toolkit, My story, How I work, Motto). Progress bars auto-advance; drag follows the finger and commits on release, taps on the sides navigate, press and hold pauses; pauses off-screen | `Observer` (drag, velocity, press), `ScrollTrigger`, per-story timelines |
 | About copy that lights up word-by-word as you scroll | `SplitText` + scrubbed `ScrollTrigger` |
 | Infinite tech marquees that speed up (and reverse) with scroll velocity | `ScrollTrigger.getVelocity()`, `timeScale` |
 | Batched card reveals | `ScrollTrigger.batch()` |
