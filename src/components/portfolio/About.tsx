@@ -92,7 +92,7 @@ export function About() {
   )
 
   return (
-    <section ref={root} id="about" className="relative px-6 py-32">
+    <section ref={root} id="about" className="relative px-6 py-16 md:py-20">
       <div className="mx-auto max-w-6xl">
         <SectionHeading eyebrow="01 — Who I am" lead="About" accent="Me" />
 
@@ -192,7 +192,7 @@ export function About() {
         </div>
 
         {/* Bio. */}
-        <div className="about-copy mx-auto mt-28 max-w-4xl space-y-8 text-center text-xl leading-relaxed text-gray-100 md:text-3xl md:leading-snug">
+        <div className="about-copy mx-auto mt-16 max-w-4xl space-y-8 text-center text-xl leading-relaxed text-gray-100 md:text-3xl md:leading-snug">
           <p>
             Software Engineer and Web Developer with a passion for building elegant, high-performance digital
             experiences. With a strong foundation in software engineering, AI integration, UI/UX design and project
@@ -206,7 +206,7 @@ export function About() {
         </div>
 
         {/* Process: a path drawn through Design → Develop → Deliver. */}
-        <div className="process relative mt-28">
+        <div className="process relative mt-16">
           <svg
             className="pointer-events-none absolute inset-x-0 top-0 hidden h-20 w-full lg:block"
             viewBox="0 0 1200 80"

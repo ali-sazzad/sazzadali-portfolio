@@ -42,6 +42,7 @@ Every animation is written with [GSAP 3.15](https://gsap.com/) and the official 
 | Hero headline rising out of a mask, gradient name wipe and shimmer | `SplitText`, `clipPath` tweens |
 | Rotating job titles that "decode" into place | `ScrambleTextPlugin` |
 | Pinned **horizontal project gallery** with per-card image parallax and a live counter | `ScrollTrigger` (`pin`, `scrub`, `containerAnimation`) |
+| Projects on phones: a deck being dealt. Each card pins just below the last, and as the next slides up over it the card underneath shrinks, tilts back and darkens | `ScrollTrigger` (`pin`, `pinSpacing: false`, scrubbed timelines) |
 | About: "one line of code at a time" made literal. An `about.ts` editor types a profile object line by line as you scroll (pinned on desktop), each line renders its part of a live profile card, and the closing brace flips the status to **Compiled** | Pinned, scrubbed `ScrollTrigger` timeline; stepped `clip-path` typing (`steps(n)` = one character per step) |
 | Design → Develop → Deliver: a gradient path draws through the three steps, each lighting up as the line reaches it | `DrawSVGPlugin` on a scrubbed timeline |
 | About on phones: a stories deck (about.ts, Profile, Toolkit, My story, How I work, Motto). Progress bars auto-advance; drag follows the finger and commits on release, taps on the sides navigate, press and hold pauses; pauses off-screen | `Observer` (drag, velocity, press), `ScrollTrigger`, per-story timelines |

@@ -80,12 +80,47 @@ export function Projects() {
         })
       })
 
-      // Mobile / tablet: vertical list, cards rise in batches.
+      // Mobile / tablet: a deck being dealt. Each card pins a little lower than the one before
+      // (so earlier cards peek out above), and as the next card slides up over it, the card
+      // underneath shrinks, tilts back and darkens. GSAP pins rather than CSS sticky, because
+      // ScrollSmoother moves the page with transforms, which breaks position: sticky.
       mm.add(`(max-width: 1023px) and ${MOTION_OK}`, () => {
-        gsap.set(".project-card", { y: 80, autoAlpha: 0 })
-        ScrollTrigger.batch(".project-card", {
-          start: "top 88%",
-          onEnter: (batch) => gsap.to(batch, { y: 0, autoAlpha: 1, stagger: 0.12, duration: 1, ease: "expo.out" }),
+        const cards = gsap.utils.toArray<HTMLElement>(".project-card")
+        const last = cards.length - 1
+        const top = (i: number) => 88 + i * 12
+
+        cards.forEach((card, i) => {
+          ScrollTrigger.create({
+            trigger: card,
+            start: () => `top top+=${top(i)}`,
+            endTrigger: cards[last],
+            end: () => `top top+=${top(last)}`,
+            pin: true,
+            pinSpacing: false,
+            invalidateOnRefresh: true,
+          })
+          if (i === last) return
+          gsap
+            .timeline({
+              scrollTrigger: {
+                trigger: cards[i + 1],
+                start: "top bottom",
+                end: () => `top top+=${top(i + 1)}`,
+                scrub: true,
+                invalidateOnRefresh: true,
+              },
+            })
+            .to(card.querySelector(".project-inner"), { scale: 0.9, rotateX: 10, ease: "none" }, 0)
+            .to(card.querySelector(".stack-shade"), { opacity: 0.55, ease: "none" }, 0)
+        })
+
+        // First card deals in as the section arrives.
+        gsap.from(cards[0], {
+          y: 60,
+          autoAlpha: 0,
+          duration: 1,
+          ease: "expo.out",
+          scrollTrigger: { trigger: cards[0], start: "top 90%" },
         })
       })
 
@@ -118,7 +153,7 @@ export function Projects() {
   )
 
   return (
-    <section ref={root} id="projects" className="relative px-6 py-32 lg:overflow-x-clip">
+    <section ref={root} id="projects" className="relative px-6 py-16 md:py-20 lg:overflow-x-clip">
       <div className="mx-auto w-full max-w-7xl">
         <SectionHeading eyebrow="02 — Selected work" lead="My" accent="Projects">
           A collection of projects that showcase my skills and passion for creating exceptional digital experiences.
@@ -127,7 +162,7 @@ export function Projects() {
 
       <div className="projects-pin lg:flex lg:h-screen lg:flex-col lg:justify-center lg:pt-16">
         <div className="projects-viewport lg:-mx-6 lg:overflow-x-auto lg:px-12">
-          <div className="projects-track grid gap-8 [perspective:1400px] md:grid-cols-2 lg:flex lg:w-max lg:gap-10">
+          <div className="projects-track mx-auto flex max-w-xl flex-col gap-6 [perspective:1400px] lg:mx-0 lg:w-max lg:max-w-none lg:flex-row lg:gap-10">
             {projects.map((project, i) => (
               <ProjectCard key={project.title} project={project} index={i} />
             ))}
@@ -151,7 +186,9 @@ export function Projects() {
 function ProjectCard({ project, index }: { project: Project; index: number }) {
   return (
     <article className="project-card group lg:w-[400px] lg:shrink-0 xl:w-[440px]" data-cursor={project.link ? "View" : undefined}>
-      <div className="project-inner flex h-full flex-col overflow-hidden rounded-2xl border border-white/10 bg-neutral-900/90 transition-colors duration-300 [transform-style:preserve-3d] group-hover:border-blue-500/50">
+      <div className="project-inner relative flex h-full origin-top flex-col overflow-hidden rounded-2xl border border-white/10 bg-neutral-900 shadow-2xl shadow-black/40 transition-colors duration-300 [transform-style:preserve-3d] group-hover:border-blue-500/50 lg:bg-neutral-900/90 lg:shadow-none">
+        {/* Darkens a card as the next one stacks over it (mobile). */}
+        <span className="stack-shade pointer-events-none absolute inset-0 z-20 bg-[#000] opacity-0 lg:hidden" aria-hidden="true" />
         <div className="relative h-52 overflow-hidden">
           {project.image ? (
             <>

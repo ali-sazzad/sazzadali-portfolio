@@ -61,7 +61,7 @@ export function Skills() {
   )
 
   return (
-    <section ref={root} id="skills" className="relative overflow-hidden py-32">
+    <section ref={root} id="skills" className="relative overflow-hidden py-16 md:py-20">
       <div className="mx-auto max-w-7xl px-6">
         <SectionHeading eyebrow="03 — Toolkit" lead="My" accent="Skills Galaxy">
           A dynamic blend of technical and interpersonal abilities — orbiting around innovation, precision and
@@ -69,7 +69,7 @@ export function Skills() {
         </SectionHeading>
       </div>
 
-      <div className="mb-20 space-y-6 [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
+      <div className="mb-12 space-y-6 [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
         {rows.map((row, r) => (
           <div key={r} className="marquee-row flex w-max">
             {[0, 1].map((copy) => (
