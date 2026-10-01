@@ -24,12 +24,31 @@ export type Project = {
 
 export const projects: Project[] = [
   {
-    title: "Hotel Hera Lodge Website",
+    title: "Digital Pragati",
     description:
-      "A beautifully designed, user-friendly website for Hotel Hera Lodge — from logo and banner design through to the finished site.",
-    image: "/hhl.png",
-    tags: ["Vite", "Tailwind CSS", "TypeScript", "UI/UX Design"],
-    link: "https://www.hotelheralodge.com",
+      "Lead-generation websites for Nepali-owned businesses in Australia and Nepal: a fast Next.js site, a static build and an enquiry backend, measured on real Core Web Vitals.",
+    image: "/digital-pragati.png",
+    tags: ["Next.js", "TypeScript", "Tailwind CSS", "Lead Generation"],
+    link: "https://ali-sazzad.github.io/digital-pragati/",
+    github: "https://github.com/ali-sazzad/digital-pragati",
+  },
+  {
+    title: "JobTrack",
+    description:
+      "A job application tracker that feels like a real internal tool: CRUD, filters and sort, pipeline insights, accessible dialogs, skeleton loaders and localStorage persistence.",
+    image: "/job-track.png",
+    tags: ["Next.js", "TypeScript", "Tailwind CSS", "shadcn/ui"],
+    link: "https://ali-sazzad.github.io/job-track/",
+    github: "https://github.com/ali-sazzad/job-track",
+  },
+  {
+    title: "SiteBazaar",
+    description:
+      "A website marketplace designed like an auction house: live bidding, buy-now checkout and GSAP motion throughout.",
+    image: "/sitebazaar.png",
+    tags: ["Next.js", "TypeScript", "shadcn/ui", "GSAP"],
+    link: "https://sitebazaar.vercel.app",
+    github: "https://github.com/ali-sazzad/sitebazaar",
   },
   {
     title: "Personal Portfolio",
