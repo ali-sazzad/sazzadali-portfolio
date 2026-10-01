@@ -92,7 +92,7 @@ export function About() {
   )
 
   return (
-    <section ref={root} id="about" className="relative px-6 py-16 md:py-20">
+    <section ref={root} id="about" className="relative px-6">
       <div className="mx-auto max-w-6xl">
         <SectionHeading eyebrow="01 — Who I am" lead="About" accent="Me" />
 
