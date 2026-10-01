@@ -113,22 +113,48 @@ export function Hero({ ready }: { ready: boolean }) {
           .to(".ghost-cursor", { x: "-=22", y: "-=10", duration: 0.6, ease: "power2.inOut" }, "<")
           .to(".ghost-cursor", { scale: 1, autoAlpha: 0, duration: 0.3 })
 
-        // Rotating role, decoded with ScrambleText.
-        const roleTl = gsap.timeline({ paused: true, repeat: -1 })
-        tl.call(() => roleTl.play(), undefined, 2.2)
-        roles.forEach((role) => {
-          roleTl
-            .to(".hero-role-text", {
-              duration: 1.1,
-              scrambleText: { text: role, chars: "lowerCase", speed: 0.5, revealDelay: 0.2 },
-              ease: "none",
+        // Live text edit: a collaborator types each role into the text layer, then
+        // keyboard-selects it (highlight sweeps back across the word) and types the next.
+        const text = root.current!.querySelector<HTMLElement>(".hero-role-text")!
+        const highlight = root.current!.querySelector<HTMLElement>(".role-highlight")!
+        text.textContent = ""
+        gsap.to(".role-caret", { opacity: 0, duration: 0.5, repeat: -1, yoyo: true, ease: "steps(1)" })
+
+        let current: gsap.core.Timeline | null = null
+        const edit = (i: number) => {
+          const role = roles[i % roles.length]
+          const t = (current = gsap.timeline({ onComplete: () => edit(i + 1) }))
+          // Type it, one character at a time, with a human, uneven rhythm.
+          ;[...role].forEach((ch) => {
+            t.call(
+              () => {
+                const s = document.createElement("span")
+                s.className = "inline-block"
+                s.textContent = ch === " " ? " " : ch
+                text.appendChild(s)
+                gsap.from(s, { yPercent: 35, opacity: 0, duration: 0.18, ease: "power2.out" })
+              },
+              undefined,
+              `+=${gsap.utils.random(0.045, 0.13)}`,
+            )
+          })
+          // Hold, then select the word right-to-left and clear it, ready for the next one.
+          t.to(highlight, { width: () => text.offsetWidth, duration: 0.45, ease: "power2.inOut" }, "+=1.8")
+            .to({}, { duration: 0.35 })
+            .call(() => {
+              text.textContent = ""
+              gsap.set(highlight, { width: 0 })
             })
-            .to({}, { duration: 2 })
-        })
+            .to({}, { duration: 0.15 })
+        }
+        tl.call(() => edit(0), undefined, 1.6)
+
+        return () => current?.kill()
       })
 
       mm.add("(prefers-reduced-motion: reduce)", () => {
         gsap.set(".hero-role-text", { textContent: roles[0] })
+        gsap.set(".role-caret, .role-collab", { autoAlpha: 0 })
       })
 
       return () => {
@@ -216,10 +242,26 @@ export function Hero({ ready }: { ready: boolean }) {
               />
             </SelectionBox>
 
-            <p className="hero-line max-w-xl text-xl leading-snug md:text-2xl" aria-live="polite">
-              <span className="hero-role-text font-medium">{roles[0]}</span>{" "}
-              <span className="text-muted">based in Sydney, Australia.</span>
+            {/* The role is a live text layer: typed, selected and retyped by a collaborator cursor. */}
+            <p className="hero-line text-2xl leading-snug md:text-3xl">
+              <span className="sr-only">Web developer, UI designer, programmer and AI enthusiast</span>
+              <span className="inline-flex items-baseline" aria-hidden="true">
+                <span className="relative inline-block min-h-[1.35em]">
+                  <span className="role-highlight absolute inset-y-0 right-0 w-0 bg-select/35" />
+                  <span className="hero-role-text relative font-medium">{roles[0]}</span>
+                </span>
+                <span className="relative inline-block">
+                  <span className="role-caret ml-0.5 inline-block h-[1.05em] w-[2px] translate-y-[0.14em] bg-select" />
+                  <span className="role-collab pointer-events-none absolute left-1 top-[85%] flex items-start">
+                    <MousePointer2 className="h-4 w-4 fill-note stroke-note" />
+                    <span className="mt-3 rounded-[4px] rounded-tl-none bg-note px-1.5 py-0.5 text-[11px] font-semibold leading-none text-[#1c1d20]">
+                      Sazzad
+                    </span>
+                  </span>
+                </span>
+              </span>
             </p>
+            <p className="hero-line mt-5 text-xl text-muted md:text-2xl">from Sydney, Australia</p>
 
             <div className="hero-line mt-10 flex flex-wrap items-center gap-3">
               <button

@@ -7,6 +7,8 @@ import { gsap, useGSAP, SplitText, MOTION_OK } from "@/lib/gsap"
  * Intro curtain: a 0→100 counter, a split-text name reveal and a two-layer wipe.
  * Calls `onReveal` as the curtain starts lifting so the hero can animate in underneath.
  */
+const INTRO_KEY = "intro-played"
+
 export function Preloader({ onReveal }: { onReveal: () => void }) {
   const root = useRef<HTMLDivElement>(null)
   const [done, setDone] = useState(false)
@@ -18,9 +20,17 @@ export function Preloader({ onReveal }: { onReveal: () => void }) {
       mm.add(
         { motion: MOTION_OK, reduced: "(prefers-reduced-motion: reduce)" },
         (ctx) => {
-          if (ctx.conditions?.reduced) {
+          // Play once per visit: coming back from a case study shouldn't replay the intro.
+          let seen = false
+          try {
+            seen = sessionStorage.getItem(INTRO_KEY) === "1"
+            sessionStorage.setItem(INTRO_KEY, "1")
+          } catch {
+            // Storage unavailable: just play the intro.
+          }
+          if (ctx.conditions?.reduced || seen) {
             onReveal()
-            gsap.to(root.current, { autoAlpha: 0, duration: 0.3, onComplete: () => setDone(true) })
+            gsap.to(root.current, { autoAlpha: 0, duration: seen ? 0.25 : 0.3, onComplete: () => setDone(true) })
             return
           }
 

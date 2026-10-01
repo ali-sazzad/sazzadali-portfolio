@@ -6,7 +6,6 @@ import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { ScrollSmoother } from "gsap/ScrollSmoother"
 import { ScrollToPlugin } from "gsap/ScrollToPlugin"
 import { SplitText } from "gsap/SplitText"
-import { ScrambleTextPlugin } from "gsap/ScrambleTextPlugin"
 import { DrawSVGPlugin } from "gsap/DrawSVGPlugin"
 import { Flip } from "gsap/Flip"
 import { Draggable } from "gsap/Draggable"
@@ -18,7 +17,6 @@ if (typeof window !== "undefined") {
     ScrollSmoother,
     ScrollToPlugin,
     SplitText,
-    ScrambleTextPlugin,
     DrawSVGPlugin,
     Flip,
     Draggable,

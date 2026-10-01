@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react"
 import Image from "next/image"
+import Link from "next/link"
 import { Diamond, ExternalLink, Frame, Github } from "lucide-react"
 import { gsap, useGSAP, ScrollTrigger, MOTION_OK, scrollToTarget } from "@/lib/gsap"
 import { projects, type Project } from "@/data/portfolio"
@@ -75,7 +76,7 @@ export function Projects() {
     <section ref={root} id="projects" className="relative py-16 md:py-24 lg:overflow-x-clip">
       <div className="mx-auto w-full max-w-[calc(72rem+5rem)] px-4 md:px-10">
         <ArtboardHeading title="Selected work">
-          Client sites, experiments and small tools. Each frame opens the live project.
+          Client sites, experiments and small tools. Open a frame for the case study.
         </ArtboardHeading>
       </div>
 
@@ -114,13 +115,19 @@ export function Projects() {
 }
 
 function ProjectFrame({ project }: { project: Project }) {
-  const { title, description, image, tags, link, github, comingSoon } = project
+  const { slug, title, description, image, tags, link, github, comingSoon, caseStudy } = project
   return (
     <article className="project-card group lg:w-[430px] lg:shrink-0 xl:w-[470px]">
       <div className="mb-2 flex items-center justify-between gap-3">
         <h3 className="flex min-w-0 items-center gap-1.5 text-sm font-medium">
           <Frame className="h-3.5 w-3.5 shrink-0 text-muted" aria-hidden="true" />
-          <span className="truncate">{title}</span>
+          {caseStudy ? (
+            <Link href={`/work/${slug}`} className="truncate hover:text-select">
+              {title}
+            </Link>
+          ) : (
+            <span className="truncate">{title}</span>
+          )}
         </h3>
         <div className="flex shrink-0 items-center gap-1 text-muted">
           {github && (
@@ -139,7 +146,7 @@ function ProjectFrame({ project }: { project: Project }) {
               href={link}
               target="_blank"
               rel="noopener noreferrer"
-              aria-label={`Open ${title}`}
+              aria-label={`${title} live site`}
               className="grid h-8 w-8 place-items-center rounded-md transition-colors hover:bg-ink/10 hover:text-ink"
             >
               <ExternalLink className="h-4 w-4" />
@@ -153,12 +160,10 @@ function ProjectFrame({ project }: { project: Project }) {
           Next project in progress
         </div>
       ) : (
-        <a
-          href={link}
-          target="_blank"
-          rel="noopener noreferrer"
-          data-cursor="View"
-          aria-label={`Open ${title}`}
+        <Link
+          href={`/work/${slug}`}
+          data-cursor="Open"
+          aria-label={`${title} case study`}
           className="relative block aspect-[16/10] bg-artboard ring-1 ring-rule transition-shadow group-hover:ring-[1.5px] group-hover:ring-select"
         >
           <span className="absolute inset-0 overflow-hidden">
@@ -176,7 +181,7 @@ function ProjectFrame({ project }: { project: Project }) {
               <span key={pos} className={`handle ${pos} opacity-0 transition-opacity group-hover:opacity-100`} aria-hidden="true" />
             ),
           )}
-        </a>
+        </Link>
       )}
 
       <p className="mt-4 line-clamp-3 text-muted">{description}</p>

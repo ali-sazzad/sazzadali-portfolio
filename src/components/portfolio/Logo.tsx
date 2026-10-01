@@ -9,7 +9,17 @@ const NAME = "Sazzad Ali"
  * Solid wordmark. Letters rise out of a mask when the preloader lifts; on hover each
  * letter rolls up to reveal an accent-coloured copy underneath, and the accent dot pops.
  */
-export function Logo({ ready, onClick }: { ready: boolean; onClick: (e: React.MouseEvent) => void }) {
+export function Logo({
+  ready,
+  onClick,
+  href = "#top",
+  label = "Sazzad Ali, back to top",
+}: {
+  ready: boolean
+  onClick: (e: React.MouseEvent) => void
+  href?: string
+  label?: string
+}) {
   const root = useRef<HTMLAnchorElement>(null)
 
   const { contextSafe } = useGSAP(
@@ -41,13 +51,13 @@ export function Logo({ ready, onClick }: { ready: boolean; onClick: (e: React.Mo
   return (
     <a
       ref={root}
-      href="#top"
+      href={href}
       onClick={onClick}
       onPointerEnter={() => roll(true)}
       onPointerLeave={() => roll(false)}
       onFocus={() => roll(true)}
       onBlur={() => roll(false)}
-      aria-label="Sazzad Ali — back to top"
+      aria-label={label}
       className="flex items-center gap-1 text-2xl font-bold leading-none tracking-tight md:text-[1.7rem]"
     >
       <span className="flex" aria-hidden="true">

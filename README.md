@@ -37,7 +37,7 @@ I work as both a UI designer and a developer, so the site is drawn as a design f
 
 - **Hero:** my name sits inside a live **selection box**. The W × H readout is its actual rendered size, and the red **redline** is its true distance from the artboard edge. **Drag the corner handle to resize it** (or focus the handle and use the arrow keys; Home or double-click resets). The readout updates as you go, and the size is capped so the name always fits on one line.
 - **About:** the bio as a text layer, an **inspector panel** of profile properties, and the three ways I work laid out as an auto-layout row with the measured gap between them.
-- **Work:** projects are **frames** on the canvas. On desktop the page pins and pans sideways across them, and a **minimap** shows where you are. Click a frame in it to jump there.
+- **Work:** projects are **frames** on the canvas. On desktop the page pins and pans sideways across them, and a **minimap** shows where you are. Click a frame in it to jump there. Open a frame for its **case study** (`/work/<slug>`): properties, the screenshot as a selected frame at its real size, an overview, what was built (as a layers list) and previous/next projects. Case-study copy is drawn only from each project's own README, repository and screenshot.
 - **Toolkit:** skills as a **component library**. Pick a group in the sidebar and the components re-flow.
 - **Contact:** a **comment thread**. The reply box drafts an email to me in your own mail app (no backend, nothing stored).
 
@@ -52,7 +52,7 @@ Every animation is written with [GSAP 3.15](https://gsap.com/) and the official 
 | Intro preloader: 0→100 counter, masked name reveal, curtain wipe | `Timeline`, `SplitText` (`mask: "chars"`) |
 | Hero build: name rises in, the selection outline draws itself, handles pop, the redline measures, and a ghost cursor demonstrates the resize handle | `Timeline`, `SplitText`, CSS-variable tweens |
 | Resizable hero name (pointer, touch and keyboard) | `Draggable` (proxy + trigger) |
-| Rotating job titles that "decode" into place | `ScrambleTextPlugin` |
+| The role under my name is a live text layer: a "Sazzad" collaborator cursor types it, keyboard-selects it (a highlight sweeps back across the word) and types the next | `Timeline` built per role, `call()` per keystroke with an uneven rhythm |
 | Smooth page scrolling | `ScrollSmoother` |
 | Pinned horizontal pan across project frames, with a live minimap | `ScrollTrigger` (`pin`, `scrub`) |
 | Skill filtering: components re-flow, leave and enter | `Flip` |
@@ -91,7 +91,8 @@ sazzadali-portfolio/
 │   ├── app/
 │   │   ├── globals.css       # Tailwind layers + small custom utilities
 │   │   ├── layout.tsx        # Fonts, SEO metadata, analytics
-│   │   └── page.tsx          # Renders <Portfolio />
+│   │   ├── page.tsx          # Renders <Portfolio />
+│   │   └── work/[slug]/      # Case-study pages, prerendered with generateStaticParams
 │   ├── components/
 │   │   └── portfolio/        # One file per section (Hero, About, Projects, Skills, Contact…)
 │   │       ├── Portfolio.tsx # Page shell + ScrollSmoother setup

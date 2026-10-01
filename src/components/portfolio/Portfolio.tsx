@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { gsap, useGSAP, ScrollSmoother, MOTION_OK } from "@/lib/gsap"
+import { gsap, useGSAP, ScrollSmoother, MOTION_OK, scrollToTarget } from "@/lib/gsap"
 import { Preloader } from "./Preloader"
 import { Cursor } from "./Cursor"
 import { Background } from "./Background"
@@ -41,6 +41,9 @@ function SmoothScroller({ ready }: { ready: boolean }) {
       // refresh here would only cause a hitch right as the curtain lifts.
       if (!ready) return
       ScrollSmoother.get()?.paused(false)
+      // Arriving with a hash (e.g. "All work" from a case study): go to that section.
+      const hash = window.location.hash
+      if (hash && document.querySelector(hash)) requestAnimationFrame(() => scrollToTarget(hash))
     },
     { dependencies: [ready] },
   )
