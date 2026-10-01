@@ -42,3 +42,8 @@ next-env.d.ts
 
 # local GitHub Pages preview
 /preview/
+
+
+# Superdesign local state (repo analysis dumps, ids, temp files); keep only the design brief
+.superdesign/*
+!.superdesign/design-system.md

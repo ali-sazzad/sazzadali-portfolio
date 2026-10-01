@@ -67,7 +67,7 @@ export function CaseStudy({ project }: { project: Project }) {
             <ThemeToggle />
             <Link
               href="/#projects"
-              className="flex items-center gap-2 rounded-full bg-ink px-4 py-2 text-sm font-semibold text-canvas transition-colors hover:bg-select hover:text-[#fff]"
+              className="flex items-center gap-2 rounded-full bg-ink px-4 py-2 text-sm font-semibold text-canvas transition-colors hover:bg-select hover:text-on-select"
             >
               <ArrowLeft className="h-4 w-4" aria-hidden="true" />
               All work
@@ -104,7 +104,7 @@ export function CaseStudy({ project }: { project: Project }) {
                     href={project.link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 rounded-md bg-select px-5 py-3 font-medium text-[#fff] transition-[filter] hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-select"
+                    className="flex items-center gap-2 rounded-full bg-select px-6 py-3 font-semibold text-on-select transition-[filter] hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-select"
                   >
                     <ExternalLink className="h-4 w-4" aria-hidden="true" />
                     Open live site
@@ -115,7 +115,7 @@ export function CaseStudy({ project }: { project: Project }) {
                     href={project.github}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 rounded-md px-5 py-3 font-medium ring-1 ring-rule transition-colors hover:bg-ink/5 focus-visible:outline-2 focus-visible:outline-select"
+                    className="flex items-center gap-2 rounded-full px-6 py-3 font-semibold ring-1 ring-ink/25 transition-colors hover:bg-ink/5 focus-visible:outline-2 focus-visible:outline-select"
                   >
                     <Github className="h-4 w-4" aria-hidden="true" />
                     View source

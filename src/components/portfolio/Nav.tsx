@@ -11,7 +11,7 @@ import { ThemeToggle } from "./ThemeToggle"
 
 
 /** Live Sydney time; rendered client-side only to avoid a hydration mismatch. */
-function SydneyTime() {
+export function SydneyTime() {
   const [time, setTime] = useState<string | null>(null)
   useEffect(() => {
     const fmt = new Intl.DateTimeFormat("en-AU", {
@@ -171,23 +171,20 @@ export function Nav({ ready }: { ready: boolean }) {
           </nav>
 
           <div className="flex items-center gap-3 md:gap-4">
-            <span className="nav-side hidden items-center gap-2 font-mono text-xs uppercase tracking-widest text-gray-400 lg:flex">
-              Sydney <SydneyTime />
-            </span>
             <ThemeToggle className="nav-side relative z-10" />
             <div className="nav-side hidden md:block">
               <Magnetic strength={0.3}>
                 <a
                   href="#contact"
                   onClick={(e) => go(e, "#contact")}
-                  className="group flex items-center gap-2 rounded-full bg-white py-2 pl-4 pr-2 text-sm font-semibold text-black transition-colors hover:bg-select hover:text-[#fff]"
+                  className="group flex items-center gap-2 rounded-full bg-select py-2 pl-4 pr-2 text-sm font-semibold text-on-select transition-[filter] hover:brightness-110"
                 >
                   <span className="relative flex h-2 w-2">
                     <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
                     <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
                   </span>
                   <RollText text="Let's talk" />
-                  <span className="grid h-7 w-7 place-items-center rounded-full bg-black text-white transition-transform duration-500 group-hover:rotate-45">
+                  <span className="grid h-7 w-7 place-items-center rounded-full bg-on-select text-select transition-transform duration-500 group-hover:rotate-45">
                     <ArrowUpRight className="h-4 w-4" />
                   </span>
                 </a>

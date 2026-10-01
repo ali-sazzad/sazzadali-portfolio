@@ -65,7 +65,7 @@ export function Cursor() {
         className="invisible fixed left-0 top-0 z-[90] flex h-10 w-10 items-center justify-center rounded-full border border-white/50 pointer-events-none"
         aria-hidden="true"
       >
-        <span ref={label} className="invisible text-xs font-semibold uppercase tracking-widest text-[#fff]" />
+        <span ref={label} className="invisible text-xs font-semibold uppercase tracking-widest text-on-select" />
       </div>
       <div
         ref={dot}

@@ -69,7 +69,7 @@ export const projects: Project[] = [
     slug: "personal-portfolio",
     title: "Personal Portfolio",
     description:
-      "This site. A design-tool workbench built with Next.js and GSAP: a resizable hero, frames you pan across, and a filterable toolkit.",
+      "This site. A bento-style portfolio built with Next.js and GSAP: solid tiles, live Sydney time, a typed role and a case study for every project.",
     image: "/personal-portfolio.png",
     imageSize: [1440, 900],
     tags: ["Next.js", "TypeScript", "Tailwind CSS", "GSAP"],
@@ -80,13 +80,13 @@ export const projects: Project[] = [
       role: "Design and development",
       year: "2024",
       overview: [
-        "My portfolio is drawn as a design file, because I work as both a UI designer and a developer. The page is a canvas, each section is an artboard, and every measurement on screen is real.",
+        "My portfolio, redesigned for clarity: a bento hero of solid tiles, a Sydney-inspired palette (harbour navy, jacaranda, sandstone), big project screenshots and a case study for each project.",
         "It's built with Next.js and animated entirely with GSAP. The same code ships to Vercel as a full Next.js app and to GitHub Pages as a static export.",
       ],
       built: [
-        "A hero where my name sits in a live selection box that visitors can resize by dragging, or with the keyboard",
-        "Project frames on a pinned, sideways-panning canvas with a click-to-jump minimap",
-        "A skills library filtered with GSAP Flip",
+        "A bento hero: my name, a role typed by a collaborator cursor, live Sydney time and a featured project",
+        "An asymmetric project showcase where every project opens its own case study",
+        "WCAG AA colour contrast in both dark and light themes",
         "Dark and light themes with a circular reveal, saved per device with no flash on load",
         "Reduced-motion support throughout",
         "One codebase deploying to both Vercel and GitHub Pages",

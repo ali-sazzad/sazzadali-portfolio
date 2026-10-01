@@ -54,7 +54,7 @@ export const SelectionBox = forwardRef<
       {corner}
       {/* Outer span centres (Tailwind translate); inner span is free for GSAP to animate. */}
       <span className="pointer-events-none absolute -bottom-9 left-1/2 -translate-x-1/2" aria-hidden="true">
-        <span className="sel-size block whitespace-nowrap rounded-[3px] bg-select px-1.5 py-0.5 text-[11px] font-medium tabular-nums text-[#fff]">
+        <span className="sel-size block whitespace-nowrap rounded-[3px] bg-select px-1.5 py-0.5 text-[11px] font-medium tabular-nums text-on-select">
           {size.w} × {size.h}
         </span>
       </span>

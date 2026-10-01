@@ -1,117 +1,72 @@
-"use client"
-
-import { useRef, useState } from "react"
-import { Diamond } from "lucide-react"
-import { gsap, useGSAP, Flip } from "@/lib/gsap"
 import { deviconUrl, skillClusters, skillIcons } from "@/data/portfolio"
-import { Artboard, ArtboardHeading } from "./Artboard"
+import { SectionHeader } from "./SectionHeader"
 
-const ALL = "All"
-const tiles = skillClusters.flatMap((c) => c.items.map((name) => ({ name, group: c.title })))
-const groups = [
-  { title: ALL, count: tiles.length },
-  ...skillClusters.map((c) => ({ title: c.title, count: c.items.length })),
-]
+// Wider cells for the groups with the most items; soft skills (no logos) span the rest.
+const SPAN: Record<string, string> = {
+  Frontend: "lg:col-span-2",
+  Backend: "lg:col-span-2",
+  "Dev Tools": "lg:col-span-2",
+  "App Development": "lg:col-span-2",
+  "Soft Skills": "md:col-span-2 lg:col-span-4",
+}
 
-/**
- * The toolkit as a design-system asset library: pick a group in the sidebar and the
- * components re-flow with GSAP Flip (leavers shrink out, the rest glide into place).
- */
+/** Toolkit: every group visible at once in one solid grid, logos where they exist. */
 export function Skills() {
-  const root = useRef<HTMLElement>(null)
-  const flipState = useRef<Flip.FlipState | null>(null)
-  const [active, setActive] = useState(ALL)
-
-  const choose = (group: string) => {
-    if (group === active) return
-    flipState.current = Flip.getState(".tile")
-    setActive(group)
-  }
-
-  // After React re-renders the filter, animate from the recorded layout to the new one.
-  useGSAP(
-    () => {
-      const state = flipState.current
-      if (!state) return
-      flipState.current = null
-      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
-      Flip.from(state, {
-        duration: 0.55,
-        ease: "power3.inOut",
-        absolute: true,
-        stagger: 0.015,
-        onEnter: (els) => gsap.fromTo(els, { autoAlpha: 0, scale: 0.85 }, { autoAlpha: 1, scale: 1, duration: 0.4, delay: 0.15 }),
-        onLeave: (els) => gsap.to(els, { autoAlpha: 0, scale: 0.85, duration: 0.3 }),
-      })
-    },
-    { scope: root, dependencies: [active] },
-  )
+  const total = skillClusters.reduce((n, c) => n + c.items.length, 0)
 
   return (
-    <section ref={root} id="skills" className="relative px-4 py-16 md:px-10 md:py-24">
-      <Artboard name="Toolkit">
-        <div className="grid gap-10 px-6 py-14 md:px-16 md:py-20">
-          <ArtboardHeading title="Tools I build with">
-            Languages, frameworks and the habits that hold a project together. Filter by group.
-          </ArtboardHeading>
+    <section id="skills" className="relative px-4 py-20 md:px-10 md:py-28">
+      <div className="mx-auto max-w-6xl">
+        <SectionHeader title="Tools I build with" aside={<>{total} languages, frameworks, tools and habits.</>} />
 
-          <div className="grid gap-8 lg:grid-cols-[13rem_1fr]">
-            {/* Asset-library sidebar. */}
-            <nav aria-label="Skill groups" className="-mx-1 flex gap-1 overflow-x-auto pb-1 lg:mx-0 lg:flex-col lg:overflow-visible">
-              {groups.map(({ title, count }) => (
-                <button
-                  key={title}
-                  type="button"
-                  onClick={() => choose(title)}
-                  aria-pressed={active === title}
-                  className={`flex shrink-0 items-center justify-between gap-4 rounded-md px-3 py-2 text-left text-sm transition-colors focus-visible:outline-2 focus-visible:outline-select ${
-                    active === title ? "bg-select text-[#fff]" : "text-muted hover:bg-ink/5 hover:text-ink"
-                  }`}
-                >
-                  {title}
-                  <span className={`tabular-nums ${active === title ? "text-[#fff]/80" : "text-muted"}`}>{count}</span>
-                </button>
-              ))}
-            </nav>
+        {/* gap-px over a rule-coloured background draws crisp hairlines between cells. */}
+        <div className="grid gap-px overflow-hidden rounded-[24px] bg-rule md:grid-cols-2 lg:grid-cols-6">
+          {skillClusters.map((cluster) => (
+            <div key={cluster.title} className={`bg-artboard p-6 md:p-8 ${SPAN[cluster.title] ?? "lg:col-span-2"}`}>
+              <h3 className="mb-5 flex items-baseline justify-between gap-3">
+                <span className="font-display text-2xl font-semibold tracking-tight">{cluster.title}</span>
+                <span className="text-sm tabular-nums text-muted">{cluster.items.length}</span>
+              </h3>
 
-            <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 xl:grid-cols-4" aria-live="polite">
-              {tiles.map(({ name, group }) => {
-                const icon = skillIcons[name]
-                const shown = active === ALL || active === group
-                return (
-                  <li
-                    key={name}
-                    data-flip-id={name}
-                    className={`tile flex items-center gap-3 p-3.5 ring-1 ring-rule transition-shadow hover:ring-[1.5px] hover:ring-select ${
-                      shown ? "" : "hidden"
-                    }`}
-                  >
-                    <span className="grid h-9 w-9 shrink-0 place-items-center rounded-md bg-ink/[0.06]">
-                      {icon ? (
-                        // eslint-disable-next-line @next/next/no-img-element
-                        <img
-                          src={deviconUrl(icon.slug)}
-                          alt=""
-                          width={22}
-                          height={22}
-                          loading="lazy"
-                          className={icon.invert ? "dark:invert" : ""}
-                        />
-                      ) : (
-                        <Diamond className="h-4 w-4 text-select" aria-hidden="true" />
-                      )}
-                    </span>
-                    <span className="min-w-0">
-                      <span className="block text-sm font-medium leading-snug">{name}</span>
-                      <span className="block truncate text-xs text-muted">{group}</span>
-                    </span>
-                  </li>
-                )
-              })}
-            </ul>
-          </div>
+              {cluster.title === "Soft Skills" ? (
+                <ul className="flex flex-wrap gap-2">
+                  {cluster.items.map((item) => (
+                    <li key={item} className="rounded-full bg-artboard-alt px-4 py-2 text-sm font-medium">
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <ul className="grid grid-cols-2 gap-x-4 gap-y-3">
+                  {cluster.items.map((item) => {
+                    const icon = skillIcons[item]
+                    return (
+                      <li key={item} className="flex items-center gap-3 text-sm font-medium">
+                        <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-artboard-alt">
+                          {icon ? (
+                            // eslint-disable-next-line @next/next/no-img-element
+                            <img
+                              src={deviconUrl(icon.slug)}
+                              alt=""
+                              width={22}
+                              height={22}
+                              loading="lazy"
+                              className={icon.invert ? "dark:invert" : ""}
+                            />
+                          ) : (
+                            <span className="h-2.5 w-2.5 rounded-full bg-select" aria-hidden="true" />
+                          )}
+                        </span>
+                        <span className="leading-snug">{item}</span>
+                      </li>
+                    )
+                  })}
+                </ul>
+              )}
+            </div>
+          ))}
         </div>
-      </Artboard>
+      </div>
     </section>
   )
 }

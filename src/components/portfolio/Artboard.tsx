@@ -28,7 +28,7 @@ export function Artboard({
         </p>
         {aside}
       </div>
-      <div className={`artboard-body relative ring-1 ring-rule ${bodyClassName}`}>{children}</div>
+      <div className={`artboard-body relative rounded-[24px] bg-artboard ${bodyClassName}`}>{children}</div>
     </div>
   )
 }

@@ -31,17 +31,17 @@ Both deploy automatically on every push to `main`.
 
 ---
 
-## Design concept: the workbench
+## Design: Harbour Bento
 
-I work as both a UI designer and a developer, so the site is drawn as a design file. The page is a **canvas** with faint grid lines, each section is an **artboard** with its frame name above it, and the details are the ones you see in a design tool. Every measurement shown is real:
+The design was explored in [Superdesign](https://superdesign.dev): a baseline of the previous site, then two new directions ("Harbour Bento" and "High-contrast editorial") compared side by side. The final site combines them, aiming to be clear, high-contrast and full of real content.
 
-- **Hero:** my name sits inside a live **selection box**. The W × H readout is its actual rendered size, and the red **redline** is its true distance from the artboard edge. **Drag the corner handle to resize it** (or focus the handle and use the arrow keys; Home or double-click resets). The readout updates as you go, and the size is capped so the name always fits on one line.
-- **About:** the bio as a text layer, an **inspector panel** of profile properties, and the three ways I work laid out as an auto-layout row with the measured gap between them.
-- **Work:** projects are **frames** on the canvas. On desktop the page pins and pans sideways across them; on phones and tablets the frames are a **touch canvas you swipe** (scroll-snap), the centred frame shows as selected and its neighbours dim. Either way a **minimap** shows where you are; tap or click a frame in it to jump there. Open a frame for its **case study** (`/work/<slug>`): properties, the screenshot as a selected frame at its real size, an overview, what was built (as a layers list) and previous/next projects. Case-study copy is drawn only from each project's own README, repository and screenshot.
-- **Toolkit:** skills as a **component library**. Pick a group in the sidebar and the components re-flow.
-- **Contact:** a **comment thread**. The reply box drafts an email to me in your own mail app (no backend, nothing stored).
+- **Hero (bento):** solid tiles sized by importance. The name tile leads, with a role typed live by a "Sazzad" collaborator cursor (it types, keyboard-selects and retypes each role) and "from Sydney, Australia". Around it: live Sydney time, the motto on a sandstone tile, a featured project and quick links.
+- **About:** a large statement that darkens word by word as you scroll, with three pillar tiles (Design, Develop, Deliver).
+- **Selected work:** an asymmetric 12-column showcase of big real screenshots, each with title, type, year and stack. Every project opens its own **case study** (`/work/<slug>`), written only from that project's README, repository and screenshot.
+- **Toolkit:** every group visible at once in one solid grid, with real logos.
+- **Contact:** a jacaranda block where the email address itself is the primary action.
 
-**Tokens:** canvas, artboard, ink, muted, rule, plus one accent, *select* (blue), used for selections and primary actions. *Redline* (red) only ever appears next to a measured value, and *note* (amber) marks comment pins. Type is [Bricolage Grotesque](https://fonts.google.com/specimen/Bricolage+Grotesque) for display (its width axis is narrowed for the hero) and [Geist](https://vercel.com/font) for text.
+**Palette (Sydney-inspired):** harbour navy page and tiles, **jacaranda** for primary actions, **sandstone** for the motto, **harbour teal** for status, plus a warm light theme. Every text pairing meets **WCAG AA** in both themes; text on jacaranda is navy in dark mode (4.9:1) because white would only reach 3.8:1. Type is [Bricolage Grotesque](https://fonts.google.com/specimen/Bricolage+Grotesque) for display (its width axis is narrowed for the name) and [Geist](https://vercel.com/font) for text.
 
 ## Motion highlights
 
@@ -50,14 +50,11 @@ Every animation is written with [GSAP 3.15](https://gsap.com/) and the official 
 | Feature | GSAP tools |
 | --- | --- |
 | Intro preloader: 0→100 counter, masked name reveal, curtain wipe | `Timeline`, `SplitText` (`mask: "chars"`) |
-| Hero build: name rises in, the selection outline draws itself, handles pop, the redline measures, and a ghost cursor demonstrates the resize handle | `Timeline`, `SplitText`, CSS-variable tweens |
-| Resizable hero name (pointer, touch and keyboard) | `Draggable` (proxy + trigger) |
+| Hero build: bento tiles rise in, then the name rises letter by letter out of a mask | `Timeline`, `SplitText` (`mask: "chars"`) |
 | The role under my name is a live text layer: a "Sazzad" collaborator cursor types it, keyboard-selects it (a highlight sweeps back across the word) and types the next | `Timeline` built per role, `call()` per keystroke with an uneven rhythm |
 | Smooth page scrolling | `ScrollSmoother` |
-| Pinned horizontal pan across project frames, with a live minimap | `ScrollTrigger` (`pin`, `scrub`) |
-| Skill filtering: components re-flow, leave and enter | `Flip` |
 | About copy that darkens word by word as you scroll | `SplitText` + scrubbed `ScrollTrigger` |
-| Tech logos drifting across the canvas, looping forever | Randomised `fromTo` loops with `repeatRefresh` |
+| Tech logos drifting behind the page, looping forever | Randomised `fromTo` loops with `repeatRefresh` |
 | Floating pill navigation: a sliding indicator follows hover and rests on the active section | `gsap.to()` on measured `x`/`width`, `mix-blend-difference` |
 | Per-letter roll on nav links and CTAs; magnetic "Let's talk" button; live Sydney clock | Staggered `yPercent` tweens, `quickTo()` |
 | Nav condenses on scroll, hides on scroll down, shows on scroll up; scroll progress line | `ScrollTrigger` (`toggleClass`, `direction`), `ScrollToPlugin` |
@@ -96,9 +93,9 @@ sazzadali-portfolio/
 │   ├── components/
 │   │   └── portfolio/        # One file per section (Hero, About, Projects, Skills, Contact…)
 │   │       ├── Portfolio.tsx # Page shell + ScrollSmoother setup
-│   │       ├── Artboard.tsx  # Section surface with frame name + heading
-│   │       ├── SelectionBox.tsx # Live-measured selection outline, handles, W × H
-│   │       ├── CommentPin.tsx   # Design-tool comment (hero motto, contact thread)
+│   │       ├── SectionHeader.tsx # Bold section title on a rule
+│   │       ├── CaseStudy.tsx    # /work/<slug> page
+│   │       ├── Artboard.tsx, SelectionBox.tsx, CommentPin.tsx # case-study building blocks
 │   │       ├── Preloader.tsx
 │   │       ├── Nav.tsx
 │   │       ├── Logo.tsx      # Animated wordmark
@@ -112,7 +109,7 @@ sazzadali-portfolio/
 └── package.json
 ```
 
-**Theming:** the site is written dark-first. [`src/app/globals.css`](src/app/globals.css) defines the workbench tokens (`--canvas`, `--artboard`, `--ink`, `--select`…) for each theme and exposes them to Tailwind (`bg-canvas`, `text-ink`, `ring-select`…). For older components it also remaps Tailwind's palette under `html[data-theme="light"]` (white ↔ ink, grays reversed), so components need no per-theme classes. The choice is saved in `localStorage` and applied by a tiny inline script before first paint, so there's no flash.
+**Theming:** the site is written dark-first. [`src/app/globals.css`](src/app/globals.css) defines the palette tokens (`--canvas` page, `--artboard` tile, `--ink`, `--select` jacaranda, `--note` sandstone, `--teal`, `--on-select`…) for each theme and exposes them to Tailwind (`bg-canvas`, `text-ink`, `ring-select`…). For older components it also remaps Tailwind's palette under `html[data-theme="light"]` (white ↔ ink, grays reversed), so components need no per-theme classes. The choice is saved in `localStorage` and applied by a tiny inline script before first paint, so there's no flash.
 
 **Updating content:** projects, skills, roles and social links all live in [`src/data/portfolio.ts`](src/data/portfolio.ts). Add a project there and it appears in the horizontal gallery automatically.
 

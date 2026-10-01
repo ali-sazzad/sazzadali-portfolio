@@ -1,120 +1,48 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
-import { Download, Github, Linkedin, Mail, MousePointer2 } from "lucide-react"
-import { gsap, useGSAP, SplitText, Draggable, ScrollTrigger, MOTION_OK, scrollToTarget } from "@/lib/gsap"
-import { roles, socials } from "@/data/portfolio"
+import { useRef } from "react"
+import Image from "next/image"
+import Link from "next/link"
+import { ArrowUpRight, Download, Github, Linkedin, Mail, MousePointer2 } from "lucide-react"
+import { gsap, useGSAP, SplitText, MOTION_OK, scrollToTarget } from "@/lib/gsap"
+import { projects, roles, socials } from "@/data/portfolio"
 import { asset } from "@/lib/utils"
-import { Artboard } from "./Artboard"
-import { CommentPin } from "./CommentPin"
-import { SelectionBox, useMeasure } from "./SelectionBox"
+import { SydneyTime } from "./Nav"
 
-const socialLinks = [
+const featured = projects.find((p) => p.slug === "hotel-hera-lodge")!
+
+const connect = [
   { href: socials.linkedin, label: "LinkedIn", Icon: Linkedin },
   { href: socials.github, label: "GitHub", Icon: Github },
   { href: socials.email, label: "Email", Icon: Mail },
 ]
 
-const MIN_SCALE = 0.55
-const clampScale = (s: number, max: number) => Math.min(Math.max(s, MIN_SCALE), max)
-
+/**
+ * Hero as a bento of solid tiles: the name tile leads (largest), with live Sydney time,
+ * the motto, a featured project and quick links around it. Tile size = importance.
+ */
 export function Hero({ ready }: { ready: boolean }) {
   const root = useRef<HTMLElement>(null)
-  const body = useRef<HTMLDivElement>(null)
-  const sel = useRef<HTMLDivElement>(null)
-  const corner = useRef<HTMLButtonElement>(null)
   const intro = useRef<gsap.core.Timeline | null>(null)
-  const [nameEl, setNameEl] = useState<HTMLHeadingElement | null>(null)
-  const size = useMeasure(nameEl)
-  const [redline, setRedline] = useState({ x: 0, y: 0 })
 
-  // Redline from the artboard's left edge to the selection outline — a real measurement.
-  useEffect(() => {
-    if (!nameEl || !body.current) return
-    const measure = () => {
-      const b = body.current!.getBoundingClientRect()
-      const n = nameEl.getBoundingClientRect()
-      setRedline({ x: Math.round(n.left - b.left - 8), y: Math.round(n.top - b.top + n.height / 2) })
-    }
-    measure()
-    const ro = new ResizeObserver(measure)
-    ro.observe(nameEl)
-    ro.observe(body.current)
-    return () => ro.disconnect()
-  }, [nameEl])
-
-  /** Largest scale at which the name still fits its column on one line (read live from the DOM). */
-  const maxScale = () => {
-    const current = Number(getComputedStyle(nameEl!).getPropertyValue("--name-scale")) || 1
-    const column = sel.current!.parentElement!.getBoundingClientRect().width
-    const avail = column - 24 // selection outline + corner handle
-    return Math.max(MIN_SCALE, current * (avail / nameEl!.offsetWidth))
-  }
-  const setScale = (s: number) => nameEl?.style.setProperty("--name-scale", String(s))
-  // Resizing changes the page height, so re-measure scroll positions once it settles.
-  const refreshTimer = useRef<number | undefined>(undefined)
-  const refreshLater = () => {
-    clearTimeout(refreshTimer.current)
-    refreshTimer.current = window.setTimeout(() => ScrollTrigger.refresh(), 300)
-  }
-
+  // Everything is prepared on mount while the preloader still covers the page; when the
+  // curtain lifts, the intro only has to play.
   useGSAP(
     () => {
-      if (!nameEl) return
-      gsap.set(".hero-content", { autoAlpha: 1 })
-
-      // Drag the corner handle to resize the name (a proxy keeps the handle glued to the box).
-      const proxy = document.createElement("div")
-      let start = { x: 0, s: 1, w: 1, max: 2 }
-      const [drag] = Draggable.create(proxy, {
-        trigger: corner.current,
-        type: "x,y",
-        onPress(this: Draggable) {
-          const s = Number(getComputedStyle(nameEl).getPropertyValue("--name-scale")) || 1
-          start = { x: this.pointerX, s, w: nameEl.offsetWidth, max: maxScale() }
-          sel.current!.classList.add("is-resizing")
-        },
-        onDrag(this: Draggable) {
-          setScale(clampScale(start.s * ((start.w + (this.pointerX - start.x)) / start.w), start.max))
-        },
-        onRelease() {
-          sel.current!.classList.remove("is-resizing")
-          refreshLater()
-        },
-      })
-
+      gsap.set(".hero-grid", { autoAlpha: 1 })
       const mm = gsap.matchMedia()
+
       mm.add(MOTION_OK, () => {
         const name = SplitText.create(".hero-name", { type: "chars", mask: "chars" })
 
         const tl = (intro.current = gsap
           .timeline({ paused: true, defaults: { ease: "expo.out" } })
-          .from(".hero-hello", { autoAlpha: 0, y: 12, duration: 0.8 })
-          .from(name.chars, { yPercent: 110, stagger: 0.035, duration: 1.1 }, "<0.1")
-          // The selection draws itself around the name…
-          .from(".sel-top, .sel-bottom", { scaleX: 0, duration: 0.7, ease: "power3.inOut" }, "-=0.5")
-          .from(".sel-left, .sel-right", { scaleY: 0, duration: 0.7, ease: "power3.inOut" }, "<")
-          .from(".sel-handle, .sel-corner-dot", { scale: 0, stagger: 0.03, duration: 0.4, ease: "back.out(3)" }, "-=0.3")
-          .from(".sel-size", { autoAlpha: 0, y: -6, duration: 0.4 }, "<0.1")
-          // …then the redline measures its distance from the artboard edge.
-          .from(".redline-line", { scaleX: 0, duration: 0.6, ease: "power3.inOut" }, "-=0.2")
-          .from(".redline-label", { autoAlpha: 0, scale: 0.6, duration: 0.4, ease: "back.out(2)" }, "-=0.2")
-          .from(".hero-line", { autoAlpha: 0, y: 16, stagger: 0.08, duration: 0.8 }, "-=0.5")
-          .from(".hero-comment .comment-pin", { scale: 0, y: -20, duration: 0.6, ease: "back.out(2.5)" }, "-=0.6")
-          .from(".hero-comment .comment-bubble", { autoAlpha: 0, x: -10, duration: 0.5 }, "-=0.3"))
+          .from(".tile", { y: 28, autoAlpha: 0, scale: 0.97, stagger: 0.07, duration: 1 })
+          .from(name.chars, { yPercent: 110, stagger: 0.035, duration: 1.1 }, 0.25)
+          .from(".hero-line", { y: 14, autoAlpha: 0, stagger: 0.08, duration: 0.8 }, "-=0.7"))
 
-        // A ghost cursor shows the name can be resized: it grabs the handle and tugs once.
-        tl.set(".ghost-cursor", { autoAlpha: 1 }, "+=0.2")
-          .fromTo(".ghost-cursor", { x: 60, y: 70 }, { x: 0, y: 0, duration: 0.8, ease: "power3.inOut" })
-          .to(".ghost-cursor", { scale: 0.85, duration: 0.12 })
-          .to(nameEl, { "--name-scale": 1.07, duration: 0.5, ease: "power2.inOut" })
-          .to(".ghost-cursor", { x: "+=22", y: "+=10", duration: 0.5, ease: "power2.inOut" }, "<")
-          .to(nameEl, { "--name-scale": 1, duration: 0.6, ease: "power2.inOut" })
-          .to(".ghost-cursor", { x: "-=22", y: "-=10", duration: 0.6, ease: "power2.inOut" }, "<")
-          .to(".ghost-cursor", { scale: 1, autoAlpha: 0, duration: 0.3 })
-
-        // Live text edit: a collaborator types each role into the text layer, then
-        // keyboard-selects it (highlight sweeps back across the word) and types the next.
+        // Live text edit: a collaborator types each role, keyboard-selects it (highlight sweeps
+        // back across the word) and types the next.
         const text = root.current!.querySelector<HTMLElement>(".hero-role-text")!
         const highlight = root.current!.querySelector<HTMLElement>(".role-highlight")!
         text.textContent = ""
@@ -124,7 +52,6 @@ export function Hero({ ready }: { ready: boolean }) {
         const edit = (i: number) => {
           const role = roles[i % roles.length]
           const t = (current = gsap.timeline({ onComplete: () => edit(i + 1) }))
-          // Type it, one character at a time, with a human, uneven rhythm.
           ;[...role].forEach((ch) => {
             t.call(
               () => {
@@ -138,7 +65,6 @@ export function Hero({ ready }: { ready: boolean }) {
               `+=${gsap.utils.random(0.045, 0.13)}`,
             )
           })
-          // Hold, then select the word right-to-left and clear it, ready for the next one.
           t.to(highlight, { width: () => text.offsetWidth, duration: 0.45, ease: "power2.inOut" }, "+=1.8")
             .to({}, { duration: 0.35 })
             .call(() => {
@@ -147,7 +73,7 @@ export function Hero({ ready }: { ready: boolean }) {
             })
             .to({}, { duration: 0.15 })
         }
-        tl.call(() => edit(0), undefined, 1.6)
+        tl.call(() => edit(0), undefined, 1.2)
 
         return () => current?.kill()
       })
@@ -156,150 +82,148 @@ export function Hero({ ready }: { ready: boolean }) {
         gsap.set(".hero-role-text", { textContent: roles[0] })
         gsap.set(".role-caret, .role-collab", { autoAlpha: 0 })
       })
-
-      return () => {
-        drag.kill()
-      }
     },
-    { scope: root, dependencies: [nameEl] },
+    { scope: root },
   )
 
   useGSAP(
     () => {
       if (ready) intro.current?.play()
     },
-    { dependencies: [ready, nameEl] },
+    { dependencies: [ready] },
   )
 
-  const onCornerKey = (e: React.KeyboardEvent) => {
-    if (!nameEl) return
-    const s = Number(getComputedStyle(nameEl).getPropertyValue("--name-scale")) || 1
-    const step = { ArrowUp: 0.05, ArrowRight: 0.05, ArrowDown: -0.05, ArrowLeft: -0.05 }[e.key]
-    if (step) {
-      e.preventDefault()
-      setScale(clampScale(s + step, maxScale()))
-      refreshLater()
-    } else if (e.key === "Home") {
-      e.preventDefault()
-      setScale(1)
-      refreshLater()
-    }
-  }
-
-  const reset = () => {
-    if (!nameEl) return
-    gsap.to(nameEl, { "--name-scale": 1, duration: 0.6, ease: "power3.inOut", onComplete: refreshLater })
-  }
-
   return (
-    <section ref={root} id="top" className="relative flex min-h-[100svh] items-center px-4 pb-16 pt-28 md:px-10">
-      <Artboard name="Portfolio" className="hero-content invisible">
-        <div ref={body} className="relative grid gap-12 px-6 pb-16 pt-14 md:grid-cols-[1fr_auto] md:px-16 md:pb-20 md:pt-20">
-          {/* Redline: distance from the artboard edge to the selected layer. */}
-          {redline.x > 0 && (
-            <div className="pointer-events-none absolute left-0 hidden h-px md:block" style={{ top: redline.y, width: redline.x }} aria-hidden="true">
-              <span className="redline-line absolute inset-0 origin-left bg-redline" />
-              <span className="absolute -top-1 left-0 h-[9px] w-px bg-redline" />
-              <span className="absolute -top-1 right-0 h-[9px] w-px bg-redline" />
-              <span className="redline-label absolute -top-6 left-1/2 -ml-4 w-8 rounded-[3px] bg-redline py-0.5 text-center text-[11px] font-medium tabular-nums text-[#fff]">
-                {redline.x}
-              </span>
-            </div>
-          )}
-
-          <div className="@container min-w-0">
-            <p className="hero-hello mb-3 text-lg text-muted md:text-xl">Hi, I&apos;m</p>
-
-            <SelectionBox
-              ref={sel}
-              size={size}
-              className="group/sel mb-14"
-              corner={
-                <button
-                  ref={corner}
-                  type="button"
-                  onKeyDown={onCornerKey}
-                  onDoubleClick={reset}
-                  data-cursor="Drag"
-                  aria-label="Resize the name: drag, or use arrow keys. Home or double-click resets."
-                  className="sel-corner absolute -bottom-[22px] -right-[22px] z-10 grid h-7 w-7 cursor-nwse-resize touch-none place-items-center rounded-sm focus-visible:outline-2 focus-visible:outline-select"
-                >
-                  <span className="sel-corner-dot handle static block" />
-                </button>
-              }
+    <section ref={root} id="top" className="relative px-4 pb-8 pt-24 md:px-10 md:pt-28">
+      <div className="hero-grid invisible mx-auto grid max-w-6xl gap-4 lg:grid-cols-12">
+        {/* Name tile — the lead. */}
+        <div className="tile @container relative flex min-h-[460px] flex-col justify-between rounded-[24px] bg-artboard p-7 md:p-12 lg:col-span-8 lg:row-span-2">
+          <div>
+            <p className="hero-line mb-2 text-lg text-muted md:text-xl">Hi, I&apos;m</p>
+            <h1
+              className="hero-name whitespace-nowrap font-display font-bold leading-[0.9] tracking-[-0.04em] [font-size:clamp(3rem,27cqi,11rem)] [&>div]:align-top"
+              style={{ fontVariationSettings: '"wdth" 82' }}
             >
-              <h1
-                ref={setNameEl}
-                onDoubleClick={reset}
-                className="hero-name whitespace-nowrap font-display font-bold leading-[0.9] tracking-[-0.04em] [font-size:calc(var(--name-scale,1)*clamp(3rem,30cqi,13rem))] md:[font-size:calc(var(--name-scale,1)*clamp(3rem,25cqi,13rem))] [&>div]:align-top"
-                style={{ fontVariationSettings: '"wdth" 80', "--name-scale": 1 } as React.CSSProperties}
-              >
-                Sazzad Ali
-              </h1>
-              <MousePointer2
-                className="ghost-cursor invisible pointer-events-none absolute -bottom-6 -right-6 h-6 w-6 fill-ink stroke-canvas"
-                aria-hidden="true"
-              />
-            </SelectionBox>
+              Sazzad Ali
+            </h1>
 
             {/* The role is a live text layer: typed, selected and retyped by a collaborator cursor. */}
-            <p className="hero-line text-2xl leading-snug md:text-3xl">
+            <p className="hero-line mt-6 text-2xl font-medium leading-snug md:text-3xl">
               <span className="sr-only">Web developer, UI designer, programmer and AI enthusiast</span>
               <span className="inline-flex items-baseline" aria-hidden="true">
                 <span className="relative inline-block min-h-[1.35em]">
                   <span className="role-highlight absolute inset-y-0 right-0 w-0 bg-select/35" />
-                  <span className="hero-role-text relative font-medium">{roles[0]}</span>
+                  <span className="hero-role-text relative">{roles[0]}</span>
                 </span>
                 <span className="relative inline-block">
                   <span className="role-caret ml-0.5 inline-block h-[1.05em] w-[2px] translate-y-[0.14em] bg-select" />
                   <span className="role-collab pointer-events-none absolute left-1 top-[85%] flex items-start">
-                    <MousePointer2 className="h-4 w-4 fill-note stroke-note" />
-                    <span className="mt-3 rounded-[4px] rounded-tl-none bg-note px-1.5 py-0.5 text-[11px] font-semibold leading-none text-[#1c1d20]">
+                    <MousePointer2 className="h-4 w-4 fill-sand stroke-sand" />
+                    <span className="mt-3 rounded-[4px] rounded-tl-none bg-sand px-1.5 py-0.5 text-[11px] font-semibold leading-none text-on-sand">
                       Sazzad
                     </span>
                   </span>
                 </span>
               </span>
             </p>
-            <p className="hero-line mt-5 text-xl text-muted md:text-2xl">from Sydney, Australia</p>
-
-            <div className="hero-line mt-10 flex flex-wrap items-center gap-3">
-              <button
-                onClick={() => scrollToTarget("#contact")}
-                className="rounded-md bg-select px-5 py-3 font-medium text-[#fff] transition-[filter] hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-select"
-              >
-                Get in touch
-              </button>
-              <a
-                href={asset("/Sazzad-ALI_CV.pdf")}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 rounded-md px-5 py-3 font-medium ring-1 ring-rule transition-colors hover:bg-ink/5 focus-visible:outline-2 focus-visible:outline-select"
-              >
-                <Download className="h-4 w-4" />
-                Preview CV
-              </a>
-              <span className="mx-1 hidden h-6 w-px bg-rule sm:block" aria-hidden="true" />
-              {socialLinks.map(({ href, label, Icon }) => (
-                <a
-                  key={label}
-                  href={href}
-                  target={href.startsWith("mailto") ? undefined : "_blank"}
-                  rel="noreferrer"
-                  aria-label={label}
-                  className="grid h-11 w-11 place-items-center rounded-md text-muted transition-colors hover:bg-ink/5 hover:text-ink focus-visible:outline-2 focus-visible:outline-select"
-                >
-                  <Icon className="h-5 w-5" />
-                </a>
-              ))}
-            </div>
+            <p className="hero-line mt-6 text-xl text-muted md:text-2xl">from Sydney, Australia</p>
           </div>
 
-          <CommentPin className="hero-comment hero-line max-w-[260px] self-start md:mt-2">
-            One line of code at a time.
-          </CommentPin>
+          <div className="hero-line mt-10 flex flex-wrap items-center gap-3">
+            <a
+              href={socials.email}
+              className="flex items-center gap-2 rounded-full bg-select px-6 py-3.5 font-semibold text-on-select transition-[filter] hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-select"
+            >
+              <Mail className="h-4 w-4" aria-hidden="true" />
+              Email me
+            </a>
+            <a
+              href={asset("/Sazzad-ALI_CV.pdf")}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 rounded-full px-6 py-3.5 font-semibold ring-1 ring-ink/25 transition-colors hover:bg-ink/5 focus-visible:outline-2 focus-visible:outline-select"
+            >
+              <Download className="h-4 w-4" aria-hidden="true" />
+              Preview CV
+            </a>
+          </div>
         </div>
-      </Artboard>
+
+        {/* Live Sydney time + availability. */}
+        <div className="tile flex min-h-[180px] flex-col justify-between rounded-[24px] bg-artboard-alt p-7 lg:col-span-4">
+          <p className="flex items-center gap-2 text-sm font-medium text-teal">
+            <span className="relative flex h-2.5 w-2.5">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-teal opacity-60" />
+              <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-teal" />
+            </span>
+            Open to collaborations
+          </p>
+          <div>
+            <p className="text-sm text-muted">Local time in Sydney</p>
+            <p className="font-display text-5xl font-semibold tracking-tight md:text-6xl">
+              <SydneyTime />
+            </p>
+          </div>
+        </div>
+
+        {/* Motto. */}
+        <div className="tile flex min-h-[200px] items-end rounded-[24px] bg-sand p-7 text-on-sand lg:col-span-4">
+          <p className="font-display text-4xl font-semibold leading-[1.02] tracking-[-0.03em]">
+            One line of code at a time.
+          </p>
+        </div>
+
+        {/* Featured project. */}
+        <Link
+          href={`/work/${featured.slug}`}
+          data-cursor="Open"
+          className="tile group relative min-h-[280px] overflow-hidden rounded-[24px] bg-artboard lg:col-span-8"
+        >
+          <Image
+            src={asset(featured.image!)}
+            alt=""
+            fill
+            sizes="(min-width: 1024px) 760px, 100vw"
+            className="object-cover object-top transition-transform duration-700 group-hover:scale-105"
+          />
+          <span className="absolute inset-0 bg-gradient-to-t from-[#0b1220] from-15% via-[#0b1220]/80 via-45% to-[#0b1220]/10" />
+          <span className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 p-7 text-[#f4f1ea]">
+            <span>
+              <span className="block text-sm font-medium text-[#e2b26a]">Featured project</span>
+              <span className="mt-1 block font-display text-3xl font-semibold tracking-tight">{featured.title}</span>
+            </span>
+            <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-[#f4f1ea] text-[#0b1220] transition-transform duration-500 group-hover:rotate-45">
+              <ArrowUpRight className="h-5 w-5" aria-hidden="true" />
+            </span>
+          </span>
+        </Link>
+
+        {/* Quick links. */}
+        <div className="tile flex flex-col justify-between gap-6 rounded-[24px] bg-artboard p-7 lg:col-span-4">
+          <p className="font-display text-2xl font-semibold tracking-tight">Find me online</p>
+          <div className="grid grid-cols-3 gap-3">
+            {connect.map(({ href, label, Icon }) => (
+              <a
+                key={label}
+                href={href}
+                target={href.startsWith("mailto") ? undefined : "_blank"}
+                rel="noreferrer"
+                className="flex aspect-square flex-col items-center justify-center gap-2 rounded-2xl bg-artboard-alt text-sm font-medium transition-colors hover:bg-select hover:text-on-select focus-visible:outline-2 focus-visible:outline-select"
+              >
+                <Icon className="h-6 w-6" aria-hidden="true" />
+                {label}
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <button
+        onClick={() => scrollToTarget("#about")}
+        className="sr-only focus:not-sr-only focus:absolute focus:bottom-2 focus:left-1/2"
+      >
+        Skip to About
+      </button>
     </section>
   )
 }
