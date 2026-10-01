@@ -95,7 +95,7 @@ export function Projects() {
           const h2 = head.querySelector("h2")!
           return h2.getBoundingClientRect().bottom - head.getBoundingClientRect().top
         }
-        const top = (i: number) => headTop() + titleBottom() + 12 + i * 12
+        const top = (i: number) => headTop() + titleBottom() + 24 + i * 12
 
         ScrollTrigger.create({
           trigger: head,
@@ -173,7 +173,7 @@ export function Projects() {
   return (
     <section ref={root} id="projects" className="relative px-6 py-10 md:py-14 lg:overflow-x-clip">
       <div className="projects-head mx-auto w-full max-w-7xl">
-        <SectionHeading eyebrow="02 — Selected work" lead="My" accent="Projects">
+        <SectionHeading eyebrow="02 — Selected work" lead="My" accent="Projects" lag={false}>
           A collection of projects that showcase my skills and passion for creating exceptional digital experiences.
         </SectionHeading>
       </div>
