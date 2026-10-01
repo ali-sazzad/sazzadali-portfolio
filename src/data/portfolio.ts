@@ -94,27 +94,22 @@ export const projects: Project[] = [
 export const skillClusters = [
   {
     title: "Frontend",
-    accent: "from-blue-500/30 to-cyan-400/5",
     items: ["React", "Next.js", "Tailwind", "GSAP", "TypeScript"],
   },
   {
     title: "Backend",
-    accent: "from-rose-500/30 to-orange-400/5",
     items: ["Node.js", "Express", "Firebase", "Supabase"],
   },
   {
     title: "Dev Tools",
-    accent: "from-amber-400/30 to-yellow-300/5",
     items: ["Git", "VS Code", "Vercel", "Figma", "Android Studio"],
   },
   {
     title: "App Development",
-    accent: "from-emerald-500/30 to-teal-400/5",
     items: ["Kotlin with Compose", "Java"],
   },
   {
     title: "Soft Skills",
-    accent: "from-purple-500/30 to-pink-400/5",
     items: ["Problem Solving", "Collaboration", "Adaptability", "Creativity", "Fast Learner"],
   },
 ]
@@ -149,3 +144,22 @@ export const techIcons: { slug: string; name: string; variant?: string }[] = [
 
 export const deviconUrl = (slug: string, variant = "original") =>
   `https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/${slug}/${slug}-${variant}.svg`
+
+/** Devicon slug for each skill that has a logo; the rest render as a component glyph. */
+export const skillIcons: Record<string, { slug: string; invert?: boolean }> = {
+  React: { slug: "react" },
+  "Next.js": { slug: "nextjs", invert: true },
+  Tailwind: { slug: "tailwindcss" },
+  TypeScript: { slug: "typescript" },
+  "Node.js": { slug: "nodejs" },
+  Express: { slug: "express", invert: true },
+  Firebase: { slug: "firebase" },
+  Supabase: { slug: "supabase" },
+  Git: { slug: "git" },
+  "VS Code": { slug: "vscode" },
+  Vercel: { slug: "vercel", invert: true },
+  Figma: { slug: "figma" },
+  "Android Studio": { slug: "androidstudio" },
+  "Kotlin with Compose": { slug: "jetpackcompose" },
+  Java: { slug: "java" },
+}

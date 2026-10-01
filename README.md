@@ -31,29 +31,39 @@ Both deploy automatically on every push to `main`.
 
 ---
 
+## Design concept: the workbench
+
+I work as both a UI designer and a developer, so the site is drawn as a design file. The page is a dot-grid **canvas**, each section is an **artboard** with its frame name above it, and the details are the ones you see in a design tool. Every measurement shown is real:
+
+- **Hero:** my name sits inside a live **selection box**. The W × H readout is its actual rendered size, and the red **redline** is its true distance from the artboard edge. **Drag the corner handle to resize it** (or focus the handle and use the arrow keys; Home or double-click resets). The readout updates as you go, and the size is capped so the name always fits on one line.
+- **About:** the bio as a text layer, an **inspector panel** of profile properties, and the three ways I work laid out as an auto-layout row with the measured gap between them.
+- **Work:** projects are **frames** on the canvas. On desktop the page pins and pans sideways across them, and a **minimap** shows where you are. Click a frame in it to jump there.
+- **Toolkit:** skills as a **component library**. Pick a group in the sidebar and the components re-flow.
+- **Contact:** a **comment thread**. The reply box drafts an email to me in your own mail app (no backend, nothing stored).
+
+**Tokens:** canvas, artboard, ink, muted, rule, plus one accent, *select* (blue), used for selections and primary actions. *Redline* (red) only ever appears next to a measured value, and *note* (amber) marks comment pins. Type is [Bricolage Grotesque](https://fonts.google.com/specimen/Bricolage+Grotesque) for display (its width axis is narrowed for the hero) and [Geist](https://vercel.com/font) for text.
+
 ## Motion highlights
 
-Every animation is written with [GSAP 3.15](https://gsap.com/) and the official [`@gsap/react`](https://gsap.com/resources/React) `useGSAP()` hook, so all tweens and ScrollTriggers are scoped and cleaned up automatically.
+Every animation is written with [GSAP 3.15](https://gsap.com/) and the official [`@gsap/react`](https://gsap.com/resources/React) `useGSAP()` hook, so all tweens and ScrollTriggers are scoped and cleaned up automatically. Motion is deliberately concentrated in one moment, the hero build, rather than spread over every section.
 
 | Feature | GSAP tools |
 | --- | --- |
-| Intro preloader: 0→100 counter, masked name reveal, two-layer curtain wipe | `Timeline`, `SplitText` (`mask: "chars"`) |
-| Buttery page scrolling with data-driven parallax | `ScrollSmoother` |
-| Hero headline rising out of a mask, gradient name wipe and shimmer | `SplitText`, `clipPath` tweens |
+| Intro preloader: 0→100 counter, masked name reveal, curtain wipe | `Timeline`, `SplitText` (`mask: "chars"`) |
+| Hero build: name rises in, the selection outline draws itself, handles pop, the redline measures, and a ghost cursor demonstrates the resize handle | `Timeline`, `SplitText`, CSS-variable tweens |
+| Resizable hero name (pointer, touch and keyboard) | `Draggable` (proxy + trigger) |
 | Rotating job titles that "decode" into place | `ScrambleTextPlugin` |
-| Pinned **horizontal project gallery** with per-card image parallax and a live counter | `ScrollTrigger` (`pin`, `scrub`, `containerAnimation`) |
-| About copy that lights up word-by-word as you scroll | `SplitText` + scrubbed `ScrollTrigger` |
-| Infinite tech marquees that speed up (and reverse) with scroll velocity | `ScrollTrigger.getVelocity()`, `timeScale` |
-| Batched card reveals | `ScrollTrigger.batch()` |
-| Hand-drawn underline under "Let's Connect" | `DrawSVGPlugin` |
-| Custom follower cursor, magnetic buttons and 3D card tilt | `gsap.quickTo()`, elastic eases |
-| Floating pill navigation: a sliding indicator follows hover and rests on the active section, with colour-inverting labels | `gsap.to()` on measured `x`/`width`, `mix-blend-difference` |
-| Per-letter roll on every nav link and CTA, plus a magnetic "Let's talk" button and live Sydney clock | Staggered `yPercent` tweens, `quickTo()` |
-| Nav condenses to a glass bar on scroll, hides on scroll down, shows on scroll up; scroll progress line | `ScrollTrigger` (`toggleClass`, `direction`), `ScrollToPlugin` |
-| Wordmark letters rise in on load and roll to a gradient copy on hover | `Timeline`, staggered `yPercent` tweens |
-| Full-screen mobile menu: burger morphs to ✕, panel wipes in, numbered links stagger up, page scroll locks | `Timeline` + `reverse()`, `ScrollSmoother.paused()` |
-| Dark / light theme toggle: sun–moon icon spin, and the new theme spreads from the button as a growing circle | GSAP + View Transitions API |
-| Accessibility: all motion is disabled for users who prefer reduced motion | `gsap.matchMedia()` |
+| Smooth page scrolling | `ScrollSmoother` |
+| Pinned horizontal pan across project frames, with a live minimap | `ScrollTrigger` (`pin`, `scrub`) |
+| Skill filtering: components re-flow, leave and enter | `Flip` |
+| About copy that darkens word by word as you scroll | `SplitText` + scrubbed `ScrollTrigger` |
+| Tech logos drifting across the canvas, looping forever | Randomised `fromTo` loops with `repeatRefresh` |
+| Floating pill navigation: a sliding indicator follows hover and rests on the active section | `gsap.to()` on measured `x`/`width`, `mix-blend-difference` |
+| Per-letter roll on nav links and CTAs; magnetic "Let's talk" button; live Sydney clock | Staggered `yPercent` tweens, `quickTo()` |
+| Nav condenses on scroll, hides on scroll down, shows on scroll up; scroll progress line | `ScrollTrigger` (`toggleClass`, `direction`), `ScrollToPlugin` |
+| Full-screen mobile menu: burger morphs to ✕, panel wipes in, page scroll locks | `Timeline` + `reverse()`, `ScrollSmoother.paused()` |
+| Dark / light theme toggle: icon spin, and the new theme spreads from the button as a circle | GSAP + View Transitions API |
+| Accessibility: decorative motion is off for users who prefer reduced motion | `gsap.matchMedia()` |
 
 > Since GSAP became 100% free (including all former Club plugins) every plugin above ships straight from the public `gsap` npm package — no private registry or token needed.
 
@@ -85,11 +95,12 @@ sazzadali-portfolio/
 │   ├── components/
 │   │   └── portfolio/        # One file per section (Hero, About, Projects, Skills, Contact…)
 │   │       ├── Portfolio.tsx # Page shell + ScrollSmoother setup
+│   │       ├── Artboard.tsx  # Section surface with frame name + heading
+│   │       ├── SelectionBox.tsx # Live-measured selection outline, handles, W × H
+│   │       ├── CommentPin.tsx   # Design-tool comment (hero motto, contact thread)
 │   │       ├── Preloader.tsx
 │   │       ├── Nav.tsx
 │   │       ├── Logo.tsx      # Animated wordmark
-│   │       ├── Cursor.tsx
-│   │       ├── Magnetic.tsx
 │   │       └── …
 │   ├── data/
 │   │   └── portfolio.ts      # Projects, skills, links — edit content here
@@ -100,7 +111,7 @@ sazzadali-portfolio/
 └── package.json
 ```
 
-**Theming:** the site is written dark-first. The light theme in [`src/app/globals.css`](src/app/globals.css) redefines Tailwind's palette variables under `html[data-theme="light"]` (white ↔ ink, grays reversed, accents a step darker), so components need no per-theme classes. The choice is saved in `localStorage` and applied by a tiny inline script before first paint, so there's no flash.
+**Theming:** the site is written dark-first. [`src/app/globals.css`](src/app/globals.css) defines the workbench tokens (`--canvas`, `--artboard`, `--ink`, `--select`…) for each theme and exposes them to Tailwind (`bg-canvas`, `text-ink`, `ring-select`…). For older components it also remaps Tailwind's palette under `html[data-theme="light"]` (white ↔ ink, grays reversed), so components need no per-theme classes. The choice is saved in `localStorage` and applied by a tiny inline script before first paint, so there's no flash.
 
 **Updating content:** projects, skills, roles and social links all live in [`src/data/portfolio.ts`](src/data/portfolio.ts). Add a project there and it appears in the horizontal gallery automatically.
 

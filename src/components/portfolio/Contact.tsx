@@ -1,113 +1,113 @@
 "use client"
 
-import { useRef } from "react"
-import { ArrowUp, Github, Linkedin, Mail } from "lucide-react"
-import { gsap, useGSAP, SplitText, ScrollTrigger, MOTION_OK, scrollToTarget } from "@/lib/gsap"
+import { useRef, useState } from "react"
+import { ArrowUp, Github, Linkedin, Mail, Send } from "lucide-react"
+import { gsap, useGSAP, ScrollTrigger, scrollToTarget } from "@/lib/gsap"
 import { EMAIL, socials } from "@/data/portfolio"
-import { Magnetic } from "./Magnetic"
+import { Artboard, ArtboardHeading } from "./Artboard"
+import { CommentPin } from "./CommentPin"
+
+const SUBJECT = "Project enquiry from your portfolio"
 
 export function Contact() {
-  const root = useRef<HTMLElement>(null)
-
-  useGSAP(
-    () => {
-      const mm = gsap.matchMedia()
-      mm.add(MOTION_OK, () => {
-        const title = SplitText.create(".contact-title", { type: "chars", mask: "chars" })
-
-        gsap
-          .timeline({ scrollTrigger: { trigger: root.current, start: "top 65%" } })
-          .from(title.chars, {
-            yPercent: 120,
-            rotate: 10,
-            stagger: { each: 0.035, from: "center" },
-            duration: 1.1,
-            ease: "expo.out",
-          })
-          .from(".contact-underline", { drawSVG: "0%", duration: 1.4, ease: "power2.inOut" }, 0.5)
-          .from(".contact-copy > *", { y: 30, autoAlpha: 0, stagger: 0.12, duration: 1 }, 0.4)
-          .from(".contact-cta", { scale: 0.6, autoAlpha: 0, duration: 1.2, ease: "elastic.out(1, 0.5)" }, 0.8)
-      })
-    },
-    { scope: root },
-  )
+  const [message, setMessage] = useState("")
+  const mailto = `mailto:${EMAIL}?subject=${encodeURIComponent(SUBJECT)}&body=${encodeURIComponent(message)}`
 
   return (
-    <section ref={root} id="contact" className="relative px-6 py-32 md:py-44">
-      <div className="mx-auto max-w-4xl text-center">
-        <p className="mb-6 font-mono text-xs uppercase tracking-[0.4em] text-purple-400">04 — Get in touch</p>
-        <div className="relative mb-12 inline-block">
-          <h2 className="contact-title text-5xl font-bold tracking-tight md:text-8xl">Let&apos;s Connect</h2>
-          <svg
-            className="absolute -bottom-4 left-0 w-full"
-            viewBox="0 0 400 20"
-            fill="none"
-            preserveAspectRatio="none"
-            aria-hidden="true"
-          >
-            <defs>
-              <linearGradient id="underline-grad" x1="0" x2="1">
-                <stop offset="0%" stopColor="#60a5fa" />
-                <stop offset="50%" stopColor="#c084fc" />
-                <stop offset="100%" stopColor="#f472b6" />
-              </linearGradient>
-            </defs>
-            <path
-              className="contact-underline"
-              d="M2 14 C 60 4, 120 18, 200 10 S 340 4, 398 12"
-              stroke="url(#underline-grad)"
-              strokeWidth="3"
-              strokeLinecap="round"
-            />
-          </svg>
-        </div>
+    <section id="contact" className="relative px-4 py-16 md:px-10 md:py-24">
+      <Artboard name="Contact">
+        <div className="grid gap-12 px-6 py-14 md:px-16 md:py-20 lg:grid-cols-[1fr_26rem] lg:gap-16">
+          <div>
+            <ArtboardHeading title="Let's build something together.">
+              Looking for someone who can design, develop and deliver? I&apos;m always open to collaborating on
+              projects that push boundaries and make an impact.
+            </ArtboardHeading>
 
-        <div className="contact-copy space-y-6 text-lg leading-relaxed text-gray-300 md:text-xl">
-          <p>
-            Looking for someone who can <span className="font-semibold text-white">design</span>,{" "}
-            <span className="font-semibold text-white">develop</span> and{" "}
-            <span className="font-semibold text-white">deliver</span>? I&apos;m always open to collaborating on{" "}
-            <span className="font-semibold text-white">innovative projects</span> that push boundaries and make an
-            impact.
-          </p>
-          <p className="text-gray-400">
-            Ready to bring your ideas to life? Drop me a line with your project details and let&apos;s build something
-            amazing together.
-          </p>
-        </div>
+            <ul className="space-y-1 text-lg">
+              <li>
+                <a
+                  href={socials.email}
+                  className="inline-flex items-center gap-3 underline decoration-rule underline-offset-[6px] transition-colors hover:decoration-select"
+                >
+                  <Mail className="h-5 w-5 text-muted" aria-hidden="true" />
+                  {EMAIL}
+                </a>
+              </li>
+              <li>
+                <a
+                  href={socials.linkedin}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-3 underline decoration-rule underline-offset-[6px] transition-colors hover:decoration-select"
+                >
+                  <Linkedin className="h-5 w-5 text-muted" aria-hidden="true" />
+                  LinkedIn
+                </a>
+              </li>
+              <li>
+                <a
+                  href={socials.github}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-3 underline decoration-rule underline-offset-[6px] transition-colors hover:decoration-select"
+                >
+                  <Github className="h-5 w-5 text-muted" aria-hidden="true" />
+                  GitHub
+                </a>
+              </li>
+            </ul>
+          </div>
 
-        <div className="contact-cta mt-14">
-          <Magnetic strength={0.4}>
-            <a
-              href={socials.email}
-              className="flex items-center gap-3 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 px-8 py-5 text-lg font-semibold text-[#fff] shadow-xl shadow-purple-500/25 transition-shadow hover:shadow-purple-500/50 md:px-10"
+          {/* A comment thread: my note, and a reply box that drafts an email to me. */}
+          <div className="self-start">
+            <CommentPin>
+              Ready to bring your ideas to life? Tell me what you&apos;re building and I&apos;ll get back to you.
+            </CommentPin>
+
+            <form
+              className="ml-[46px] mt-3 rounded-lg bg-artboard p-3 shadow-lg ring-1 ring-rule focus-within:ring-[1.5px] focus-within:ring-select"
+              onSubmit={(e) => {
+                e.preventDefault()
+                window.location.href = mailto
+              }}
             >
-              <Mail className="h-5 w-5" />
-              {EMAIL}
-            </a>
-          </Magnetic>
+              <label htmlFor="reply" className="sr-only">
+                Your message
+              </label>
+              <textarea
+                id="reply"
+                rows={4}
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                placeholder="Reply with your project details…"
+                className="w-full resize-none bg-transparent text-sm leading-relaxed placeholder:text-muted focus:outline-none"
+              />
+              <div className="mt-2 flex items-center justify-between gap-3">
+                <span className="text-xs text-muted">Opens your email app</span>
+                <button
+                  type="submit"
+                  disabled={!message.trim()}
+                  className="flex items-center gap-1.5 rounded-md bg-select px-3 py-1.5 text-sm font-medium text-[#fff] transition-opacity hover:brightness-110 disabled:opacity-40 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-select"
+                >
+                  <Send className="h-3.5 w-3.5" aria-hidden="true" />
+                  Send email
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
-      </div>
+      </Artboard>
     </section>
   )
 }
 
+/** Footer as the design tool's bottom status bar. */
 export function Footer() {
   return (
-    <footer className="relative border-t border-white/10 px-6 py-8">
-      <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 md:flex-row">
-        <p className="text-sm text-gray-400">© {new Date().getFullYear()} Sazzad Ali. All rights reserved.</p>
-        <div className="flex items-center gap-6">
-          <a href={socials.linkedin} target="_blank" rel="noreferrer" aria-label="LinkedIn" className="text-gray-400 transition-colors hover:text-blue-400">
-            <Linkedin className="h-5 w-5" />
-          </a>
-          <a href={socials.github} target="_blank" rel="noreferrer" aria-label="GitHub" className="text-gray-400 transition-colors hover:text-purple-400">
-            <Github className="h-5 w-5" />
-          </a>
-          <a href={socials.email} aria-label="Email" className="text-gray-400 transition-colors hover:text-pink-400">
-            <Mail className="h-5 w-5" />
-          </a>
-        </div>
+    <footer className="relative border-t border-rule bg-artboard px-4 py-3 text-xs text-muted md:px-10">
+      <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-2 sm:flex-row">
+        <p>© {new Date().getFullYear()} Sazzad Ali</p>
+        <p>Built with Next.js, Tailwind CSS and GSAP</p>
       </div>
     </footer>
   )
@@ -119,7 +119,7 @@ export function BackToTop() {
   useGSAP(() => {
     const show = gsap
       .timeline({ paused: true })
-      .fromTo(ref.current, { autoAlpha: 0, scale: 0, rotate: -180 }, { autoAlpha: 1, scale: 1, rotate: 0, duration: 0.5, ease: "back.out(2)" })
+      .fromTo(ref.current, { autoAlpha: 0, y: 12 }, { autoAlpha: 1, y: 0, duration: 0.35, ease: "power3.out" })
 
     ScrollTrigger.create({
       start: 600,
@@ -133,10 +133,10 @@ export function BackToTop() {
     <button
       ref={ref}
       onClick={() => scrollToTarget(0)}
-      className="invisible fixed bottom-8 right-8 z-40 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 p-3 text-[#fff] shadow-lg"
+      className="invisible fixed bottom-6 right-6 z-40 grid h-11 w-11 place-items-center rounded-md bg-artboard text-ink shadow-lg ring-1 ring-rule transition-colors hover:ring-select focus-visible:outline-2 focus-visible:outline-select"
       aria-label="Back to top"
     >
-      <ArrowUp className="h-6 w-6" />
+      <ArrowUp className="h-5 w-5" />
     </button>
   )
 }

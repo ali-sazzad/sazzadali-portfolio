@@ -34,13 +34,15 @@ export function Cursor() {
         const target = (e.target as HTMLElement).closest<HTMLElement>("a, button, [data-cursor]")
         const text = target?.dataset.cursor ?? ""
         label.current!.textContent = text
-        // Theme foreground ("255,255,255" in dark, near-black in light) read live.
-        const fg = getComputedStyle(document.documentElement).getPropertyValue("--fg-rgb").trim().split(/\s+/).join(",")
+        // Theme colours read live, so the cursor follows dark/light switches.
+        const css = getComputedStyle(document.documentElement)
+        const fg = css.getPropertyValue("--fg-rgb").trim().split(/\s+/).join(",")
+        const select = css.getPropertyValue("--select").trim()
         gsap.to(ring.current, {
           width: target ? (text ? 96 : 64) : 40,
           height: target ? (text ? 96 : 64) : 40,
-          backgroundColor: text ? "rgba(139, 92, 246, 0.9)" : `rgba(${fg},0)`,
-          borderColor: target ? "rgba(96, 165, 250, 0.9)" : `rgba(${fg},0.5)`,
+          backgroundColor: text ? select : `rgba(${fg},0)`,
+          borderColor: target ? select : `rgba(${fg},0.5)`,
           duration: 0.35,
         })
         gsap.to(label.current, { autoAlpha: text ? 1 : 0, duration: 0.2 })

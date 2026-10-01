@@ -8,6 +8,8 @@ import { ScrollToPlugin } from "gsap/ScrollToPlugin"
 import { SplitText } from "gsap/SplitText"
 import { ScrambleTextPlugin } from "gsap/ScrambleTextPlugin"
 import { DrawSVGPlugin } from "gsap/DrawSVGPlugin"
+import { Flip } from "gsap/Flip"
+import { Draggable } from "gsap/Draggable"
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(
@@ -18,6 +20,8 @@ if (typeof window !== "undefined") {
     SplitText,
     ScrambleTextPlugin,
     DrawSVGPlugin,
+    Flip,
+    Draggable,
   )
   gsap.defaults({ ease: "power3.out", duration: 1 })
 }
@@ -39,4 +43,4 @@ export function scrollToTarget(target: string | number) {
   })
 }
 
-export { gsap, useGSAP, ScrollTrigger, ScrollSmoother, SplitText }
+export { gsap, useGSAP, ScrollTrigger, ScrollSmoother, SplitText, Flip, Draggable }

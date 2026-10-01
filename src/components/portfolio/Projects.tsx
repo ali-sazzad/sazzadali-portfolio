@@ -1,224 +1,193 @@
 "use client"
 
-import { useRef } from "react"
+import { useRef, useState } from "react"
 import Image from "next/image"
-import { ExternalLink, Github } from "lucide-react"
-import { gsap, useGSAP, ScrollTrigger, MOTION_OK } from "@/lib/gsap"
+import { Diamond, ExternalLink, Frame, Github } from "lucide-react"
+import { gsap, useGSAP, ScrollTrigger, MOTION_OK, scrollToTarget } from "@/lib/gsap"
 import { projects, type Project } from "@/data/portfolio"
 import { asset } from "@/lib/utils"
-import { SectionHeading } from "./SectionHeading"
+import { ArtboardHeading } from "./Artboard"
 
-const pad = (n: number) => String(n).padStart(2, "0")
+type MapFrame = { left: number; width: number }
 
 export function Projects() {
   const root = useRef<HTMLElement>(null)
+  const st = useRef<ScrollTrigger | null>(null)
+  const [map, setMap] = useState<{ frames: MapFrame[]; view: number }>({ frames: [], view: 0 })
 
   useGSAP(
     () => {
       const mm = gsap.matchMedia()
       const track = root.current!.querySelector<HTMLElement>(".projects-track")!
-      const counter = root.current!.querySelector<HTMLElement>(".projects-counter")!
 
-      // Desktop: pin the section and scroll the track sideways.
+      // Desktop: pin and pan the canvas sideways across the frames, like panning in a design tool.
       mm.add(`(min-width: 1024px) and ${MOTION_OK}`, () => {
         gsap.set(".projects-viewport", { overflow: "visible" })
-        const distance = () => track.scrollWidth - window.innerWidth + 96
+        const distance = () => Math.max(0, track.scrollWidth - window.innerWidth)
+        const viewport = root.current!.querySelector<HTMLElement>(".minimap-view")!
+        const mapWidth = () => root.current!.querySelector<HTMLElement>(".minimap")!.clientWidth
 
-        const horizontal = gsap.to(track, {
+        // Minimap geometry: each frame and the visible window, as fractions of the track.
+        const measureMap = () => {
+          const total = track.scrollWidth
+          const frames = [...track.querySelectorAll<HTMLElement>(".project-card")].map((c) => ({
+            left: c.offsetLeft / total,
+            width: c.offsetWidth / total,
+          }))
+          setMap({ frames, view: window.innerWidth / total })
+        }
+
+        gsap.to(track, {
           x: () => -distance(),
           ease: "none",
           scrollTrigger: {
             trigger: ".projects-pin",
-            start: "top top",
+            start: "center center",
             end: () => `+=${distance()}`,
             pin: true,
-            scrub: 1,
+            scrub: 0.8,
             invalidateOnRefresh: true,
             anticipatePin: 1,
+            onRefresh: (self) => {
+              st.current = self
+              measureMap()
+            },
             onUpdate: (self) => {
-              const i = Math.min(projects.length, Math.floor(self.progress * projects.length) + 1)
-              counter.textContent = pad(i)
+              const w = mapWidth()
+              gsap.set(viewport, { x: self.progress * w * (1 - window.innerWidth / track.scrollWidth) })
             },
           },
         })
-
-        gsap.to(".projects-progress", {
-          scaleX: 1,
-          ease: "none",
-          scrollTrigger: { trigger: ".projects-pin", start: "top top", end: () => `+=${distance()}`, scrub: true },
-        })
-
-        // Each card's image drifts inside its frame, driven by the horizontal tween.
-        gsap.utils.toArray<HTMLElement>(".project-card").forEach((card) => {
-          gsap.fromTo(
-            card.querySelector(".project-img"),
-            { xPercent: -8 },
-            {
-              xPercent: 8,
-              ease: "none",
-              scrollTrigger: {
-                trigger: card,
-                containerAnimation: horizontal,
-                start: "left right",
-                end: "right left",
-                scrub: true,
-              },
-            },
-          )
-          gsap.from(card, {
-            rotateY: -25,
-            autoAlpha: 0.2,
-            ease: "none",
-            scrollTrigger: {
-              trigger: card,
-              containerAnimation: horizontal,
-              start: "left 110%",
-              end: "left 70%",
-              scrub: true,
-            },
-          })
-        })
-      })
-
-      // Mobile / tablet: vertical list, cards rise in batches.
-      mm.add(`(max-width: 1023px) and ${MOTION_OK}`, () => {
-        gsap.set(".project-card", { y: 80, autoAlpha: 0 })
-        ScrollTrigger.batch(".project-card", {
-          start: "top 88%",
-          onEnter: (batch) => gsap.to(batch, { y: 0, autoAlpha: 1, stagger: 0.12, duration: 1, ease: "expo.out" }),
-        })
-      })
-
-      // Pointer tilt on every card (fine pointers only).
-      mm.add(`(pointer: fine) and ${MOTION_OK}`, () => {
-        const cleanups = gsap.utils.toArray<HTMLElement>(".project-card").map((card) => {
-          const inner = card.querySelector<HTMLElement>(".project-inner")!
-          const rx = gsap.quickTo(inner, "rotationX", { duration: 0.6, ease: "power3" })
-          const ry = gsap.quickTo(inner, "rotationY", { duration: 0.6, ease: "power3" })
-          const move = (e: PointerEvent) => {
-            const r = card.getBoundingClientRect()
-            ry(((e.clientX - r.left) / r.width - 0.5) * 12)
-            rx(-((e.clientY - r.top) / r.height - 0.5) * 12)
-          }
-          const leave = () => {
-            rx(0)
-            ry(0)
-          }
-          card.addEventListener("pointermove", move)
-          card.addEventListener("pointerleave", leave)
-          return () => {
-            card.removeEventListener("pointermove", move)
-            card.removeEventListener("pointerleave", leave)
-          }
-        })
-        return () => cleanups.forEach((fn) => fn())
       })
     },
     { scope: root },
   )
 
+  /** Minimap click: scroll to the point where that frame is in view. */
+  const jumpTo = (frame: MapFrame, view: number) => {
+    const s = st.current
+    if (!s) return
+    const progress = Math.min(1, Math.max(0, (frame.left - 0.04) / Math.max(1e-6, 1 - view)))
+    scrollToTarget(s.start + progress * (s.end - s.start))
+  }
+
   return (
-    <section ref={root} id="projects" className="relative px-6 py-32 lg:overflow-x-clip">
-      <div className="mx-auto w-full max-w-7xl">
-        <SectionHeading eyebrow="02 — Selected work" lead="My" accent="Projects">
-          A collection of projects that showcase my skills and passion for creating exceptional digital experiences.
-        </SectionHeading>
+    <section ref={root} id="projects" className="relative py-16 md:py-24 lg:overflow-x-clip">
+      <div className="mx-auto w-full max-w-[calc(72rem+5rem)] px-4 md:px-10">
+        <ArtboardHeading title="Selected work">
+          Client sites, experiments and small tools. Each frame opens the live project.
+        </ArtboardHeading>
       </div>
 
-      <div className="projects-pin lg:flex lg:h-screen lg:flex-col lg:justify-center lg:pt-16">
-        <div className="projects-viewport lg:-mx-6 lg:overflow-x-auto lg:px-12">
-          <div className="projects-track grid gap-8 [perspective:1400px] md:grid-cols-2 lg:flex lg:w-max lg:gap-10">
-            {projects.map((project, i) => (
-              <ProjectCard key={project.title} project={project} index={i} />
+      <div className="projects-pin lg:py-10">
+        <div className="projects-viewport lg:overflow-x-auto">
+          <div className="projects-track grid gap-12 px-4 md:grid-cols-2 md:px-10 lg:flex lg:w-max lg:gap-16 lg:pl-[max(2.5rem,calc((100vw-72rem)/2))] lg:pr-16">
+            {projects.map((project) => (
+              <ProjectFrame key={project.title} project={project} />
             ))}
           </div>
         </div>
 
-        <div className="mx-auto mt-10 hidden w-full max-w-7xl items-center gap-6 px-6 font-mono text-sm text-gray-400 lg:flex">
-          <span>
-            <span className="projects-counter text-white">01</span> / {pad(projects.length)}
-          </span>
-          <div className="h-px flex-1 bg-white/10">
-            <div className="projects-progress h-full origin-left scale-x-0 bg-gradient-to-r from-blue-400 to-purple-400" />
+        {/* Minimap: where you are across the frames; click a frame to jump to it. */}
+        <div className={`mx-auto mt-10 w-full max-w-6xl justify-end ${map.frames.length ? "hidden lg:flex" : "hidden"}`}>
+          <div className="minimap relative h-10 w-56 bg-artboard ring-1 ring-rule" aria-label="Work minimap">
+            {map.frames.map((f, i) => (
+              <button
+                key={i}
+                type="button"
+                onClick={() => jumpTo(f, map.view)}
+                aria-label={`Go to ${projects[i].title}`}
+                className="absolute inset-y-2 bg-ink/15 transition-colors hover:bg-select/60 focus-visible:outline-2 focus-visible:outline-select"
+                style={{ left: `${f.left * 100}%`, width: `${f.width * 100}%` }}
+              />
+            ))}
+            <span
+              className="minimap-view pointer-events-none absolute inset-y-0 left-0 ring-[1.5px] ring-select"
+              style={{ width: `${map.view * 100}%` }}
+              aria-hidden="true"
+            />
           </div>
-          <span>Scroll →</span>
         </div>
       </div>
     </section>
   )
 }
 
-function ProjectCard({ project, index }: { project: Project; index: number }) {
+function ProjectFrame({ project }: { project: Project }) {
+  const { title, description, image, tags, link, github, comingSoon } = project
   return (
-    <article className="project-card group lg:w-[400px] lg:shrink-0 xl:w-[440px]" data-cursor={project.link ? "View" : undefined}>
-      <div className="project-inner flex h-full flex-col overflow-hidden rounded-2xl border border-white/10 bg-neutral-900/90 transition-colors duration-300 [transform-style:preserve-3d] group-hover:border-blue-500/50">
-        <div className="relative h-52 overflow-hidden">
-          {project.image ? (
-            <>
-              <div className="project-img absolute -inset-x-[10%] inset-y-0">
-                <Image
-                  src={asset(project.image)}
-                  alt={project.title}
-                  fill
-                  sizes="(min-width: 1280px) 520px, (min-width: 1024px) 480px, (min-width: 768px) 50vw, 100vw"
-                  className="object-cover transition-transform duration-700 group-hover:scale-110"
-                />
-              </div>
-              <div className="absolute inset-0 bg-gradient-to-t from-[rgb(0_0_0/0.7)] via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-              <div className="absolute right-3 top-3 z-10 flex gap-2">
-                {project.github && (
-                  <a
-                    href={project.github}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="rounded-full bg-black/70 p-2 transition hover:bg-black"
-                    aria-label={`${project.title} on GitHub`}
-                  >
-                    <Github className="h-4 w-4" />
-                  </a>
-                )}
-                {project.link && (
-                  <a
-                    href={project.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="rounded-full bg-black/70 p-2 transition hover:bg-black"
-                    aria-label={`Visit ${project.title}`}
-                  >
-                    <ExternalLink className="h-4 w-4" />
-                  </a>
-                )}
-              </div>
-            </>
-          ) : (
-            <div className="h-full animate-pulse bg-gradient-to-br from-neutral-800 to-neutral-900" />
+    <article className="project-card group lg:w-[430px] lg:shrink-0 xl:w-[470px]">
+      <div className="mb-2 flex items-center justify-between gap-3">
+        <h3 className="flex min-w-0 items-center gap-1.5 text-sm font-medium">
+          <Frame className="h-3.5 w-3.5 shrink-0 text-muted" aria-hidden="true" />
+          <span className="truncate">{title}</span>
+        </h3>
+        <div className="flex shrink-0 items-center gap-1 text-muted">
+          {github && (
+            <a
+              href={github}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`${title} source on GitHub`}
+              className="grid h-8 w-8 place-items-center rounded-md transition-colors hover:bg-ink/10 hover:text-ink"
+            >
+              <Github className="h-4 w-4" />
+            </a>
           )}
-          <span className="absolute bottom-3 left-4 font-mono text-5xl font-black text-white/15">{pad(index + 1)}</span>
-        </div>
-
-        <div className="flex flex-1 flex-col p-6">
-          <h3 className="mb-2 text-xl font-bold">
-            {project.link ? (
-              <a href={project.link} target="_blank" rel="noopener noreferrer" className="hover:text-blue-300">
-                {project.title}
-              </a>
-            ) : (
-              project.title
-            )}
-          </h3>
-          <p className="mb-5 line-clamp-3 flex-1 text-gray-400">{project.description}</p>
-          <ul className="flex flex-wrap gap-2">
-            {project.tags.map((tag) => (
-              <li
-                key={tag}
-                className="rounded-full border border-blue-500/30 bg-blue-500/10 px-3 py-1 text-xs font-medium text-blue-300"
-              >
-                {tag}
-              </li>
-            ))}
-          </ul>
+          {link && (
+            <a
+              href={link}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`Open ${title}`}
+              className="grid h-8 w-8 place-items-center rounded-md transition-colors hover:bg-ink/10 hover:text-ink"
+            >
+              <ExternalLink className="h-4 w-4" />
+            </a>
+          )}
         </div>
       </div>
+
+      {comingSoon ? (
+        <div className="grid aspect-[16/10] place-items-center border-[1.5px] border-dashed border-rule text-sm text-muted">
+          Next project in progress
+        </div>
+      ) : (
+        <a
+          href={link}
+          target="_blank"
+          rel="noopener noreferrer"
+          data-cursor="View"
+          aria-label={`Open ${title}`}
+          className="relative block aspect-[16/10] bg-artboard ring-1 ring-rule transition-shadow group-hover:ring-[1.5px] group-hover:ring-select"
+        >
+          <span className="absolute inset-0 overflow-hidden">
+            <Image
+              src={asset(image!)}
+              alt=""
+              fill
+              sizes="(min-width: 1280px) 470px, (min-width: 1024px) 430px, (min-width: 768px) 50vw, 100vw"
+              className="object-cover object-top"
+            />
+          </span>
+          {/* Selection handles appear on hover, as when a frame is selected. */}
+          {["-left-[5px] -top-[5px]", "-right-[5px] -top-[5px]", "-left-[5px] -bottom-[5px]", "-right-[5px] -bottom-[5px]"].map(
+            (pos) => (
+              <span key={pos} className={`handle ${pos} opacity-0 transition-opacity group-hover:opacity-100`} aria-hidden="true" />
+            ),
+          )}
+        </a>
+      )}
+
+      <p className="mt-4 line-clamp-3 text-muted">{description}</p>
+      <ul className="mt-4 flex flex-wrap gap-1.5" aria-label="Built with">
+        {tags.map((tag) => (
+          <li key={tag} className="flex items-center gap-1 rounded-[4px] bg-ink/[0.06] px-2 py-1 text-xs">
+            <Diamond className="h-3 w-3 text-select" aria-hidden="true" />
+            {tag}
+          </li>
+        ))}
+      </ul>
     </article>
   )
 }

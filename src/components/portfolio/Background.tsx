@@ -8,8 +8,8 @@ const INVERT = new Set(["nextjs", "express", "vercel"])
 const FLOATERS = techIcons.slice(0, 18)
 
 /**
- * Fixed background: drifting gradient orbs that react to the pointer, a subtle grid and
- * tech logos rising endlessly with randomised GSAP tweens.
+ * Fixed background: the canvas dot grid, with tech logos rising endlessly across it
+ * (randomised GSAP loops). Artboards sit above, so logos show in the canvas gaps.
  */
 export function Background() {
   const root = useRef<HTMLDivElement>(null)
@@ -49,30 +49,6 @@ export function Background() {
             repeatRefresh: true,
           })
         })
-
-        // Orbs wander on their own…
-        gsap.utils.toArray<HTMLElement>(".orb").forEach((orb) => {
-          gsap.to(orb, {
-            xPercent: "random(-40, 40)",
-            yPercent: "random(-40, 40)",
-            duration: "random(8, 14)",
-            ease: "sine.inOut",
-            repeat: -1,
-            yoyo: true,
-            repeatRefresh: true,
-          })
-        })
-
-        // …and lean towards the pointer.
-        const layer = root.current!.querySelector(".orb-layer")
-        const toX = gsap.quickTo(layer, "x", { duration: 2, ease: "power2" })
-        const toY = gsap.quickTo(layer, "y", { duration: 2, ease: "power2" })
-        const onMove = (e: PointerEvent) => {
-          toX((e.clientX / window.innerWidth - 0.5) * 80)
-          toY((e.clientY / window.innerHeight - 0.5) * 80)
-        }
-        window.addEventListener("pointermove", onMove)
-        return () => window.removeEventListener("pointermove", onMove)
       })
     },
     { scope: root },
@@ -80,14 +56,8 @@ export function Background() {
 
   return (
     <div ref={root} className="fixed inset-0 z-0 overflow-hidden pointer-events-none" aria-hidden="true">
-      <div className="orb-layer absolute inset-0">
-        {/* Soft glows drawn with radial gradients: same look as a heavy blur filter, but
-            they composite as plain textures instead of re-running the blur every frame. */}
-        <div className="orb absolute left-[0%] top-[0%] h-[60vmax] w-[60vmax] rounded-full bg-[radial-gradient(circle,rgb(37_99_235/0.22),transparent_65%)] will-change-transform" />
-        <div className="orb absolute right-[-10%] top-[25%] h-[55vmax] w-[55vmax] rounded-full bg-[radial-gradient(circle,rgb(147_51_234/0.22),transparent_65%)] will-change-transform" />
-        <div className="orb absolute bottom-[-25%] left-[20%] h-[50vmax] w-[50vmax] rounded-full bg-[radial-gradient(circle,rgb(219_39_119/0.12),transparent_65%)] will-change-transform" />
-      </div>
-      <div className="bg-grid absolute inset-0 opacity-[0.07]" />
+      {/* The canvas: a 24px dot grid (the spacing unit everything snaps to). */}
+      <div className="bg-dots absolute inset-0" />
       {FLOATERS.map(({ slug, name, variant }) => (
         // eslint-disable-next-line @next/next/no-img-element
         <img
@@ -98,7 +68,7 @@ export function Background() {
           width={36}
           height={36}
           loading="lazy"
-          className={`floater absolute top-0 opacity-20 ${INVERT.has(slug) ? "dark:invert" : ""}`}
+          className={`floater absolute top-0 opacity-25 ${INVERT.has(slug) ? "dark:invert" : ""}`}
           style={{ transform: "translateY(110vh)" }}
         />
       ))}

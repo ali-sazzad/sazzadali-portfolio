@@ -1,121 +1,117 @@
 "use client"
 
-import { useRef } from "react"
-import { gsap, useGSAP, ScrollTrigger, MOTION_OK } from "@/lib/gsap"
-import { deviconUrl, skillClusters, techIcons } from "@/data/portfolio"
-import { SectionHeading } from "./SectionHeading"
+import { useRef, useState } from "react"
+import { Diamond } from "lucide-react"
+import { gsap, useGSAP, Flip } from "@/lib/gsap"
+import { deviconUrl, skillClusters, skillIcons } from "@/data/portfolio"
+import { Artboard, ArtboardHeading } from "./Artboard"
 
-const INVERT = new Set(["nextjs", "express", "vercel"])
-const half = Math.ceil(techIcons.length / 2)
-const rows = [techIcons.slice(0, half), techIcons.slice(half)]
+const ALL = "All"
+const tiles = skillClusters.flatMap((c) => c.items.map((name) => ({ name, group: c.title })))
+const groups = [
+  { title: ALL, count: tiles.length },
+  ...skillClusters.map((c) => ({ title: c.title, count: c.items.length })),
+]
 
+/**
+ * The toolkit as a design-system asset library: pick a group in the sidebar and the
+ * components re-flow with GSAP Flip (leavers shrink out, the rest glide into place).
+ */
 export function Skills() {
   const root = useRef<HTMLElement>(null)
+  const flipState = useRef<Flip.FlipState | null>(null)
+  const [active, setActive] = useState(ALL)
 
+  const choose = (group: string) => {
+    if (group === active) return
+    flipState.current = Flip.getState(".tile")
+    setActive(group)
+  }
+
+  // After React re-renders the filter, animate from the recorded layout to the new one.
   useGSAP(
     () => {
-      const mm = gsap.matchMedia()
-      mm.add(MOTION_OK, () => {
-        // Seamless marquees: each row holds two copies and moves by exactly one copy.
-        const loops = gsap.utils.toArray<HTMLElement>(".marquee-row").map((row, i) => {
-          const dir = i % 2 === 0 ? -1 : 1
-          return gsap
-            .fromTo(
-              row,
-              { xPercent: dir === -1 ? 0 : -50 },
-              { xPercent: dir === -1 ? -50 : 0, duration: 40, ease: "none", repeat: -1 },
-            )
-            .totalTime(40 * 100) // head start, so reversing on upward scroll never hits time 0
-        })
-
-        // Scroll velocity boosts marquee speed, then eases back to cruising.
-        ScrollTrigger.create({
-          trigger: root.current,
-          start: "top bottom",
-          end: "bottom top",
-          onUpdate: (self) => {
-            const boost = 1 + Math.min(Math.abs(self.getVelocity()) / 250, 6)
-            loops.forEach((loop) => {
-              gsap.to(loop, { timeScale: boost * self.direction, duration: 0.2, overwrite: true })
-              gsap.to(loop, { timeScale: self.direction, duration: 1.2, delay: 0.2, overwrite: false })
-            })
-          },
-        })
-
-        gsap.set(".skill-card", { y: 60, autoAlpha: 0, scale: 0.94 })
-        ScrollTrigger.batch(".skill-card", {
-          start: "top 88%",
-          onEnter: (batch) =>
-            gsap.to(batch, { y: 0, autoAlpha: 1, scale: 1, stagger: 0.12, duration: 1, ease: "expo.out" }),
-        })
-        gsap.from(".skill-item", {
-          x: -16,
-          autoAlpha: 0,
-          stagger: 0.03,
-          duration: 0.6,
-          scrollTrigger: { trigger: ".skills-grid", start: "top 75%" },
-        })
+      const state = flipState.current
+      if (!state) return
+      flipState.current = null
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
+      Flip.from(state, {
+        duration: 0.55,
+        ease: "power3.inOut",
+        absolute: true,
+        stagger: 0.015,
+        onEnter: (els) => gsap.fromTo(els, { autoAlpha: 0, scale: 0.85 }, { autoAlpha: 1, scale: 1, duration: 0.4, delay: 0.15 }),
+        onLeave: (els) => gsap.to(els, { autoAlpha: 0, scale: 0.85, duration: 0.3 }),
       })
     },
-    { scope: root },
+    { scope: root, dependencies: [active] },
   )
 
   return (
-    <section ref={root} id="skills" className="relative overflow-hidden py-32">
-      <div className="mx-auto max-w-7xl px-6">
-        <SectionHeading eyebrow="03 — Toolkit" lead="My" accent="Skills Galaxy">
-          A dynamic blend of technical and interpersonal abilities — orbiting around innovation, precision and
-          creativity.
-        </SectionHeading>
-      </div>
+    <section ref={root} id="skills" className="relative px-4 py-16 md:px-10 md:py-24">
+      <Artboard name="Toolkit">
+        <div className="grid gap-10 px-6 py-14 md:px-16 md:py-20">
+          <ArtboardHeading title="Tools I build with">
+            Languages, frameworks and the habits that hold a project together. Filter by group.
+          </ArtboardHeading>
 
-      <div className="mb-20 space-y-6 [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
-        {rows.map((row, r) => (
-          <div key={r} className="marquee-row flex w-max">
-            {[0, 1].map((copy) => (
-              <ul key={copy} className="flex shrink-0 gap-4 pr-4" aria-hidden={copy === 1}>
-                {row.map(({ slug, name, variant }) => (
-                  <li
-                    key={slug}
-                    className="flex items-center gap-3 rounded-full border border-white/10 bg-white/[0.03] px-5 py-3 text-lg whitespace-nowrap"
-                  >
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={deviconUrl(slug, variant)}
-                      alt=""
-                      width={28}
-                      height={28}
-                      loading="lazy"
-                      className={INVERT.has(slug) ? "dark:invert" : ""}
-                    />
-                    {name}
-                  </li>
-                ))}
-              </ul>
-            ))}
-          </div>
-        ))}
-      </div>
-
-      <div className="skills-grid mx-auto grid max-w-7xl gap-6 px-6 md:grid-cols-2 lg:grid-cols-3">
-        {skillClusters.map((cluster) => (
-          <div
-            key={cluster.title}
-            className={`skill-card group relative overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br ${cluster.accent} p-8 transition-colors hover:border-blue-400/50`}
-          >
-            <div className="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-white/5 blur-2xl transition-transform duration-700 group-hover:scale-[2.5]" />
-            <h3 className="relative mb-6 text-3xl font-semibold">{cluster.title}</h3>
-            <ul className="relative space-y-3">
-              {cluster.items.map((item) => (
-                <li key={item} className="skill-item flex items-center gap-3 text-lg text-gray-200">
-                  <span className="h-1.5 w-1.5 rounded-full bg-gradient-to-r from-blue-400 to-purple-400" />
-                  {item}
-                </li>
+          <div className="grid gap-8 lg:grid-cols-[13rem_1fr]">
+            {/* Asset-library sidebar. */}
+            <nav aria-label="Skill groups" className="-mx-1 flex gap-1 overflow-x-auto pb-1 lg:mx-0 lg:flex-col lg:overflow-visible">
+              {groups.map(({ title, count }) => (
+                <button
+                  key={title}
+                  type="button"
+                  onClick={() => choose(title)}
+                  aria-pressed={active === title}
+                  className={`flex shrink-0 items-center justify-between gap-4 rounded-md px-3 py-2 text-left text-sm transition-colors focus-visible:outline-2 focus-visible:outline-select ${
+                    active === title ? "bg-select text-[#fff]" : "text-muted hover:bg-ink/5 hover:text-ink"
+                  }`}
+                >
+                  {title}
+                  <span className={`tabular-nums ${active === title ? "text-[#fff]/80" : "text-muted"}`}>{count}</span>
+                </button>
               ))}
+            </nav>
+
+            <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 xl:grid-cols-4" aria-live="polite">
+              {tiles.map(({ name, group }) => {
+                const icon = skillIcons[name]
+                const shown = active === ALL || active === group
+                return (
+                  <li
+                    key={name}
+                    data-flip-id={name}
+                    className={`tile flex items-center gap-3 p-3.5 ring-1 ring-rule transition-shadow hover:ring-[1.5px] hover:ring-select ${
+                      shown ? "" : "hidden"
+                    }`}
+                  >
+                    <span className="grid h-9 w-9 shrink-0 place-items-center rounded-md bg-ink/[0.06]">
+                      {icon ? (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img
+                          src={deviconUrl(icon.slug)}
+                          alt=""
+                          width={22}
+                          height={22}
+                          loading="lazy"
+                          className={icon.invert ? "dark:invert" : ""}
+                        />
+                      ) : (
+                        <Diamond className="h-4 w-4 text-select" aria-hidden="true" />
+                      )}
+                    </span>
+                    <span className="min-w-0">
+                      <span className="block text-sm font-medium leading-snug">{name}</span>
+                      <span className="block truncate text-xs text-muted">{group}</span>
+                    </span>
+                  </li>
+                )
+              })}
             </ul>
           </div>
-        ))}
-      </div>
+        </div>
+      </Artboard>
     </section>
   )
 }

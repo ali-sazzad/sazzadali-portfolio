@@ -7,7 +7,7 @@ const NAME = "Sazzad Ali"
 
 /**
  * Solid wordmark. Letters rise out of a mask when the preloader lifts; on hover each
- * letter rolls up to reveal a gradient copy underneath, and the accent dot pops.
+ * letter rolls up to reveal an accent-coloured copy underneath, and the accent dot pops.
  */
 export function Logo({ ready, onClick }: { ready: boolean; onClick: (e: React.MouseEvent) => void }) {
   const root = useRef<HTMLAnchorElement>(null)
@@ -56,7 +56,7 @@ export function Logo({ ready, onClick }: { ready: boolean; onClick: (e: React.Mo
             <span className="logo-char inline-block">
               <span className="logo-roll relative inline-block">
                 <span className="block">{char === " " ? " " : char}</span>
-                <span className="absolute left-0 top-full block bg-gradient-to-b from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                <span className="absolute left-0 top-full block text-select">
                   {char === " " ? " " : char}
                 </span>
               </span>
@@ -64,7 +64,7 @@ export function Logo({ ready, onClick }: { ready: boolean; onClick: (e: React.Mo
           </span>
         ))}
       </span>
-      <span className="logo-dot mb-[0.1em] inline-block h-2 w-2 self-end rounded-full bg-gradient-to-br from-blue-400 to-pink-400" />
+      <span className="logo-dot mb-[0.1em] inline-block h-2 w-2 self-end rounded-full bg-select" />
     </a>
   )
 }
