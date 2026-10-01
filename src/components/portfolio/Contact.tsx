@@ -1,7 +1,7 @@
 "use client"
 
 import { useRef, useState, type FormEvent, type InputHTMLAttributes } from "react"
-import { ArrowUp, CheckCircle2, Github, Linkedin, Loader2, Mail, Send } from "lucide-react"
+import { ArrowUp, CheckCircle2, ChevronDown, Github, Linkedin, Loader2, Mail, Send } from "lucide-react"
 import { gsap, useGSAP, SplitText, ScrollTrigger, MOTION_OK, scrollToTarget } from "@/lib/gsap"
 import { EMAIL, socials } from "@/data/portfolio"
 import { cn } from "@/lib/utils"
@@ -48,9 +48,9 @@ export function Contact() {
           >
             <defs>
               <linearGradient id="underline-grad" x1="0" x2="1">
-                <stop offset="0%" stopColor="#60a5fa" />
-                <stop offset="50%" stopColor="#c084fc" />
-                <stop offset="100%" stopColor="#f472b6" />
+                <stop offset="0%" stopColor="#2dd4bf" />
+                <stop offset="50%" stopColor="#34d399" />
+                <stop offset="100%" stopColor="#a3e635" />
               </linearGradient>
             </defs>
             <path
@@ -117,7 +117,7 @@ function Field({ label, className, ...props }: { label: string } & InputHTMLAttr
   return (
     <label className={cn("block", className)}>
       <span className="mb-2 block text-sm font-medium text-gray-200">
-        {label} <span className="text-pink-400" aria-hidden="true">*</span>
+        {label} <span className="text-red-400" aria-hidden="true">*</span>
       </span>
       <input required className={cn(FIELD, "h-12")} {...props} />
     </label>
@@ -198,34 +198,38 @@ function EnquiryForm() {
         <Field label="Email address" name="email" type="email" autoComplete="email" placeholder="jane@company.com" className="sm:col-span-2" />
       </div>
 
-      <fieldset className="mt-7">
-        <legend className="mb-3 text-sm font-medium text-gray-200">
-          What can I help with? <span className="text-pink-400" aria-hidden="true">*</span>
-        </legend>
-        <div className="flex flex-wrap gap-2.5">
-          {ENQUIRY_TYPES.map((option) => (
-            <label key={option} className="cursor-pointer">
-              <input
-                type="radio"
-                name="enquiryType"
-                value={option}
-                required
-                checked={type === option}
-                onChange={() => setType(option)}
-                className="peer sr-only"
-              />
-              <span className="block rounded-full border border-white/15 bg-neutral-950 px-4 py-2 text-sm font-medium text-gray-300 transition-colors hover:border-purple-400/60 hover:text-white peer-checked:border-transparent peer-checked:bg-gradient-to-r peer-checked:from-blue-500 peer-checked:to-purple-500 peer-checked:text-[#fff] peer-focus-visible:ring-2 peer-focus-visible:ring-purple-400 peer-focus-visible:ring-offset-2 peer-focus-visible:ring-offset-transparent">
+      <label className="mt-5 block">
+        <span className="mb-2 block text-sm font-medium text-gray-200">
+          What can I help with? <span className="text-red-400" aria-hidden="true">*</span>
+        </span>
+        <span className="relative block">
+          <select
+            name="enquiryType"
+            required
+            value={type ?? ""}
+            onChange={(e) => setType((e.target.value || null) as typeof type)}
+            className={cn(FIELD, "h-12 cursor-pointer appearance-none pr-11", !type && "text-gray-500")}
+          >
+            <option value="" disabled>
+              Choose a topic…
+            </option>
+            {ENQUIRY_TYPES.map((option) => (
+              <option key={option} value={option} className="bg-neutral-900 text-white">
                 {option}
-              </span>
-            </label>
-          ))}
-        </div>
-      </fieldset>
+              </option>
+            ))}
+          </select>
+          <ChevronDown
+            className="pointer-events-none absolute right-4 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400"
+            aria-hidden="true"
+          />
+        </span>
+      </label>
 
       <label className="mt-7 block">
         <span className="mb-2 flex items-baseline justify-between gap-4 text-sm font-medium text-gray-200">
           <span>
-            Message {somethingElse && <span className="text-pink-400" aria-hidden="true">*</span>}
+            Message {somethingElse && <span className="text-red-400" aria-hidden="true">*</span>}
           </span>
           <span className="text-xs font-normal text-gray-500">{somethingElse ? "Required" : "Optional"}</span>
         </span>
@@ -241,7 +245,7 @@ function EnquiryForm() {
       <div className="mt-8 flex flex-col-reverse gap-4 border-t border-white/10 pt-6 sm:flex-row sm:items-center sm:justify-between">
         <div className="text-sm">
           {status === "error" ? (
-            <p role="alert" className="text-pink-400">
+            <p role="alert" className="text-red-400">
               Something went wrong. Please try again or email me directly.
             </p>
           ) : (
