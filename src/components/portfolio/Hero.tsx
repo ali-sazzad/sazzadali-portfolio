@@ -99,7 +99,7 @@ export function Hero({ ready }: { ready: boolean }) {
     <section
       ref={root}
       id="top"
-      className="relative flex min-h-[100svh] items-center justify-center overflow-hidden px-6 pt-24"
+      className="relative flex items-center justify-center overflow-hidden px-6 pb-6 pt-24 md:min-h-[100svh] md:pb-0"
     >
       <p
         className="hero-marquee pointer-events-none absolute left-0 top-1/2 -translate-y-1/2 select-none whitespace-nowrap text-[18vw] font-black uppercase leading-none text-transparent opacity-[0.06] [-webkit-text-stroke:1px_var(--color-white)]"
@@ -160,7 +160,7 @@ export function Hero({ ready }: { ready: boolean }) {
 
       <button
         onClick={() => scrollToTarget("#about")}
-        className="hero-scroll absolute bottom-8 left-1/2 -ml-4 text-gray-400"
+        className="hero-scroll absolute bottom-8 left-1/2 -ml-4 hidden text-gray-400 md:block"
         aria-label="Scroll to About"
       >
         <ChevronDown className="h-8 w-8" />
