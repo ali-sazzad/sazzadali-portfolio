@@ -267,7 +267,7 @@ export function AboutStories() {
           if (e.key === "ArrowRight") api.current?.go(1)
           if (e.key === "ArrowLeft") api.current?.go(-1)
         }}
-        className="relative mx-auto h-[min(680px,84svh)] min-h-[580px] w-full sm:max-w-xl md:max-w-2xl touch-pan-y select-none overflow-hidden rounded-[28px] border border-[#ffffff1a] bg-[#0b0b12] text-[#f8fafc] shadow-2xl shadow-purple-500/20 [perspective:1200px] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#a78bfa]"
+        className="relative mx-auto h-[min(680px,calc(100svh-17rem))] min-h-[420px] w-full sm:max-w-xl md:max-w-2xl touch-pan-y select-none overflow-hidden rounded-[28px] border border-[#ffffff1a] bg-[#0b0b12] text-[#f8fafc] shadow-2xl shadow-purple-500/20 [perspective:1200px] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#a78bfa]"
       >
         {/* Header: progress segments, who, which story, pause. */}
         <div className="pointer-events-none absolute inset-x-0 top-0 z-20 bg-gradient-to-b from-[#0b0b12cc] to-transparent px-4 pb-6 pt-3">
@@ -298,7 +298,7 @@ export function AboutStories() {
         </div>
 
         {/* 1. about.ts */}
-        <section className="story isolate absolute inset-0 flex flex-col px-4 pb-20 pt-24" aria-label={`1 of ${STORIES.length}: about.ts`}>
+        <section className="story isolate absolute inset-0 flex flex-col px-4 pb-20 pt-24 [@media(max-height:700px)]:pb-16 [@media(max-height:700px)]:pt-20" aria-label={`1 of ${STORIES.length}: about.ts`}>
           <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,#3b82f633,transparent_60%)]" />
           <div className="overflow-hidden rounded-2xl border border-[#ffffff14] bg-[#0d1117] shadow-2xl">
             <div className="flex items-center gap-1.5 border-b border-[#ffffff14] bg-[#161b22] px-3 py-2.5">
@@ -312,7 +312,7 @@ export function AboutStories() {
                 <span className="st-compiled invisible absolute right-0 text-[#34d399]">Compiled</span>
               </span>
             </div>
-            <pre className="p-3.5 font-mono text-[11px] leading-6 text-[#e5e7eb] sm:text-[13px] md:p-5 md:text-[15px] md:leading-8" aria-hidden="true">
+            <pre className="p-3.5 font-mono text-[11px] leading-6 text-[#e5e7eb] [@media(max-height:700px)]:leading-5 sm:text-[13px] md:p-5 md:text-[15px] md:leading-8" aria-hidden="true">
               <code>
                 {LINES.map((line, i) => (
                   <span key={i} className="st-line block whitespace-pre-wrap break-words pl-6 [text-indent:-1.5rem]">
@@ -323,18 +323,18 @@ export function AboutStories() {
               </code>
             </pre>
           </div>
-          <p className="st-hint mt-auto text-center text-sm text-[#ffffffb3]">
+          <p className="st-hint mt-auto text-center text-sm text-[#ffffffb3] [@media(max-height:700px)]:hidden">
             One line of code at a time. Swipe to see what it renders →
           </p>
         </section>
 
         {/* 2. Profile */}
-        <section className="story isolate absolute inset-0 flex flex-col justify-center px-5 pb-20 pt-24" aria-label={`2 of ${STORIES.length}: Profile`}>
+        <section className="story isolate absolute inset-0 flex flex-col justify-center px-5 pb-20 pt-24 [@media(max-height:700px)]:pb-16 [@media(max-height:700px)]:pt-20" aria-label={`2 of ${STORIES.length}: Profile`}>
           <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_30%_30%,#3b82f659,transparent_55%),radial-gradient(circle_at_80%_80%,#a855f74d,transparent_50%)]" />
-          <span className="st-avatar grid h-28 w-28 place-items-center rounded-[2rem] bg-gradient-to-br from-[#3b82f6] via-[#a855f7] to-[#ec4899] text-4xl font-bold text-[#fff] shadow-2xl shadow-[#a855f766]">
+          <span className="st-avatar grid h-28 w-28 [@media(max-height:700px)]:h-20 [@media(max-height:700px)]:w-20 place-items-center rounded-[2rem] bg-gradient-to-br from-[#3b82f6] via-[#a855f7] to-[#ec4899] text-4xl font-bold text-[#fff] shadow-2xl shadow-[#a855f766]">
             SA
           </span>
-          <h3 className="st-item mt-8 text-5xl font-bold tracking-tight">Sazzad Ali</h3>
+          <h3 className="st-item mt-8 text-5xl [@media(max-height:700px)]:mt-5 font-bold tracking-tight">Sazzad Ali</h3>
           <p className="st-item mt-3 bg-gradient-to-r from-[#60a5fa] to-[#c084fc] bg-clip-text text-xl font-semibold text-transparent">
             Software Engineer &amp; Web Developer
           </p>
@@ -348,20 +348,20 @@ export function AboutStories() {
         </section>
 
         {/* 3. Toolkit */}
-        <section className="story isolate absolute inset-0 flex flex-col justify-center px-5 pb-20 pt-24" aria-label={`3 of ${STORIES.length}: Toolkit`}>
+        <section className="story isolate absolute inset-0 flex flex-col justify-center px-5 pb-20 pt-24 [@media(max-height:700px)]:pb-16 [@media(max-height:700px)]:pt-20" aria-label={`3 of ${STORIES.length}: Toolkit`}>
           <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_70%_20%,#a855f759,transparent_55%)]" />
           <h3 className="text-sm font-semibold uppercase tracking-[0.2em] text-[#c4b5fd]">Strengths</h3>
           <ul className="mt-4 flex flex-wrap gap-2">
             {strengths.map((s) => (
-              <li key={s} className="st-chip rounded-full border border-[#c084fc66] bg-[#a855f726] px-4 py-2 text-base font-medium">
+              <li key={s} className="st-chip rounded-full border border-[#c084fc66] bg-[#a855f726] px-4 py-2 text-base font-medium [@media(max-height:700px)]:py-1.5 [@media(max-height:700px)]:text-sm">
                 {s}
               </li>
             ))}
           </ul>
-          <h3 className="mt-10 text-sm font-semibold uppercase tracking-[0.2em] text-[#93c5fd]">Daily stack</h3>
-          <ul className="mt-4 grid grid-cols-2 gap-3">
+          <h3 className="mt-10 text-sm font-semibold uppercase tracking-[0.2em] text-[#93c5fd] [@media(max-height:700px)]:mt-6">Daily stack</h3>
+          <ul className="mt-4 grid grid-cols-2 gap-3 [@media(max-height:700px)]:gap-2">
             {stack.map(({ slug, name, invert }) => (
-              <li key={slug} className="st-logo flex items-center gap-3 rounded-2xl border border-[#ffffff1a] bg-[#ffffff0d] p-3">
+              <li key={slug} className="st-logo flex items-center gap-3 rounded-2xl border border-[#ffffff1a] bg-[#ffffff0d] p-3 [@media(max-height:700px)]:p-2">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={deviconUrl(slug)} alt="" width={32} height={32} className={invert ? "invert" : ""} />
                 <span className="font-medium">{name}</span>
@@ -371,9 +371,9 @@ export function AboutStories() {
         </section>
 
         {/* 4. My story */}
-        <section className="story isolate absolute inset-0 flex flex-col justify-center px-5 pb-20 pt-24" aria-label={`4 of ${STORIES.length}: My story`}>
+        <section className="story isolate absolute inset-0 flex flex-col justify-center px-5 pb-20 pt-24 [@media(max-height:700px)]:pb-16 [@media(max-height:700px)]:pt-20" aria-label={`4 of ${STORIES.length}: My story`}>
           <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_20%_80%,#ec48994d,transparent_55%)]" />
-          <p className="st-words text-[1.6rem] font-semibold leading-snug tracking-tight">
+          <p className="st-words text-[1.6rem] font-semibold leading-snug tracking-tight [@media(max-height:700px)]:text-[1.3rem]">
             Software engineer and web developer with a passion for building elegant, high-performance digital
             experiences. AI integration, UI/UX design and project management: creativity and precision in every
             project.
@@ -381,7 +381,7 @@ export function AboutStories() {
         </section>
 
         {/* 5. How I work */}
-        <section className="story isolate absolute inset-0 flex flex-col justify-center px-5 pb-20 pt-24" aria-label={`5 of ${STORIES.length}: How I work`}>
+        <section className="story isolate absolute inset-0 flex flex-col justify-center px-5 pb-20 pt-24 [@media(max-height:700px)]:pb-16 [@media(max-height:700px)]:pt-20" aria-label={`5 of ${STORIES.length}: How I work`}>
           <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_80%_30%,#3b82f64d,transparent_55%)]" />
           <div className="relative">
             <svg
@@ -401,15 +401,15 @@ export function AboutStories() {
               </defs>
               <path className="st-path" d="M2 0 V100" stroke="url(#st-grad)" strokeWidth="3" />
             </svg>
-            <ol className="space-y-7">
+            <ol className="space-y-7 [@media(max-height:700px)]:space-y-4">
               {pillars.map(({ Icon, title, text }) => (
                 <li key={title} className="st-step relative flex gap-4">
                   <span className="relative z-10 grid h-10 w-10 shrink-0 place-items-center rounded-full bg-gradient-to-br from-[#3b82f6] to-[#a855f7]">
                     <Icon className="h-5 w-5 text-[#fff]" aria-hidden="true" />
                   </span>
                   <div>
-                    <h3 className="text-2xl font-bold tracking-tight">{title}</h3>
-                    <p className="mt-1 text-[#cbd5e1]">{text}</p>
+                    <h3 className="text-2xl font-bold tracking-tight [@media(max-height:700px)]:text-xl">{title}</h3>
+                    <p className="mt-1 text-[#cbd5e1] [@media(max-height:700px)]:text-sm">{text}</p>
                   </div>
                 </li>
               ))}
@@ -418,11 +418,11 @@ export function AboutStories() {
         </section>
 
         {/* 6. Motto */}
-        <section className="story isolate absolute inset-0 flex flex-col justify-end bg-gradient-to-br from-[#2563eb] via-[#7c3aed] to-[#db2777] px-6 pb-24 pt-24" aria-label={`6 of ${STORIES.length}: Motto`}>
+        <section className="story isolate absolute inset-0 flex flex-col justify-end bg-gradient-to-br from-[#2563eb] via-[#7c3aed] to-[#db2777] px-6 pb-24 pt-24 [@media(max-height:700px)]:pb-20 [@media(max-height:700px)]:pt-20" aria-label={`6 of ${STORIES.length}: Motto`}>
           <p className="st-motto text-[3.4rem] font-bold leading-[0.95] tracking-[-0.03em] text-[#fff] [&_div]:align-top">
             One line of code at a time.
           </p>
-          <div className="mt-8 flex flex-wrap gap-3">
+          <div className="mt-8 flex flex-wrap gap-3 [@media(max-height:700px)]:mt-6">
             <button
               type="button"
               onClick={() => scrollToTarget("#contact")}
