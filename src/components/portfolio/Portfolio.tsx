@@ -26,9 +26,9 @@ function SmoothScroller({ ready }: { ready: boolean }) {
       const smoother = ScrollSmoother.create({
         wrapper: "#smooth-wrapper",
         content: "#smooth-content",
-        smooth: 1.2,
+        smooth: 1.4, // seconds the content takes to catch up with the scroll position
         effects: true,
-        smoothTouch: 0.1,
+        smoothTouch: 0.2, // lighter on touch, so swipes still feel direct
       })
       smoother.paused(true)
       return () => smoother.kill()

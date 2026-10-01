@@ -38,7 +38,7 @@ Every animation is written with [GSAP 3.15](https://gsap.com/) and the official 
 | Feature | GSAP tools |
 | --- | --- |
 | Intro preloader: 0→100 counter, masked name reveal, two-layer curtain wipe | `Timeline`, `SplitText` (`mask: "chars"`) |
-| Buttery page scrolling with data-driven parallax | `ScrollSmoother` |
+| Smooth page scrolling (1.4s catch-up on desktop, lighter on touch) with a subtle parallax lag on section headings | `ScrollSmoother` (`smooth`, `smoothTouch`, `data-lag`) |
 | Hero headline rising out of a mask, gradient name wipe and shimmer | `SplitText`, `clipPath` tweens |
 | Rotating job titles that "decode" into place | `ScrambleTextPlugin` |
 | Pinned **horizontal project gallery** with per-card image parallax and a live counter | `ScrollTrigger` (`pin`, `scrub`, `containerAnimation`) |
@@ -47,8 +47,7 @@ Every animation is written with [GSAP 3.15](https://gsap.com/) and the official 
 | Design → Develop → Deliver: a gradient path draws through the three steps, each lighting up as the line reaches it | `DrawSVGPlugin` on a scrubbed timeline |
 | About on phones: a stories deck (about.ts, Profile, Toolkit, My story, How I work, Motto). Progress bars auto-advance; drag follows the finger and commits on release, taps on the sides navigate, press and hold pauses; pauses off-screen | `Observer` (drag, velocity, press), `ScrollTrigger`, per-story timelines |
 | About copy that lights up word-by-word as you scroll | `SplitText` + scrubbed `ScrollTrigger` |
-| Infinite tech marquees that speed up (and reverse) with scroll velocity | `ScrollTrigger.getVelocity()`, `timeScale` |
-| Batched card reveals | `ScrollTrigger.batch()` |
+| Skills Galaxy: each skill group is an orbit of logo planets around an "SA" core (planets counter-rotate to stay upright), soft skills circle the outside as rotating text; groups auto-cycle until you pick one, the chosen orbit lights up and lists its skills, fast scrolling spins it faster, and it tilts in 3D with the mouse | Repeating `Timeline`s, `ScrollTrigger.getVelocity()` → `timeScale`, `quickTo()`, `delayedCall` |
 | Hand-drawn underline under "Let's Connect" | `DrawSVGPlugin` |
 | Custom follower cursor, magnetic buttons and 3D card tilt | `gsap.quickTo()`, elastic eases |
 | Floating pill navigation: a sliding indicator follows hover and rests on the active section, with colour-inverting labels | `gsap.to()` on measured `x`/`width`, `mix-blend-difference` |

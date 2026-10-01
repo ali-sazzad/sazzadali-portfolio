@@ -50,7 +50,7 @@ export function SectionHeading({
   )
 
   return (
-    <div ref={root} className="mb-10 text-center md:mb-12">
+    <div ref={root} className="mb-10 text-center md:mb-12" data-lag="0.15">
       <p className="heading-eyebrow mb-4 font-mono text-xs uppercase tracking-[0.4em] text-purple-400">{eyebrow}</p>
       <h2 className="mb-6 text-4xl font-bold tracking-tight md:text-6xl">
         <span className="heading-lead inline-block align-top [&>div]:align-top">{lead}</span>{" "}
