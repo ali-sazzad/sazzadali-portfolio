@@ -12,7 +12,7 @@ import { ThemeToggle } from "./ThemeToggle"
 const pad = (n: number) => String(n + 1).padStart(2, "0")
 
 /** Live Sydney time; rendered client-side only to avoid a hydration mismatch. */
-function SydneyTime() {
+export function SydneyTime() {
   const [time, setTime] = useState<string | null>(null)
   useEffect(() => {
     const fmt = new Intl.DateTimeFormat("en-AU", {

@@ -1,83 +1,13 @@
 "use client"
 
-import { useRef, type ReactNode } from "react"
-import { Code2, MapPin, PenTool, Rocket } from "lucide-react"
-import { gsap, useGSAP, SplitText, ScrollTrigger, MOTION_OK } from "@/lib/gsap"
+import { useRef } from "react"
+import { MapPin } from "lucide-react"
+import { gsap, useGSAP, SplitText, MOTION_OK } from "@/lib/gsap"
 import { deviconUrl } from "@/data/portfolio"
 import { SectionHeading } from "./SectionHeading"
+import { AboutStories } from "./AboutStories"
+import { LINES, pillars, stack, strengths } from "./aboutData"
 
-const pillars = [
-  { Icon: PenTool, title: "Design", text: "Intuitive interfaces and design systems with a strong eye for detail." },
-  { Icon: Code2, title: "Develop", text: "Full-stack web apps with React, Next.js and Node — clean, typed and fast." },
-  { Icon: Rocket, title: "Deliver", text: "Scalable, accessible products shipped with care and clear communication." },
-]
-
-const strengths = ["AI integration", "UI/UX design", "Project management"]
-const stack = [
-  { slug: "react", name: "React" },
-  { slug: "nextjs", name: "Next.js", invert: true },
-  { slug: "nodejs", name: "Node.js" },
-  { slug: "typescript", name: "TypeScript" },
-]
-
-// Editor colours are fixed (code editors stay dark in both themes).
-const K = ({ children }: { children: ReactNode }) => <span className="text-[#c084fc]">{children}</span>
-const V = ({ children }: { children: ReactNode }) => <span className="text-[#93c5fd]">{children}</span>
-const P = ({ children }: { children: ReactNode }) => <span className="text-[#6b7280]">{children}</span>
-const S = ({ children }: { children: ReactNode }) => <span className="text-[#f9a8d4]">{children}</span>
-const key = (k: string) => <span className="text-[#7dd3fc]">{k}</span>
-
-/** One line of code per piece of the profile card it renders. */
-const LINES: ReactNode[] = [
-  <>
-    <K>const</K> <V>sazzad</V> <P>=</P> <P>{"{"}</P>
-  </>,
-  <>
-    {"  "}
-    {key("role")}
-    <P>:</P> <S>&quot;Software Engineer &amp; Web Developer&quot;</S>
-    <P>,</P>
-  </>,
-  <>
-    {"  "}
-    {key("based")}
-    <P>:</P> <S>&quot;Sydney, Australia&quot;</S>
-    <P>,</P>
-  </>,
-  <>
-    {"  "}
-    {key("strengths")}
-    <P>: [</P>
-    <S>&quot;AI&quot;</S>
-    <P>, </P>
-    <S>&quot;UI/UX&quot;</S>
-    <P>, </P>
-    <S>&quot;PM&quot;</S>
-    <P>],</P>
-  </>,
-  <>
-    {"  "}
-    {key("stack")}
-    <P>: [</P>
-    <S>&quot;React&quot;</S>
-    <P>, </P>
-    <S>&quot;Next.js&quot;</S>
-    <P>, </P>
-    <S>&quot;Node&quot;</S>
-    <P>, </P>
-    <S>&quot;TS&quot;</S>
-    <P>],</P>
-  </>,
-  <>
-    {"  "}
-    {key("motto")}
-    <P>:</P> <S>&quot;One line of code at a time&quot;</S>
-    <P>,</P>
-  </>,
-  <>
-    <P>{"}"}</P>
-  </>,
-]
 
 export function About() {
   const root = useRef<HTMLElement>(null)
@@ -86,27 +16,21 @@ export function About() {
     () => {
       const mm = gsap.matchMedia()
 
+      // Desktop only: phones get the Stories format (AboutStories) instead.
       mm.add(
-        {
-          desktop: `(min-width: 1024px) and ${MOTION_OK}`,
-          mobile: `(max-width: 1023px) and ${MOTION_OK}`,
-        },
-        (ctx) => {
-          const desktop = ctx.conditions?.desktop
+        `(min-width: 1024px) and ${MOTION_OK}`,
+        () => {
           const lines = gsap.utils.toArray<HTMLElement>(".code-line")
 
           // ── Scene: each line types out (stepped clip = one character per step), then the
-          //    part of the card it describes renders. Scroll-scrubbed and pinned on desktop;
-          //    a one-shot sequence on phones.
+          //    part of the card it describes renders. Pinned and scroll-scrubbed.
           gsap.set(lines, { clipPath: "inset(0% 100% 0% 0%)" })
           gsap.set(".card-step", { autoAlpha: 0, y: 18 })
           gsap.set(".profile-card", { autoAlpha: 0.35, scale: 0.96 })
 
           const scene = gsap.timeline({
             defaults: { ease: "power3.out" },
-            scrollTrigger: desktop
-              ? { trigger: ".about-scene", start: "center center", end: "+=1500", pin: true, scrub: 0.6, anticipatePin: 1 }
-              : { trigger: ".about-scene", start: "top 70%", toggleActions: "play none none none" },
+            scrollTrigger: { trigger: ".about-scene", start: "center center", end: "+=1500", pin: true, scrub: 0.6, anticipatePin: 1 },
           })
 
           lines.forEach((line, i) => {
@@ -118,8 +42,6 @@ export function About() {
             if (i === 4)
               scene.from(".stack-logo", { y: 24, rotate: -20, stagger: 0.07, duration: 0.4, ease: "back.out(2)" }, "<")
           })
-
-          if (!desktop) scene.timeScale(1.8) // phones: play through quickly as the scene enters
 
           // The closing brace "compiles" the card.
           scene
@@ -152,25 +74,17 @@ export function About() {
           })
 
           // ── Process: the path draws across Design → Develop → Deliver; each step lights up
-          //    as the line reaches it (desktop). Phones get a simple staggered rise.
-          if (desktop) {
-            const process = gsap.timeline({
-              scrollTrigger: { trigger: ".process", start: "top 75%", end: "bottom 60%", scrub: 0.8 },
-            })
-            process.from(".process-path", { drawSVG: "0%", ease: "none", duration: 1 }, 0)
-            gsap.utils.toArray<HTMLElement>(".pillar").forEach((card, i) => {
-              const at = i / (pillars.length - 1)
-              process
-                .from(card.querySelector(".pillar-node"), { scale: 0, duration: 0.12, ease: "back.out(3)" }, at * 0.92)
-                .from(card.querySelector(".pillar-body"), { y: 40, autoAlpha: 0, duration: 0.2 }, at * 0.92)
-            })
-          } else {
-            gsap.set(".pillar", { y: 50, autoAlpha: 0 })
-            ScrollTrigger.batch(".pillar", {
-              start: "top 88%",
-              onEnter: (batch) => gsap.to(batch, { y: 0, autoAlpha: 1, stagger: 0.12, duration: 0.9, ease: "expo.out" }),
-            })
-          }
+          //    as the line reaches it.
+          const process = gsap.timeline({
+            scrollTrigger: { trigger: ".process", start: "top 75%", end: "bottom 60%", scrub: 0.8 },
+          })
+          process.from(".process-path", { drawSVG: "0%", ease: "none", duration: 1 }, 0)
+          gsap.utils.toArray<HTMLElement>(".pillar").forEach((card, i) => {
+            const at = i / (pillars.length - 1)
+            process
+              .from(card.querySelector(".pillar-node"), { scale: 0, duration: 0.12, ease: "back.out(3)" }, at * 0.92)
+              .from(card.querySelector(".pillar-body"), { y: 40, autoAlpha: 0, duration: 0.2 }, at * 0.92)
+          })
         },
       )
     },
@@ -182,6 +96,11 @@ export function About() {
       <div className="mx-auto max-w-6xl">
         <SectionHeading eyebrow="01 — Who I am" lead="About" accent="Me" />
 
+        {/* Phones and tablets: About as swipeable stories. */}
+        <AboutStories />
+
+        {/* Desktop: the pinned code-to-card scene, bio and process. */}
+        <div className="about-desktop hidden lg:block">
         {/* Scene: the code on the left renders the card on the right, one line at a time. */}
         <div className="about-scene grid items-center gap-8 lg:grid-cols-2 lg:gap-12">
           <div
@@ -329,6 +248,7 @@ export function About() {
               </li>
             ))}
           </ol>
+        </div>
         </div>
       </div>
     </section>
