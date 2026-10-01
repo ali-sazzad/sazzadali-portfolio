@@ -109,20 +109,17 @@ const FORM_ENDPOINT = `https://formsubmit.co/ajax/${EMAIL}`
 
 type Status = "idle" | "sending" | "sent" | "error"
 
-/** Inline input that sits inside the "letter" sentence, labelled for screen readers. */
-function BlankInput({ label, className = "", ...props }: { label: string } & InputHTMLAttributes<HTMLInputElement>) {
+const FIELD =
+  "w-full rounded-xl border border-white/15 bg-neutral-950 px-4 text-base text-white outline-none transition-[border-color,box-shadow] placeholder:text-gray-500 focus:border-purple-400 focus:ring-4 focus:ring-purple-400/15"
+
+/** A labelled text input; every field is required unless it says otherwise. */
+function Field({ label, className, ...props }: { label: string } & InputHTMLAttributes<HTMLInputElement>) {
   return (
-    <label className="inline-block align-baseline">
-      <span className="sr-only">{label}</span>
-      <input
-        required
-        placeholder={label}
-        className={cn(
-          "mx-1 border-b-2 border-dashed border-white/25 bg-transparent px-1 pb-0.5 text-center font-semibold text-white outline-none transition-colors placeholder:font-normal placeholder:text-gray-500 focus:border-solid focus:border-purple-400",
-          className,
-        )}
-        {...props}
-      />
+    <label className={cn("block", className)}>
+      <span className="mb-2 block text-sm font-medium text-gray-200">
+        {label} <span className="text-pink-400" aria-hidden="true">*</span>
+      </span>
+      <input required className={cn(FIELD, "h-12")} {...props} />
     </label>
   )
 }
@@ -167,7 +164,7 @@ function EnquiryForm() {
 
   if (status === "sent") {
     return (
-      <div role="status" className="mx-auto max-w-2xl rounded-3xl border border-white/10 bg-white/[0.03] p-10 backdrop-blur">
+      <div role="status" className="mx-auto max-w-2xl rounded-3xl border border-white/10 bg-neutral-900 p-10 shadow-2xl shadow-black/20">
         <CheckCircle2 className="mx-auto mb-4 h-12 w-12 text-purple-400" />
         <p className="text-2xl font-semibold">Message received.</p>
         <p className="mt-2 text-gray-400">Thanks for reaching out. I&apos;ll get back to you soon.</p>
@@ -181,25 +178,31 @@ function EnquiryForm() {
   return (
     <form
       onSubmit={onSubmit}
-      className="relative mx-auto max-w-2xl overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] p-6 text-left backdrop-blur md:p-10"
+      className="relative mx-auto max-w-2xl overflow-hidden rounded-3xl border border-white/10 bg-neutral-900 p-6 text-left shadow-2xl shadow-black/20 md:p-10"
     >
       {/* gradient hairline across the top edge */}
       <span aria-hidden="true" className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400" />
-      <p className="mb-6 font-mono text-[11px] uppercase tracking-[0.35em] text-gray-500">New message · to Sazzad</p>
+
+      <div className="mb-8 border-b border-white/10 pb-6">
+        <h3 className="text-2xl font-semibold tracking-tight md:text-3xl">Send me a message</h3>
+        <p className="mt-2 text-base text-gray-400">
+          Tell me a little about what you need and I&apos;ll get back to you by email.
+        </p>
+      </div>
 
       <input type="text" name="_honey" tabIndex={-1} autoComplete="off" className="hidden" aria-hidden="true" />
 
-      <p className="text-xl leading-[2.4] text-gray-300 md:text-2xl md:leading-[2.2]">
-        Hi Sazzad, I&apos;m
-        <BlankInput label="First name" name="firstName" autoComplete="given-name" className="w-32 md:w-40" />
-        <BlankInput label="Last name" name="lastName" autoComplete="family-name" className="w-32 md:w-40" />
-        — you can reach me at
-        <BlankInput label="you@email.com" name="email" type="email" autoComplete="email" className="w-full max-w-xs md:w-72" />
-      </p>
+      <div className="grid gap-5 sm:grid-cols-2">
+        <Field label="First name" name="firstName" autoComplete="given-name" placeholder="Jane" />
+        <Field label="Last name" name="lastName" autoComplete="family-name" placeholder="Smith" />
+        <Field label="Email address" name="email" type="email" autoComplete="email" placeholder="jane@company.com" className="sm:col-span-2" />
+      </div>
 
-      <fieldset className="mt-8">
-        <legend className="mb-3 text-lg text-gray-300 md:text-xl">I&apos;d love to talk about…</legend>
-        <div className="flex flex-wrap gap-2">
+      <fieldset className="mt-7">
+        <legend className="mb-3 text-sm font-medium text-gray-200">
+          What can I help with? <span className="text-pink-400" aria-hidden="true">*</span>
+        </legend>
+        <div className="flex flex-wrap gap-2.5">
           {ENQUIRY_TYPES.map((option) => (
             <label key={option} className="cursor-pointer">
               <input
@@ -211,7 +214,7 @@ function EnquiryForm() {
                 onChange={() => setType(option)}
                 className="peer sr-only"
               />
-              <span className="block rounded-full border border-white/15 px-4 py-2 text-sm text-gray-300 transition-all hover:border-purple-400/60 hover:text-white peer-checked:border-transparent peer-checked:bg-gradient-to-r peer-checked:from-blue-500 peer-checked:to-purple-500 peer-checked:text-[#fff] peer-focus-visible:ring-2 peer-focus-visible:ring-purple-400">
+              <span className="block rounded-full border border-white/15 bg-neutral-950 px-4 py-2 text-sm font-medium text-gray-300 transition-colors hover:border-purple-400/60 hover:text-white peer-checked:border-transparent peer-checked:bg-gradient-to-r peer-checked:from-blue-500 peer-checked:to-purple-500 peer-checked:text-[#fff] peer-focus-visible:ring-2 peer-focus-visible:ring-purple-400 peer-focus-visible:ring-offset-2 peer-focus-visible:ring-offset-transparent">
                 {option}
               </span>
             </label>
@@ -219,31 +222,40 @@ function EnquiryForm() {
         </div>
       </fieldset>
 
-      <label className="mt-8 block">
-        <span className="mb-2 flex items-baseline justify-between font-mono text-[11px] uppercase tracking-[0.3em] text-gray-500">
-          Notes {somethingElse ? <span className="text-pink-400">required: tell me what you need</span> : <span>optional</span>}
+      <label className="mt-7 block">
+        <span className="mb-2 flex items-baseline justify-between gap-4 text-sm font-medium text-gray-200">
+          <span>
+            Message {somethingElse && <span className="text-pink-400" aria-hidden="true">*</span>}
+          </span>
+          <span className="text-xs font-normal text-gray-500">{somethingElse ? "Required" : "Optional"}</span>
         </span>
         <textarea
           name="notes"
-          rows={3}
+          rows={5}
           required={somethingElse}
           placeholder={somethingElse ? "What can I help you with?" : "A few words about your project, timeline or budget…"}
-          className="w-full resize-none rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-base text-white outline-none transition-colors placeholder:text-gray-500 focus:border-purple-400"
+          className={cn(FIELD, "resize-y py-3 leading-relaxed")}
         />
       </label>
 
-      <div className="mt-8 flex flex-col items-center gap-4 sm:flex-row sm:justify-between">
-        <p aria-live="polite" className="text-sm text-pink-400">
-          {status === "error" && "Something went wrong. Please try again or email me directly."}
-        </p>
-        <Magnetic strength={0.4}>
+      <div className="mt-8 flex flex-col-reverse gap-4 border-t border-white/10 pt-6 sm:flex-row sm:items-center sm:justify-between">
+        <div className="text-sm">
+          {status === "error" ? (
+            <p role="alert" className="text-pink-400">
+              Something went wrong. Please try again or email me directly.
+            </p>
+          ) : (
+            <p className="text-gray-500">Your details are only used to reply to you.</p>
+          )}
+        </div>
+        <Magnetic strength={0.3}>
           <button
             type="submit"
             disabled={status === "sending"}
-            className="flex items-center gap-3 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 px-8 py-4 text-lg font-semibold text-[#fff] shadow-xl shadow-purple-500/25 transition-shadow hover:shadow-purple-500/50 disabled:opacity-60"
+            className="flex w-full items-center justify-center gap-2.5 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 px-8 py-3.5 text-base font-semibold text-[#fff] shadow-lg shadow-purple-500/25 transition-shadow hover:shadow-purple-500/50 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-purple-400 disabled:opacity-60 sm:w-auto"
           >
             {status === "sending" ? <Loader2 className="h-5 w-5 animate-spin" /> : <Send className="h-5 w-5" />}
-            {status === "sending" ? "Sending…" : "Submit"}
+            {status === "sending" ? "Sending…" : "Send message"}
           </button>
         </Magnetic>
       </div>
