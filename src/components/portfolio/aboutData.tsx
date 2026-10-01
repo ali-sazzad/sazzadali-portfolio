@@ -18,8 +18,8 @@ export const stack = [
 ]
 
 // Editor colours are fixed (code editors stay dark in both themes).
-const K = ({ children }: { children: ReactNode }) => <span className="text-[#c084fc]">{children}</span>
-const V = ({ children }: { children: ReactNode }) => <span className="text-[#93c5fd]">{children}</span>
+const K = ({ children }: { children: ReactNode }) => <span className="text-[#34d399]">{children}</span>
+const V = ({ children }: { children: ReactNode }) => <span className="text-[#5eead4]">{children}</span>
 const P = ({ children }: { children: ReactNode }) => <span className="text-[#6b7280]">{children}</span>
 const S = ({ children }: { children: ReactNode }) => <span className="text-[#f9a8d4]">{children}</span>
 const key = (k: string) => <span className="text-[#7dd3fc]">{k}</span>

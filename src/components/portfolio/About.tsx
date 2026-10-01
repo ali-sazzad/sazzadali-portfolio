@@ -216,9 +216,9 @@ export function About() {
           >
             <defs>
               <linearGradient id="process-grad" x1="0" x2="1">
-                <stop offset="0%" stopColor="#60a5fa" />
-                <stop offset="50%" stopColor="#c084fc" />
-                <stop offset="100%" stopColor="#f472b6" />
+                <stop offset="0%" stopColor="#2dd4bf" />
+                <stop offset="50%" stopColor="#34d399" />
+                <stop offset="100%" stopColor="#a3e635" />
               </linearGradient>
             </defs>
             <path

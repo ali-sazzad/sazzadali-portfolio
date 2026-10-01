@@ -83,9 +83,9 @@ export function Background() {
       <div className="orb-layer absolute inset-0">
         {/* Soft glows drawn with radial gradients: same look as a heavy blur filter, but
             they composite as plain textures instead of re-running the blur every frame. */}
-        <div className="orb absolute left-[0%] top-[0%] h-[60vmax] w-[60vmax] rounded-full bg-[radial-gradient(circle,rgb(37_99_235/0.22),transparent_65%)] will-change-transform" />
-        <div className="orb absolute right-[-10%] top-[25%] h-[55vmax] w-[55vmax] rounded-full bg-[radial-gradient(circle,rgb(147_51_234/0.22),transparent_65%)] will-change-transform" />
-        <div className="orb absolute bottom-[-25%] left-[20%] h-[50vmax] w-[50vmax] rounded-full bg-[radial-gradient(circle,rgb(219_39_119/0.12),transparent_65%)] will-change-transform" />
+        <div className="orb absolute left-[0%] top-[0%] h-[60vmax] w-[60vmax] rounded-full bg-[radial-gradient(circle,rgb(13_148_136/0.22),transparent_65%)] will-change-transform" />
+        <div className="orb absolute right-[-10%] top-[25%] h-[55vmax] w-[55vmax] rounded-full bg-[radial-gradient(circle,rgb(5_150_105/0.22),transparent_65%)] will-change-transform" />
+        <div className="orb absolute bottom-[-25%] left-[20%] h-[50vmax] w-[50vmax] rounded-full bg-[radial-gradient(circle,rgb(101_163_13/0.12),transparent_65%)] will-change-transform" />
       </div>
       <div className="bg-grid absolute inset-0 opacity-[0.07]" />
       {FLOATERS.map(({ slug, name, variant }) => (
