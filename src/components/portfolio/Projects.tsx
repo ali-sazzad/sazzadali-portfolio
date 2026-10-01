@@ -29,7 +29,7 @@ export function Projects() {
           ease: "none",
           scrollTrigger: {
             trigger: ".projects-pin",
-            start: "top top",
+            start: "center center",
             end: () => `+=${distance()}`,
             pin: true,
             scrub: 1,
@@ -45,7 +45,7 @@ export function Projects() {
         gsap.to(".projects-progress", {
           scaleX: 1,
           ease: "none",
-          scrollTrigger: { trigger: ".projects-pin", start: "top top", end: () => `+=${distance()}`, scrub: true },
+          scrollTrigger: { trigger: ".projects-pin", start: "center center", end: () => `+=${distance()}`, scrub: true },
         })
 
         // Each card's image drifts inside its frame, driven by the horizontal tween.
@@ -153,14 +153,14 @@ export function Projects() {
   )
 
   return (
-    <section ref={root} id="projects" className="relative px-6 lg:overflow-x-clip">
+    <section ref={root} id="projects" className="relative px-6 py-10 md:py-14 lg:overflow-x-clip">
       <div className="mx-auto w-full max-w-7xl">
         <SectionHeading eyebrow="02 — Selected work" lead="My" accent="Projects">
           A collection of projects that showcase my skills and passion for creating exceptional digital experiences.
         </SectionHeading>
       </div>
 
-      <div className="projects-pin lg:flex lg:h-screen lg:flex-col lg:justify-center">
+      <div className="projects-pin lg:flex lg:flex-col">
         <div className="projects-viewport lg:-mx-6 lg:overflow-x-auto lg:px-12">
           <div className="projects-track mx-auto flex max-w-xl flex-col gap-6 [perspective:1400px] lg:mx-0 lg:w-max lg:max-w-none lg:flex-row lg:gap-10">
             {projects.map((project, i) => (
