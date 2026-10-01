@@ -10,22 +10,6 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-  --font-display: var(--font-bricolage);
-
-  /* Workbench tokens (values per theme below). */
-  --color-canvas: var(--canvas);
-  --color-artboard: var(--artboard);
-  --color-ink: var(--ink);
-  --color-muted: var(--muted);
-  --color-rule: var(--rule);
-  --color-select: var(--select);
-  --color-redline: var(--redline);
-  --color-note: var(--note);
-  --color-sand: var(--note);
-  --color-teal: var(--teal);
-  --color-on-select: var(--on-select);
-  --color-on-sand: var(--on-sand);
-  --color-artboard-alt: var(--artboard-alt);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -135,11 +119,11 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-canvas text-ink;
+    @apply bg-black text-white;
     overflow-x: hidden;
   }
   ::selection {
-    @apply bg-select/35 text-ink;
+    @apply bg-purple-500/40 text-white;
   }
 }
 
@@ -152,39 +136,10 @@
 :root {
   --fg-rgb: 255 255 255; /* foreground as raw RGB, for values tweened by GSAP */
   color-scheme: dark;
-
-  /* Harbour palette: Sydney harbour night, jacaranda, sandstone and harbour teal. Tiles are
-     solid surfaces on the page; the accent (jacaranda) marks primary actions. */
-  --canvas: #0b1220; /* page */
-  --artboard: #131c2e; /* tile */
-  --artboard-alt: #1b2740;
-  --ink: #f4f1ea;
-  --muted: #a9b2c3;
-  --rule: rgb(244 241 234 / 0.12);
-  --select: #8b6cf0; /* jacaranda: primary actions, selection */
-  --redline: #ff4f6d; /* measurements — only ever next to a real measured value */
-  --note: #e2b26a; /* sandstone */
-  --teal: #2bb3a6;
-  --on-select: #0b1220; /* text on jacaranda: navy passes AA (4.9:1); white would not */
-  --on-sand: #0b1220;
-  --grid-line: rgb(244 241 234 / 0.045);
 }
 :root[data-theme="light"] {
   color-scheme: light;
   --fg-rgb: 23 23 28;
-  --canvas: #f3f0e8;
-  --artboard: #ffffff;
-  --artboard-alt: #e9e3d6;
-  --ink: #0b1220;
-  --muted: #4a5568;
-  --rule: rgb(11 18 32 / 0.12);
-  --select: #6b4fd8;
-  --redline: #e8364f;
-  --note: #b8862f;
-  --teal: #138a80;
-  --on-select: #ffffff;
-  --on-sand: #0b1220;
-  --grid-line: rgb(11 18 32 / 0.06);
   --color-white: oklch(21% 0.012 265);
   --color-black: oklch(98.5% 0.002 250);
 
@@ -217,29 +172,18 @@
   mix-blend-mode: normal;
 }
 
-/* Canvas grid: faint lines every 72px (3 × the 24px spacing unit), fading out towards the
-   edges of the screen. */
+/* Faint grid behind everything, faded towards the edges. */
 .bg-grid {
   background-image:
-    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+    linear-gradient(to right, var(--color-white) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--color-white) 1px, transparent 1px);
   background-size: 72px 72px;
-  mask-image: radial-gradient(ellipse at center, black 35%, transparent 80%);
-}
-
-/* Selection handle: the white square with an accent border that design tools draw. */
-.handle {
-  position: absolute;
-  width: 9px;
-  height: 9px;
-  background: var(--artboard);
-  border: 1.5px solid var(--select);
-  border-radius: 1px;
+  mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
 }
 
 /* Header turns into a glass bar once the page has scrolled (toggled by ScrollTrigger). */
 .site-nav.is-scrolled {
-  background-color: color-mix(in oklab, var(--canvas) 70%, transparent);
+  background-color: color-mix(in oklab, var(--color-black) 55%, transparent);
   border-color: rgb(var(--fg-rgb) / 0.06);
   backdrop-filter: blur(16px) saturate(1.4);
 }

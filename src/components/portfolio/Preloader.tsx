@@ -7,8 +7,6 @@ import { gsap, useGSAP, SplitText, MOTION_OK } from "@/lib/gsap"
  * Intro curtain: a 0→100 counter, a split-text name reveal and a two-layer wipe.
  * Calls `onReveal` as the curtain starts lifting so the hero can animate in underneath.
  */
-const INTRO_KEY = "intro-played"
-
 export function Preloader({ onReveal }: { onReveal: () => void }) {
   const root = useRef<HTMLDivElement>(null)
   const [done, setDone] = useState(false)
@@ -20,17 +18,9 @@ export function Preloader({ onReveal }: { onReveal: () => void }) {
       mm.add(
         { motion: MOTION_OK, reduced: "(prefers-reduced-motion: reduce)" },
         (ctx) => {
-          // Play once per visit: coming back from a case study shouldn't replay the intro.
-          let seen = false
-          try {
-            seen = sessionStorage.getItem(INTRO_KEY) === "1"
-            sessionStorage.setItem(INTRO_KEY, "1")
-          } catch {
-            // Storage unavailable: just play the intro.
-          }
-          if (ctx.conditions?.reduced || seen) {
+          if (ctx.conditions?.reduced) {
             onReveal()
-            gsap.to(root.current, { autoAlpha: 0, duration: seen ? 0.25 : 0.3, onComplete: () => setDone(true) })
+            gsap.to(root.current, { autoAlpha: 0, duration: 0.3, onComplete: () => setDone(true) })
             return
           }
 
@@ -87,11 +77,11 @@ export function Preloader({ onReveal }: { onReveal: () => void }) {
 
   return (
     <div ref={root} className="fixed inset-0 z-[100] pointer-events-none" aria-hidden="true">
-      <div className="preloader-panel absolute inset-0 bg-select" />
-      <div className="preloader-panel absolute inset-0 flex flex-col items-center justify-center bg-canvas pointer-events-auto">
+      <div className="preloader-panel absolute inset-0 bg-gradient-to-br from-blue-600 via-purple-600 to-pink-500" />
+      <div className="preloader-panel absolute inset-0 flex flex-col items-center justify-center bg-neutral-950 pointer-events-auto">
         <p className="preloader-name text-5xl md:text-7xl font-bold tracking-tight">Sazzad Ali</p>
         <div className="preloader-bar-wrap mt-8 h-px w-48 bg-white/10 overflow-hidden">
-          <div className="preloader-bar h-full w-full origin-left scale-x-0 bg-select" />
+          <div className="preloader-bar h-full w-full origin-left scale-x-0 bg-gradient-to-r from-blue-400 to-purple-400" />
         </div>
         <span className="preloader-count absolute bottom-8 right-8 font-mono text-6xl md:text-8xl font-bold text-white/10">
           000

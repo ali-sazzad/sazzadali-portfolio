@@ -88,10 +88,10 @@ export function ThemeToggle({ className = "" }: { className?: string }) {
       onClick={toggle}
       aria-label={theme === "dark" ? "Switch to light theme" : "Switch to dark theme"}
       title={theme === "dark" ? "Light mode" : "Dark mode"}
-      className={`relative grid h-10 w-10 place-items-center rounded-full border border-rule bg-artboard/80 backdrop-blur-md transition-colors hover:border-select ${className}`}
+      className={`relative grid h-10 w-10 place-items-center rounded-full border border-white/15 bg-black/70 backdrop-blur-md transition-colors hover:border-white/40 ${className}`}
     >
       <Sun className="tt-sun invisible absolute h-[18px] w-[18px] text-amber-500" />
-      <Moon className="tt-moon absolute h-[18px] w-[18px] text-ink" />
+      <Moon className="tt-moon absolute h-[18px] w-[18px] text-purple-300" />
     </button>
   )
 }

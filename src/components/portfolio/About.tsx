@@ -2,8 +2,8 @@
 
 import { useRef } from "react"
 import { Code2, PenTool, Rocket } from "lucide-react"
-import { gsap, useGSAP, SplitText, MOTION_OK } from "@/lib/gsap"
-import { SectionHeader } from "./SectionHeader"
+import { gsap, useGSAP, SplitText, ScrollTrigger, MOTION_OK } from "@/lib/gsap"
+import { SectionHeading } from "./SectionHeading"
 
 const pillars = [
   { Icon: PenTool, title: "Design", text: "Intuitive interfaces and design systems with a strong eye for detail." },
@@ -18,21 +18,28 @@ export function About() {
     () => {
       const mm = gsap.matchMedia()
       mm.add(MOTION_OK, () => {
-        // The statement darkens word by word as it scrolls through the viewport.
-        SplitText.create(".about-statement", {
+        // Words light up one by one as the paragraph scrolls through the viewport.
+        SplitText.create(".about-copy", {
           type: "words",
           autoSplit: true,
           onSplit: (self) =>
             gsap.fromTo(
               self.words,
-              { opacity: 0.25 },
+              { opacity: 0.12 },
               {
                 opacity: 1,
                 stagger: 0.1,
                 ease: "none",
-                scrollTrigger: { trigger: ".about-statement", start: "top 80%", end: "bottom 55%", scrub: true },
+                scrollTrigger: { trigger: ".about-copy", start: "top 75%", end: "bottom 45%", scrub: true },
               },
             ),
+        })
+
+        gsap.set(".pillar", { y: 80, autoAlpha: 0, rotateX: -25 })
+        ScrollTrigger.batch(".pillar", {
+          start: "top 85%",
+          onEnter: (batch) =>
+            gsap.to(batch, { y: 0, autoAlpha: 1, rotateX: 0, stagger: 0.15, duration: 1.1, ease: "expo.out" }),
         })
       })
     },
@@ -40,35 +47,32 @@ export function About() {
   )
 
   return (
-    <section ref={root} id="about" className="relative px-4 py-20 md:px-10 md:py-28">
-      <div className="mx-auto max-w-6xl">
-        <SectionHeader title="About" />
+    <section ref={root} id="about" className="relative px-6 py-32">
+      <div className="mx-auto max-w-5xl">
+        <SectionHeading eyebrow="01 — Who I am" lead="About" accent="Me" />
 
-        <div className="grid gap-10 lg:grid-cols-[1fr_22rem] lg:gap-16">
-          <p className="about-statement text-balance font-display text-3xl font-semibold leading-[1.1] tracking-[-0.025em] md:text-5xl">
-            Software engineer and web developer with a passion for building elegant, high-performance digital
-            experiences.
+        <div className="about-copy mx-auto max-w-4xl space-y-8 text-center text-xl leading-relaxed text-gray-100 md:text-3xl md:leading-snug">
+          <p>
+            Software Engineer and Web Developer with a passion for building elegant, high-performance digital
+            experiences. With a strong foundation in software engineering, AI integration, UI/UX design and project
+            management, I bring both creativity and precision to every project.
           </p>
-          <div className="space-y-5 self-end text-lg leading-relaxed text-muted">
-            <p>
-              With a strong foundation in software engineering, AI integration, UI/UX design and project management,
-              I bring both creativity and precision to every project.
-            </p>
-            <p>
-              I thrive where design meets functionality, and make sure everything I touch is fast, accessible and
-              future-ready.
-            </p>
-          </div>
+          <p>
+            Whether it&apos;s crafting full-stack web applications, designing intuitive interfaces or delivering
+            scalable software — I thrive where design meets functionality, and make sure everything I touch is fast,
+            accessible and future-ready.
+          </p>
         </div>
 
-        <div className="mt-16 grid gap-4 md:grid-cols-3">
+        <div className="mt-24 grid gap-6 [perspective:1000px] md:grid-cols-3">
           {pillars.map(({ Icon, title, text }) => (
-            <div key={title} className="rounded-[24px] bg-artboard p-7">
-              <span className="mb-6 grid h-12 w-12 place-items-center rounded-2xl bg-select/15 text-select">
-                <Icon className="h-6 w-6" aria-hidden="true" />
-              </span>
-              <h3 className="mb-2 font-display text-2xl font-semibold tracking-tight">{title}</h3>
-              <p className="text-muted">{text}</p>
+            <div
+              key={title}
+              className="pillar group rounded-2xl border border-white/10 bg-neutral-900/60 p-8 transition-colors hover:border-purple-400/40"
+            >
+              <Icon className="mb-6 h-8 w-8 text-purple-400 transition-transform duration-500 group-hover:-rotate-12 group-hover:scale-110" />
+              <h3 className="mb-3 text-2xl font-semibold">{title}</h3>
+              <p className="text-gray-400">{text}</p>
             </div>
           ))}
         </div>

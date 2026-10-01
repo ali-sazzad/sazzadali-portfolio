@@ -7,19 +7,9 @@ const NAME = "Sazzad Ali"
 
 /**
  * Solid wordmark. Letters rise out of a mask when the preloader lifts; on hover each
- * letter rolls up to reveal an accent-coloured copy underneath, and the accent dot pops.
+ * letter rolls up to reveal a gradient copy underneath, and the accent dot pops.
  */
-export function Logo({
-  ready,
-  onClick,
-  href = "#top",
-  label = "Sazzad Ali, back to top",
-}: {
-  ready: boolean
-  onClick: (e: React.MouseEvent) => void
-  href?: string
-  label?: string
-}) {
+export function Logo({ ready, onClick }: { ready: boolean; onClick: (e: React.MouseEvent) => void }) {
   const root = useRef<HTMLAnchorElement>(null)
 
   const { contextSafe } = useGSAP(
@@ -51,13 +41,13 @@ export function Logo({
   return (
     <a
       ref={root}
-      href={href}
+      href="#top"
       onClick={onClick}
       onPointerEnter={() => roll(true)}
       onPointerLeave={() => roll(false)}
       onFocus={() => roll(true)}
       onBlur={() => roll(false)}
-      aria-label={label}
+      aria-label="Sazzad Ali — back to top"
       className="flex items-center gap-1 text-2xl font-bold leading-none tracking-tight md:text-[1.7rem]"
     >
       <span className="flex" aria-hidden="true">
@@ -66,7 +56,7 @@ export function Logo({
             <span className="logo-char inline-block">
               <span className="logo-roll relative inline-block">
                 <span className="block">{char === " " ? " " : char}</span>
-                <span className="absolute left-0 top-full block text-select">
+                <span className="absolute left-0 top-full block bg-gradient-to-b from-blue-400 to-purple-400 bg-clip-text text-transparent">
                   {char === " " ? " " : char}
                 </span>
               </span>
@@ -74,7 +64,7 @@ export function Logo({
           </span>
         ))}
       </span>
-      <span className="logo-dot mb-[0.1em] inline-block h-2 w-2 self-end rounded-full bg-select" />
+      <span className="logo-dot mb-[0.1em] inline-block h-2 w-2 self-end rounded-full bg-gradient-to-br from-blue-400 to-pink-400" />
     </a>
   )
 }

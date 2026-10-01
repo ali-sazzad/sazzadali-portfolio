@@ -1,71 +1,120 @@
-import { deviconUrl, skillClusters, skillIcons } from "@/data/portfolio"
-import { SectionHeader } from "./SectionHeader"
+"use client"
 
-// Wider cells for the groups with the most items; soft skills (no logos) span the rest.
-const SPAN: Record<string, string> = {
-  Frontend: "lg:col-span-2",
-  Backend: "lg:col-span-2",
-  "Dev Tools": "lg:col-span-2",
-  "App Development": "lg:col-span-2",
-  "Soft Skills": "md:col-span-2 lg:col-span-4",
-}
+import { useRef } from "react"
+import { gsap, useGSAP, ScrollTrigger, MOTION_OK } from "@/lib/gsap"
+import { deviconUrl, skillClusters, techIcons } from "@/data/portfolio"
+import { SectionHeading } from "./SectionHeading"
 
-/** Toolkit: every group visible at once in one solid grid, logos where they exist. */
+const INVERT = new Set(["nextjs", "express", "vercel"])
+const half = Math.ceil(techIcons.length / 2)
+const rows = [techIcons.slice(0, half), techIcons.slice(half)]
+
 export function Skills() {
-  const total = skillClusters.reduce((n, c) => n + c.items.length, 0)
+  const root = useRef<HTMLElement>(null)
+
+  useGSAP(
+    () => {
+      const mm = gsap.matchMedia()
+      mm.add(MOTION_OK, () => {
+        // Seamless marquees: each row holds two copies and moves by exactly one copy.
+        const loops = gsap.utils.toArray<HTMLElement>(".marquee-row").map((row, i) => {
+          const dir = i % 2 === 0 ? -1 : 1
+          return gsap
+            .fromTo(
+              row,
+              { xPercent: dir === -1 ? 0 : -50 },
+              { xPercent: dir === -1 ? -50 : 0, duration: 40, ease: "none", repeat: -1 },
+            )
+            .totalTime(40 * 100) // head start, so reversing on upward scroll never hits time 0
+        })
+
+        // Scroll velocity boosts marquee speed, then eases back to cruising.
+        ScrollTrigger.create({
+          trigger: root.current,
+          start: "top bottom",
+          end: "bottom top",
+          onUpdate: (self) => {
+            const boost = 1 + Math.min(Math.abs(self.getVelocity()) / 250, 6)
+            loops.forEach((loop) => {
+              gsap.to(loop, { timeScale: boost * self.direction, duration: 0.2, overwrite: true })
+              gsap.to(loop, { timeScale: self.direction, duration: 1.2, delay: 0.2, overwrite: false })
+            })
+          },
+        })
+
+        gsap.set(".skill-card", { y: 60, autoAlpha: 0, scale: 0.94 })
+        ScrollTrigger.batch(".skill-card", {
+          start: "top 88%",
+          onEnter: (batch) =>
+            gsap.to(batch, { y: 0, autoAlpha: 1, scale: 1, stagger: 0.12, duration: 1, ease: "expo.out" }),
+        })
+        gsap.from(".skill-item", {
+          x: -16,
+          autoAlpha: 0,
+          stagger: 0.03,
+          duration: 0.6,
+          scrollTrigger: { trigger: ".skills-grid", start: "top 75%" },
+        })
+      })
+    },
+    { scope: root },
+  )
 
   return (
-    <section id="skills" className="relative px-4 py-20 md:px-10 md:py-28">
-      <div className="mx-auto max-w-6xl">
-        <SectionHeader title="Tools I build with" aside={<>{total} languages, frameworks, tools and habits.</>} />
+    <section ref={root} id="skills" className="relative overflow-hidden py-32">
+      <div className="mx-auto max-w-7xl px-6">
+        <SectionHeading eyebrow="03 — Toolkit" lead="My" accent="Skills Galaxy">
+          A dynamic blend of technical and interpersonal abilities — orbiting around innovation, precision and
+          creativity.
+        </SectionHeading>
+      </div>
 
-        {/* gap-px over a rule-coloured background draws crisp hairlines between cells. */}
-        <div className="grid gap-px overflow-hidden rounded-[24px] bg-rule md:grid-cols-2 lg:grid-cols-6">
-          {skillClusters.map((cluster) => (
-            <div key={cluster.title} className={`bg-artboard p-6 md:p-8 ${SPAN[cluster.title] ?? "lg:col-span-2"}`}>
-              <h3 className="mb-5 flex items-baseline justify-between gap-3">
-                <span className="font-display text-2xl font-semibold tracking-tight">{cluster.title}</span>
-                <span className="text-sm tabular-nums text-muted">{cluster.items.length}</span>
-              </h3>
+      <div className="mb-20 space-y-6 [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
+        {rows.map((row, r) => (
+          <div key={r} className="marquee-row flex w-max">
+            {[0, 1].map((copy) => (
+              <ul key={copy} className="flex shrink-0 gap-4 pr-4" aria-hidden={copy === 1}>
+                {row.map(({ slug, name, variant }) => (
+                  <li
+                    key={slug}
+                    className="flex items-center gap-3 rounded-full border border-white/10 bg-white/[0.03] px-5 py-3 text-lg whitespace-nowrap"
+                  >
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={deviconUrl(slug, variant)}
+                      alt=""
+                      width={28}
+                      height={28}
+                      loading="lazy"
+                      className={INVERT.has(slug) ? "dark:invert" : ""}
+                    />
+                    {name}
+                  </li>
+                ))}
+              </ul>
+            ))}
+          </div>
+        ))}
+      </div>
 
-              {cluster.title === "Soft Skills" ? (
-                <ul className="flex flex-wrap gap-2">
-                  {cluster.items.map((item) => (
-                    <li key={item} className="rounded-full bg-artboard-alt px-4 py-2 text-sm font-medium">
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              ) : (
-                <ul className="grid grid-cols-2 gap-x-4 gap-y-3">
-                  {cluster.items.map((item) => {
-                    const icon = skillIcons[item]
-                    return (
-                      <li key={item} className="flex items-center gap-3 text-sm font-medium">
-                        <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-artboard-alt">
-                          {icon ? (
-                            // eslint-disable-next-line @next/next/no-img-element
-                            <img
-                              src={deviconUrl(icon.slug)}
-                              alt=""
-                              width={22}
-                              height={22}
-                              loading="lazy"
-                              className={icon.invert ? "dark:invert" : ""}
-                            />
-                          ) : (
-                            <span className="h-2.5 w-2.5 rounded-full bg-select" aria-hidden="true" />
-                          )}
-                        </span>
-                        <span className="leading-snug">{item}</span>
-                      </li>
-                    )
-                  })}
-                </ul>
-              )}
-            </div>
-          ))}
-        </div>
+      <div className="skills-grid mx-auto grid max-w-7xl gap-6 px-6 md:grid-cols-2 lg:grid-cols-3">
+        {skillClusters.map((cluster) => (
+          <div
+            key={cluster.title}
+            className={`skill-card group relative overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br ${cluster.accent} p-8 transition-colors hover:border-blue-400/50`}
+          >
+            <div className="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-white/5 blur-2xl transition-transform duration-700 group-hover:scale-[2.5]" />
+            <h3 className="relative mb-6 text-3xl font-semibold">{cluster.title}</h3>
+            <ul className="relative space-y-3">
+              {cluster.items.map((item) => (
+                <li key={item} className="skill-item flex items-center gap-3 text-lg text-gray-200">
+                  <span className="h-1.5 w-1.5 rounded-full bg-gradient-to-r from-blue-400 to-purple-400" />
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
       </div>
     </section>
   )

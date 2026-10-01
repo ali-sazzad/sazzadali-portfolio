@@ -9,9 +9,10 @@ import { Magnetic } from "./Magnetic"
 import { RollText } from "./RollText"
 import { ThemeToggle } from "./ThemeToggle"
 
+const pad = (n: number) => String(n + 1).padStart(2, "0")
 
 /** Live Sydney time; rendered client-side only to avoid a hydration mismatch. */
-export function SydneyTime() {
+function SydneyTime() {
   const [time, setTime] = useState<string | null>(null)
   useEffect(() => {
     const fmt = new Intl.DateTimeFormat("en-AU", {
@@ -143,7 +144,7 @@ export function Nav({ ready }: { ready: boolean }) {
           {/* Desktop: floating pill with a sliding, colour-inverting indicator. */}
           <nav aria-label="Main" className="hidden md:block">
             <ul
-              className="nav-shell relative isolate flex items-center rounded-full border border-rule bg-artboard/80 p-1 backdrop-blur-xl"
+              className="nav-shell relative isolate flex items-center rounded-full border border-white/10 bg-black/70 p-1 backdrop-blur-xl"
               onPointerLeave={() => moveTo(activeTab())}
             >
               <span
@@ -151,7 +152,7 @@ export function Nav({ ready }: { ready: boolean }) {
                 className="invisible absolute left-0 top-1 bottom-1 w-0 rounded-full bg-white"
                 aria-hidden="true"
               />
-              {navItems.map((item) => (
+              {navItems.map((item, i) => (
                 <li key={item} className="overflow-hidden">
                   <a
                     href={`#${item.toLowerCase()}`}
@@ -164,6 +165,7 @@ export function Nav({ ready }: { ready: boolean }) {
                     className="nav-tab relative flex items-start gap-1 rounded-full px-4 py-2 text-sm font-medium text-[#fff] mix-blend-difference lg:px-5"
                   >
                     <RollText text={item} />
+                    <span className="font-mono text-[9px] leading-none opacity-50">{pad(i)}</span>
                   </a>
                 </li>
               ))}
@@ -171,20 +173,23 @@ export function Nav({ ready }: { ready: boolean }) {
           </nav>
 
           <div className="flex items-center gap-3 md:gap-4">
+            <span className="nav-side hidden items-center gap-2 font-mono text-xs uppercase tracking-widest text-gray-400 lg:flex">
+              Sydney <SydneyTime />
+            </span>
             <ThemeToggle className="nav-side relative z-10" />
             <div className="nav-side hidden md:block">
               <Magnetic strength={0.3}>
                 <a
                   href="#contact"
                   onClick={(e) => go(e, "#contact")}
-                  className="group flex items-center gap-2 rounded-full bg-select py-2 pl-4 pr-2 text-sm font-semibold text-on-select transition-[filter] hover:brightness-110"
+                  className="group flex items-center gap-2 rounded-full bg-white py-2 pl-4 pr-2 text-sm font-semibold text-black transition-colors hover:bg-gradient-to-r hover:from-blue-400 hover:to-purple-400"
                 >
                   <span className="relative flex h-2 w-2">
                     <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
                     <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
                   </span>
                   <RollText text="Let's talk" />
-                  <span className="grid h-7 w-7 place-items-center rounded-full bg-on-select text-select transition-transform duration-500 group-hover:rotate-45">
+                  <span className="grid h-7 w-7 place-items-center rounded-full bg-black text-white transition-transform duration-500 group-hover:rotate-45">
                     <ArrowUpRight className="h-4 w-4" />
                   </span>
                 </a>
@@ -205,18 +210,19 @@ export function Nav({ ready }: { ready: boolean }) {
           </div>
         </div>
 
-        <div className="nav-progress absolute bottom-0 left-0 h-[2px] w-full origin-left scale-x-0 bg-select" />
+        <div className="nav-progress absolute bottom-0 left-0 h-[2px] w-full origin-left scale-x-0 bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400" />
       </header>
 
       {/* Mobile full-screen menu. */}
       <div
         id="mobile-menu"
-        className="mobile-menu fixed inset-0 z-40 hidden h-[100dvh] flex-col justify-between bg-canvas bg-grid px-6 pb-10 pt-28 md:hidden"
+        className="mobile-menu fixed inset-0 z-40 hidden h-[100dvh] flex-col justify-between bg-neutral-950 px-6 pb-10 pt-28 md:hidden"
       >
+        <div className="pointer-events-none absolute -right-24 top-1/3 h-72 w-72 rounded-full bg-purple-600/30 blur-[100px]" />
         <p className="mobile-meta font-mono text-xs uppercase tracking-[0.3em] text-gray-500">Menu</p>
 
         <ul className="space-y-2">
-          {navItems.map((item) => (
+          {navItems.map((item, i) => (
             <li key={item} className="overflow-hidden border-b border-white/10 pb-2">
               <a
                 href={`#${item.toLowerCase()}`}
@@ -225,7 +231,8 @@ export function Nav({ ready }: { ready: boolean }) {
                   active === item ? "text-white" : "text-white/70"
                 }`}
               >
-                <RollText text={item} hoverClassName="text-select" />
+                <RollText text={item} hoverClassName="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent" />
+                <span className="font-mono text-sm font-normal text-gray-500">{pad(i)}</span>
               </a>
             </li>
           ))}

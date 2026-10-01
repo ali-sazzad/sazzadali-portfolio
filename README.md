@@ -31,36 +31,29 @@ Both deploy automatically on every push to `main`.
 
 ---
 
-## Design: Harbour Bento
-
-The design was explored in [Superdesign](https://superdesign.dev): a baseline of the previous site, then two new directions ("Harbour Bento" and "High-contrast editorial") compared side by side. The final site combines them, aiming to be clear, high-contrast and full of real content.
-
-- **Hero (bento):** solid tiles sized by importance. The name tile leads, with a role typed live by a "Sazzad" collaborator cursor (it types, keyboard-selects and retypes each role) and "from Sydney, Australia". Around it: live Sydney time, the motto on a sandstone tile, a featured project and quick links.
-- **About:** a large statement that darkens word by word as you scroll, with three pillar tiles (Design, Develop, Deliver).
-- **Selected work:** an asymmetric 12-column showcase of big real screenshots, each with title, type, year and stack. Every project opens its own **case study** (`/work/<slug>`), written only from that project's README, repository and screenshot.
-- **Toolkit:** every group visible at once in one solid grid, with real logos.
-- **Contact:** a jacaranda block where the email address itself is the primary action.
-
-**Palette (Sydney-inspired):** harbour navy page and tiles, **jacaranda** for primary actions, **sandstone** for the motto, **harbour teal** for status, plus a warm light theme. Every text pairing meets **WCAG AA** in both themes; text on jacaranda is navy in dark mode (4.9:1) because white would only reach 3.8:1. Type is [Bricolage Grotesque](https://fonts.google.com/specimen/Bricolage+Grotesque) for display (its width axis is narrowed for the name) and [Geist](https://vercel.com/font) for text.
-
 ## Motion highlights
 
-Every animation is written with [GSAP 3.15](https://gsap.com/) and the official [`@gsap/react`](https://gsap.com/resources/React) `useGSAP()` hook, so all tweens and ScrollTriggers are scoped and cleaned up automatically. Motion is deliberately concentrated in one moment, the hero build, rather than spread over every section.
+Every animation is written with [GSAP 3.15](https://gsap.com/) and the official [`@gsap/react`](https://gsap.com/resources/React) `useGSAP()` hook, so all tweens and ScrollTriggers are scoped and cleaned up automatically.
 
 | Feature | GSAP tools |
 | --- | --- |
-| Intro preloader: 0→100 counter, masked name reveal, curtain wipe | `Timeline`, `SplitText` (`mask: "chars"`) |
-| Hero build: bento tiles rise in, then the name rises letter by letter out of a mask | `Timeline`, `SplitText` (`mask: "chars"`) |
-| The role under my name is a live text layer: a "Sazzad" collaborator cursor types it, keyboard-selects it (a highlight sweeps back across the word) and types the next | `Timeline` built per role, `call()` per keystroke with an uneven rhythm |
-| Smooth page scrolling | `ScrollSmoother` |
-| About copy that darkens word by word as you scroll | `SplitText` + scrubbed `ScrollTrigger` |
-| Tech logos drifting behind the page, looping forever | Randomised `fromTo` loops with `repeatRefresh` |
-| Floating pill navigation: a sliding indicator follows hover and rests on the active section | `gsap.to()` on measured `x`/`width`, `mix-blend-difference` |
-| Per-letter roll on nav links and CTAs; magnetic "Let's talk" button; live Sydney clock | Staggered `yPercent` tweens, `quickTo()` |
-| Nav condenses on scroll, hides on scroll down, shows on scroll up; scroll progress line | `ScrollTrigger` (`toggleClass`, `direction`), `ScrollToPlugin` |
-| Full-screen mobile menu: burger morphs to ✕, panel wipes in, page scroll locks | `Timeline` + `reverse()`, `ScrollSmoother.paused()` |
-| Dark / light theme toggle: icon spin, and the new theme spreads from the button as a circle | GSAP + View Transitions API |
-| Accessibility: decorative motion is off for users who prefer reduced motion | `gsap.matchMedia()` |
+| Intro preloader: 0→100 counter, masked name reveal, two-layer curtain wipe | `Timeline`, `SplitText` (`mask: "chars"`) |
+| Buttery page scrolling with data-driven parallax | `ScrollSmoother` |
+| Hero headline rising out of a mask, gradient name wipe and shimmer | `SplitText`, `clipPath` tweens |
+| Rotating job titles that "decode" into place | `ScrambleTextPlugin` |
+| Pinned **horizontal project gallery** with per-card image parallax and a live counter | `ScrollTrigger` (`pin`, `scrub`, `containerAnimation`) |
+| About copy that lights up word-by-word as you scroll | `SplitText` + scrubbed `ScrollTrigger` |
+| Infinite tech marquees that speed up (and reverse) with scroll velocity | `ScrollTrigger.getVelocity()`, `timeScale` |
+| Batched card reveals | `ScrollTrigger.batch()` |
+| Hand-drawn underline under "Let's Connect" | `DrawSVGPlugin` |
+| Custom follower cursor, magnetic buttons and 3D card tilt | `gsap.quickTo()`, elastic eases |
+| Floating pill navigation: a sliding indicator follows hover and rests on the active section, with colour-inverting labels | `gsap.to()` on measured `x`/`width`, `mix-blend-difference` |
+| Per-letter roll on every nav link and CTA, plus a magnetic "Let's talk" button and live Sydney clock | Staggered `yPercent` tweens, `quickTo()` |
+| Nav condenses to a glass bar on scroll, hides on scroll down, shows on scroll up; scroll progress line | `ScrollTrigger` (`toggleClass`, `direction`), `ScrollToPlugin` |
+| Wordmark letters rise in on load and roll to a gradient copy on hover | `Timeline`, staggered `yPercent` tweens |
+| Full-screen mobile menu: burger morphs to ✕, panel wipes in, numbered links stagger up, page scroll locks | `Timeline` + `reverse()`, `ScrollSmoother.paused()` |
+| Dark / light theme toggle: sun–moon icon spin, and the new theme spreads from the button as a growing circle | GSAP + View Transitions API |
+| Accessibility: all motion is disabled for users who prefer reduced motion | `gsap.matchMedia()` |
 
 > Since GSAP became 100% free (including all former Club plugins) every plugin above ships straight from the public `gsap` npm package — no private registry or token needed.
 
@@ -88,17 +81,15 @@ sazzadali-portfolio/
 │   ├── app/
 │   │   ├── globals.css       # Tailwind layers + small custom utilities
 │   │   ├── layout.tsx        # Fonts, SEO metadata, analytics
-│   │   ├── page.tsx          # Renders <Portfolio />
-│   │   └── work/[slug]/      # Case-study pages, prerendered with generateStaticParams
+│   │   └── page.tsx          # Renders <Portfolio />
 │   ├── components/
 │   │   └── portfolio/        # One file per section (Hero, About, Projects, Skills, Contact…)
 │   │       ├── Portfolio.tsx # Page shell + ScrollSmoother setup
-│   │       ├── SectionHeader.tsx # Bold section title on a rule
-│   │       ├── CaseStudy.tsx    # /work/<slug> page
-│   │       ├── Artboard.tsx, SelectionBox.tsx, CommentPin.tsx # case-study building blocks
 │   │       ├── Preloader.tsx
 │   │       ├── Nav.tsx
 │   │       ├── Logo.tsx      # Animated wordmark
+│   │       ├── Cursor.tsx
+│   │       ├── Magnetic.tsx
 │   │       └── …
 │   ├── data/
 │   │   └── portfolio.ts      # Projects, skills, links — edit content here
@@ -109,7 +100,7 @@ sazzadali-portfolio/
 └── package.json
 ```
 
-**Theming:** the site is written dark-first. [`src/app/globals.css`](src/app/globals.css) defines the palette tokens (`--canvas` page, `--artboard` tile, `--ink`, `--select` jacaranda, `--note` sandstone, `--teal`, `--on-select`…) for each theme and exposes them to Tailwind (`bg-canvas`, `text-ink`, `ring-select`…). For older components it also remaps Tailwind's palette under `html[data-theme="light"]` (white ↔ ink, grays reversed), so components need no per-theme classes. The choice is saved in `localStorage` and applied by a tiny inline script before first paint, so there's no flash.
+**Theming:** the site is written dark-first. The light theme in [`src/app/globals.css`](src/app/globals.css) redefines Tailwind's palette variables under `html[data-theme="light"]` (white ↔ ink, grays reversed, accents a step darker), so components need no per-theme classes. The choice is saved in `localStorage` and applied by a tiny inline script before first paint, so there's no flash.
 
 **Updating content:** projects, skills, roles and social links all live in [`src/data/portfolio.ts`](src/data/portfolio.ts). Add a project there and it appears in the horizontal gallery automatically.
 
