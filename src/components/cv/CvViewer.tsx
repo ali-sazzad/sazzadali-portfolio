@@ -155,6 +155,7 @@ export function CvViewer() {
 
   return (
     <main className="min-h-dvh bg-black text-white">
+      {native === false && (
       <header className="sticky top-0 z-10 border-b border-white/10 bg-black/80 backdrop-blur-md">
         <span aria-hidden="true" className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 opacity-60" />
         <div className="mx-auto flex max-w-3xl items-center justify-between gap-3 px-4 py-3">
@@ -179,13 +180,24 @@ export function CvViewer() {
           </a>
         </div>
       </header>
+      )}
 
       {native && (
         <iframe
           src={pdfUrl}
           title="Sazzad Ali CV"
-          className="block h-[calc(100dvh-4rem)] w-full border-0 bg-[#fff]"
+          className="fixed inset-0 h-dvh w-full border-0 bg-[#fff]"
         />
+      )}
+      {native && (
+        <button
+          type="button"
+          onClick={goBack}
+          className="fixed bottom-5 left-5 z-10 flex items-center gap-2 rounded-full bg-black/80 px-4 py-2 text-sm font-semibold text-[#fff] shadow-lg backdrop-blur-md transition-colors hover:bg-black"
+        >
+          <ArrowLeft className="h-4 w-4" />
+          Back
+        </button>
       )}
 
       <div className={native !== false ? "hidden" : "mx-auto max-w-3xl px-4 py-6"}>
