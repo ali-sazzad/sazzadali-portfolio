@@ -2,7 +2,7 @@
 
 import { useRef } from "react"
 import Image from "next/image"
-import { ExternalLink, Github } from "lucide-react"
+import { ArrowUpRight, Github } from "lucide-react"
 import { gsap, useGSAP, ScrollTrigger, MOTION_OK } from "@/lib/gsap"
 import { projects, type Project } from "@/data/portfolio"
 import { asset } from "@/lib/utils"
@@ -220,16 +220,17 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
                 />
               </div>
               <div className="absolute inset-0 bg-gradient-to-t from-[rgb(0_0_0/0.7)] via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-              <div className="absolute right-3 top-3 z-10 flex gap-2">
+              <div className="absolute right-3 top-3 z-10 flex gap-2.5">
                 {project.github && (
                   <a
                     href={project.github}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="rounded-full bg-black/70 p-2 transition hover:bg-black"
+                    className="inline-flex min-h-11 items-center gap-2 rounded-full border-2 border-white/70 bg-black/85 px-4 text-sm font-bold text-white shadow-xl shadow-black/60 backdrop-blur-md transition duration-300 hover:-translate-y-0.5 hover:border-white hover:bg-white hover:text-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black"
                     aria-label={`${project.title} on GitHub`}
                   >
-                    <Github className="h-4 w-4" />
+                    <Github className="h-5 w-5" />
+                    GitHub
                   </a>
                 )}
                 {project.link && (
@@ -237,10 +238,11 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
                     href={project.link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="rounded-full bg-black/70 p-2 transition hover:bg-black"
+                    className="group/live inline-flex min-h-11 items-center gap-1.5 rounded-full bg-gradient-to-r from-blue-400 to-purple-400 pl-4 pr-3 text-sm font-extrabold text-black shadow-xl shadow-black/60 ring-2 ring-white/80 transition duration-300 hover:-translate-y-0.5 hover:brightness-110 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-white"
                     aria-label={`Visit ${project.title}`}
                   >
-                    <ExternalLink className="h-4 w-4" />
+                    Live site
+                    <ArrowUpRight className="h-5 w-5 transition-transform duration-300 group-hover/live:translate-x-0.5 group-hover/live:-translate-y-0.5" />
                   </a>
                 )}
               </div>
