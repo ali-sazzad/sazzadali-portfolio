@@ -24,6 +24,24 @@ export type Project = {
 
 export const projects: Project[] = [
   {
+    title: "Makura Creations Redesign",
+    description:
+      "A website redesign for a Lalitpur digital studio: a typographic hero over an animated Three.js line field, with GSAP motion running through services, work and testimonials.",
+    image: "/makura.png",
+    tags: ["Next.js", "TypeScript", "GSAP", "Three.js"],
+    link: "https://ali-sazzad.github.io/Makura-Site-Redesign/",
+    github: "https://github.com/ali-sazzad/Makura-Site-Redesign",
+  },
+  {
+    title: "Shareef's Daily Checklists",
+    description:
+      "Mobile-first opening and closing checklists for restaurant front and back of house: temperature capture, autosaved drafts, signatures and PDF reports, installable as a PWA.",
+    image: "/shareefs-checklists.png",
+    tags: ["Next.js", "TypeScript", "Tailwind CSS", "PWA"],
+    link: "https://daily-shift-checklists-aus.vercel.app/",
+    github: "https://github.com/ali-sazzad/shareefs-checklists",
+  },
+  {
     title: "Digital Pragati",
     description:
       "Lead-generation websites for Nepali-owned businesses in Australia and Nepal: a fast Next.js site, a static build and an enquiry backend, measured on real Core Web Vitals.",
