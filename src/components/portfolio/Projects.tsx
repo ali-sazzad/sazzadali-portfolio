@@ -22,7 +22,16 @@ export function Projects() {
       // Desktop: pin the section and scroll the track sideways.
       mm.add(`(min-width: 1024px) and ${MOTION_OK}`, () => {
         gsap.set(".projects-viewport", { overflow: "visible" })
-        const distance = () => track.scrollWidth - window.innerWidth + 96
+        // Travel until the last card sits in the middle of the screen, so the section ends
+        // settled rather than with the final card jammed against the right edge.
+        const distance = () => {
+          const cards = track.querySelectorAll<HTMLElement>(".project-card")
+          const lastCard = cards[cards.length - 1].getBoundingClientRect()
+          const trackRect = track.getBoundingClientRect()
+          const trackLeft = trackRect.left - Number(gsap.getProperty(track, "x"))
+          const cardCenter = lastCard.left - trackRect.left + lastCard.width / 2
+          return Math.max(0, trackLeft + cardCenter - window.innerWidth / 2)
+        }
 
         const horizontal = gsap.to(track, {
           x: () => -distance(),
