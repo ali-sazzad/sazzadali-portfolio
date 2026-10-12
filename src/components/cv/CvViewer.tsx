@@ -1,10 +1,12 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useRef, useState, type MouseEvent } from "react"
 import { useRouter } from "next/navigation"
 import { ArrowLeft, Download, Loader2 } from "lucide-react"
 import { asset } from "@/lib/utils"
 import { CV_PATH } from "@/data/portfolio"
+
+const CV_FILENAME = "Sazzad-ALI_CV.pdf"
 
 type Status = "loading" | "ready" | "error"
 
@@ -63,6 +65,37 @@ export function CvViewer() {
     }
   }, [pdfUrl])
 
+  // iOS Safari and in-app browsers ignore <a download> on a plain link, so fetch the
+  // file and hand it over as a blob: the share sheet where available, else a blob link.
+  async function downloadCv(e: MouseEvent<HTMLAnchorElement>) {
+    e.preventDefault()
+    try {
+      const res = await fetch(pdfUrl)
+      if (!res.ok) throw new Error(String(res.status))
+      const blob = new Blob([await res.blob()], { type: "application/pdf" })
+      const file = new File([blob], CV_FILENAME, { type: "application/pdf" })
+      const isTouch = window.matchMedia("(pointer: coarse)").matches
+      if (isTouch && navigator.canShare?.({ files: [file] })) {
+        try {
+          await navigator.share({ files: [file], title: "Sazzad Ali CV" })
+        } catch (err) {
+          if ((err as Error).name !== "AbortError") throw err
+        }
+        return
+      }
+      const url = URL.createObjectURL(blob)
+      const a = document.createElement("a")
+      a.href = url
+      a.download = CV_FILENAME
+      document.body.appendChild(a)
+      a.click()
+      a.remove()
+      setTimeout(() => URL.revokeObjectURL(url), 30_000)
+    } catch {
+      window.location.assign(pdfUrl)
+    }
+  }
+
   // Return to the portfolio if we came from it; otherwise (direct link) go home.
   function goBack() {
     const fromSite = document.referrer && new URL(document.referrer).origin === window.location.origin
@@ -86,7 +119,8 @@ export function CvViewer() {
           <p className="font-mono text-[11px] uppercase tracking-[0.3em] text-gray-400">Sazzad Ali · CV</p>
           <a
             href={pdfUrl}
-            download="Sazzad-ALI_CV.pdf"
+            download={CV_FILENAME}
+            onClick={downloadCv}
             aria-label="Download CV"
             className="flex items-center gap-2 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 px-4 py-2 text-sm font-semibold text-[#fff]"
           >
