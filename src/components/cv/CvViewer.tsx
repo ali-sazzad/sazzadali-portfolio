@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState, type MouseEvent } from "react"
 import { useRouter } from "next/navigation"
 import { ArrowLeft, Download, Loader2 } from "lucide-react"
-import "pdfjs-dist/web/pdf_viewer.css"
 import { asset } from "@/lib/utils"
 import { CV_PATH } from "@/data/portfolio"
 
@@ -12,24 +11,16 @@ const CV_FILENAME = "Sazzad-ALI_CV.pdf"
 type Status = "loading" | "ready" | "error"
 
 /**
- * Desktop browsers show the PDF in their own viewer. Touch browsers can't preview PDFs
- * inline (iOS shows page one, Android downloads), so there the CV is drawn page by page
- * with pdf.js, with a selectable text layer and clickable links so it still behaves like a PDF.
+ * Mobile browsers can't preview PDFs inline (iOS shows page one, Android downloads),
+ * so the CV is rendered page by page onto canvases with pdf.js.
  */
 export function CvViewer() {
   const router = useRouter()
   const pagesRef = useRef<HTMLDivElement>(null)
   const [status, setStatus] = useState<Status>("loading")
-  // null until we know whether the browser can show PDFs natively (touch devices can't).
-  const [native, setNative] = useState<boolean | null>(null)
   const pdfUrl = asset(CV_PATH)
 
   useEffect(() => {
-    setNative(!window.matchMedia("(pointer: coarse)").matches)
-  }, [])
-
-  useEffect(() => {
-    if (native !== false) return
     let cancelled = false
     let destroy: (() => void) | undefined
 
@@ -54,56 +45,15 @@ export function CvViewer() {
       for (let n = 1; n <= pdf.numPages; n++) {
         const page = await pdf.getPage(n)
         if (cancelled) return
-        const cssScale = width / page.getViewport({ scale: 1 }).width
-        const cssViewport = page.getViewport({ scale: cssScale })
-        const viewport = page.getViewport({ scale: cssScale * dpr })
-
-        const wrap = document.createElement("div")
-        wrap.className = "relative overflow-hidden rounded-lg bg-[#fff] shadow-2xl shadow-black/40"
-        wrap.style.width = `${cssViewport.width}px`
-        wrap.style.height = `${cssViewport.height}px`
-
+        const viewport = page.getViewport({ scale: (width / page.getViewport({ scale: 1 }).width) * dpr })
         const canvas = document.createElement("canvas")
         canvas.width = Math.floor(viewport.width)
         canvas.height = Math.floor(viewport.height)
-        canvas.className = "block h-full w-full"
-        canvas.setAttribute("aria-hidden", "true")
-        wrap.appendChild(canvas)
-
-        const textDiv = document.createElement("div")
-        textDiv.className = "textLayer"
-        textDiv.style.setProperty("--total-scale-factor", String(cssScale))
-        textDiv.style.setProperty("--scale-factor", String(cssScale))
-        wrap.appendChild(textDiv)
-        container.appendChild(wrap)
-
+        canvas.className = "block h-auto w-full rounded-lg bg-[#fff] shadow-2xl shadow-black/40"
+        canvas.setAttribute("aria-label", `CV page ${n} of ${pdf.numPages}`)
+        canvas.setAttribute("role", "img")
+        container.appendChild(canvas)
         await page.render({ canvas, viewport }).promise
-        const text = new pdfjs.TextLayer({
-          textContentSource: page.streamTextContent(),
-          container: textDiv,
-          viewport: cssViewport,
-        })
-        await text.render()
-
-        // Clickable links (mailto, GitHub, live sites) on top of the text.
-        for (const a of await page.getAnnotations()) {
-          if (a.subtype !== "Link" || !a.url) continue
-          const [x1, y1, x2, y2] = cssViewport.convertToViewportRectangle(a.rect)
-          const link = document.createElement("a")
-          link.href = a.url
-          link.target = "_blank"
-          link.rel = "noopener noreferrer"
-          link.setAttribute("aria-label", a.url)
-          Object.assign(link.style, {
-            position: "absolute",
-            left: `${Math.min(x1, x2)}px`,
-            top: `${Math.min(y1, y2)}px`,
-            width: `${Math.abs(x2 - x1)}px`,
-            height: `${Math.abs(y2 - y1)}px`,
-            zIndex: "2",
-          })
-          wrap.appendChild(link)
-        }
         if (n === 1) setStatus("ready")
       }
     }
@@ -113,7 +63,7 @@ export function CvViewer() {
       cancelled = true
       destroy?.()
     }
-  }, [pdfUrl, native])
+  }, [pdfUrl])
 
   // iOS Safari and in-app browsers ignore <a download> on a plain link, so fetch the
   // file and hand it over as a blob: the share sheet where available, else a blob link.
@@ -180,15 +130,7 @@ export function CvViewer() {
         </div>
       </header>
 
-      {native && (
-        <iframe
-          src={pdfUrl}
-          title="Sazzad Ali CV"
-          className="block h-[calc(100dvh-4rem)] w-full border-0 bg-[#fff]"
-        />
-      )}
-
-      <div className={native !== false ? "hidden" : "mx-auto max-w-3xl px-4 py-6"}>
+      <div className="mx-auto max-w-3xl px-4 py-6">
         {status === "loading" && (
           <p role="status" className="flex items-center justify-center gap-2 py-24 text-gray-400">
             <Loader2 className="h-5 w-5 animate-spin" />
