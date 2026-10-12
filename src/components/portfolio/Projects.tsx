@@ -26,10 +26,12 @@ export function Projects() {
         // settled rather than with the final card jammed against the right edge.
         const distance = () => {
           const cards = track.querySelectorAll<HTMLElement>(".project-card")
-          const lastCard = cards[cards.length - 1].getBoundingClientRect()
-          const trackRect = track.getBoundingClientRect()
-          const trackLeft = trackRect.left - Number(gsap.getProperty(track, "x"))
-          const cardCenter = lastCard.left - trackRect.left + lastCard.width / 2
+          const lastCard = cards[cards.length - 1]
+          // Layout offsets, not bounding rects: the cards start rotated in 3D, which skews
+          // getBoundingClientRect and would leave the last card off-centre. The track's 3D
+          // perspective makes it the cards' offset parent, so offsetLeft is already track-relative.
+          const cardCenter = lastCard.offsetLeft + lastCard.offsetWidth / 2
+          const trackLeft = track.getBoundingClientRect().left - Number(gsap.getProperty(track, "x"))
           return Math.max(0, trackLeft + cardCenter - window.innerWidth / 2)
         }
 
